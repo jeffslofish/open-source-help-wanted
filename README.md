@@ -1,5 +1,5 @@
 # open-source-help-wanted
-Repo for opensourcehelpwanted.com website. Find issues to work on with the labels you specify.
+Repo for http://opensourcehelpwanted.com website. Find issues to work on with the labels you specify.
 
 
 ## To get started
@@ -7,7 +7,7 @@ Repo for opensourcehelpwanted.com website. Find issues to work on with the label
 1. Get an api key from github and paste it into the placeholder in config.js
 1. run `npm install`
 1. run `npm start` to start a webserver and automatically reload when you change a project file
-
+1. Open http://localhost:3000
 
 ### Available Scripts
 
