@@ -1,0 +1,223 @@
+@import "../node_modules/react-toggle-switch/dist/css/switch.min.css";
+
+.forkme {
+    position: absolute; top: 0; right: 0; border: 0;
+}
+
+.App-header {
+  background-color: skyblue;
+  padding: 20px 0 5px;
+  color: white;
+}
+
+.app-body {
+  padding: 0 30px;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+h1 {
+  font-size: 48px;
+  text-align: center;
+  padding:0;
+  margin:0;
+}
+
+h2 {
+  text-align: center;
+  color: black;
+}
+
+
+.label {
+  margin: 0 5px;
+  padding: 2px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+}
+
+.label-labels {
+  display: inline-block;
+}
+
+.label-labels label {
+  display: block;
+}
+
+.labelSearch {
+  font-size:32px;
+}
+
+.label-search-box {
+  text-align: center;
+}
+
+.label-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.issueBody {
+  padding: 20px;
+}
+
+.issue {
+  background-color: whitesmoke;
+  border-radius: 20px;
+}
+
+.total-count {
+  text-align: center;
+}
+.input-elements {
+  margin-left: 40px;
+}
+
+.input-element {
+  margin-bottom: 10px;
+}
+
+
+.sort-inputs {
+  border: 2px solid black;
+  border-radius: 6px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  font-weight:bold;
+}
+
+/* start responsive design css */
+/* https://codepen.io/Cheesetoast/pen/KFAaq */
+
+
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #666;
+}
+
+/* STRUCTURE */
+
+#pagewrap {
+  padding: 5px;
+  width: 960px;
+  margin: 20px auto;
+}
+header {
+  height: 100px;
+  padding: 0 15px;
+}
+#content {
+  width: 290px;
+  float: left;
+  padding: 5px 15px;
+}
+
+#middle {
+  width: 294px; /* Account for margins + border values */
+  float: left;
+  padding: 5px 15px;
+  margin: 0px 5px 5px 5px;
+}
+
+#sidebar {
+  width: 270px;
+  padding: 5px 15px;
+  float: left;
+}
+footer {
+  clear: both;
+  padding: 0 15px;
+}
+
+/************************************************************************************
+MEDIA QUERIES
+*************************************************************************************/
+/* for 980px or less */
+@media screen and (max-width: 980px) {
+
+  #pagewrap {
+    width: 94%;
+  }
+  #content {
+    width: 41%;
+    padding: 1% 4%;
+  }
+  #middle {
+    width: 41%;
+    padding: 1% 4%;
+    margin: 0px 0px 5px 5px;
+    float: right;
+  }
+
+  #sidebar {
+    clear: both;
+    padding: 1% 4%;
+    width: auto;
+    float: none;
+  }
+
+  header, footer {
+    padding: 1% 4%;
+  }
+}
+
+/* for 700px or less */
+@media screen and (max-width: 600px) {
+
+  #content {
+    width: auto;
+    float: none;
+  }
+
+  #middle {
+    width: auto;
+    float: none;
+    margin-left: 0px;
+  }
+
+  #sidebar {
+    width: auto;
+    float: none;
+  }
+
+}
+
+/* for 480px or less */
+@media screen and (max-width: 480px) {
+
+  header {
+    height: auto;
+  }
+  h1 {
+    font-size: 2em;
+  }
+  #sidebar {
+    display: none;
+  }
+
+}
+
+
+#content {
+  background: #f8f8f8;
+}
+#sidebar {
+  background: #f0efef;
+}
+header, #content, #middle, #sidebar {
+  margin-bottom: 5px;
+}
+
+#pagewrap, header, #content, #middle, #sidebar, footer {
+  border: solid 1px #ccc;
+}
