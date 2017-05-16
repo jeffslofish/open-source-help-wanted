@@ -8,6 +8,7 @@ class App extends Component {
   constructor() {
     super();
 
+    const placeholderLabels =
     this.state = {
       totalCount: '',
       sortDesc: true,
@@ -80,7 +81,7 @@ class App extends Component {
             <div className="input-elements">
               <div className="label-search-box">
                 <label className="label-name">Github label names</label>
-                <input className="input-element labelSearch" type="text" defaultValue={this.state.labelValues} onKeyPress={this.handleLabelChange}/>
+                <input className="input-element labelSearch" type="text" placeholder="help wanted, bug" onKeyPress={this.handleLabelChange}/>
               </div>
 
               <label className="sorting-options">Sorting Options</label>
