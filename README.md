@@ -4,7 +4,8 @@ Repo for http://opensourcehelpwanted.com website. Find issues to work on with th
 
 ## To get started
 1. Clone this repo
-1. Get an api key from github and paste it into the placeholder in config.js
+1. Get a personal access token from Github (in settings)
+1. Make a copy of config.sample.js and name it config.js and paste your personal access token in the placeholder text
 1. run `npm install`
 1. run `npm start` to start a webserver and automatically reload when you change a project file
 1. Open http://localhost:3000
