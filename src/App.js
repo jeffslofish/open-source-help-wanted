@@ -21,6 +21,7 @@ class App extends Component {
     this.toggleSortOrder = this.toggleSortOrder.bind(this);
     this.initiateAPICall = this.initiateAPICall.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleInputBlur = this.handleInputBlur.bind(this);
   }
 
   initiateAPICall(sortDesc, sortType, labelValues, keywordValues) {
@@ -95,10 +96,10 @@ class App extends Component {
                 <div className="label-search-box">
                   <label className="label-name">Github label names</label>
                   <input className="input-element labelSearch" name="labelValues" type="text" placeholder="help wanted, bug"
-                         onKeyPress={this.handleFormChange}/>
+                         onKeyPress={this.handleFormChange} onBlur={this.handleInputBlur}/>
                   <label className="label-keywords">Keywords</label>
                   <input className="input-element labelKeywords" name="keywordValues" type="text" placeholder="open source, forms"
-                         onKeyPress={this.handleFormChange}/>
+                         onKeyPress={this.handleFormChange} onBlur={this.handleInputBlur}/>
                 </div>
 
                 <label className="sorting-options">Sorting Options</label>
@@ -151,6 +152,16 @@ class App extends Component {
         (e.target.name === 'labelValues') ? e.target.value : this.state.labelValues,
         (e.target.name === 'keywordValues') ? e.target.value : this.state.keywordValues);
     }
+  }
+
+  handleInputBlur(e) {
+    if (e.target.name === 'labelValues') {
+      this.setState({labelValues: e.target.value});
+    }
+    if (e.target.name === 'keywordValues') {
+      this.setState({keywordValues: e.target.value});
+    }
+
   }
 }
 
