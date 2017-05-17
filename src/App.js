@@ -21,7 +21,9 @@ class App extends Component {
     this.toggleSortOrder = this.toggleSortOrder.bind(this);
     this.initiateAPICall = this.initiateAPICall.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+  }
 
+  componentDidMount() {
     this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues);
   }
 
@@ -97,9 +99,8 @@ class App extends Component {
                   <input className="input-element labelSearch" name="labelValues" type="text" placeholder="help wanted, bug"
                          onKeyPress={this.handleFormChange}/>
                   <label className="label-keywords">Keywords</label>
-                  <input className="input-element labelKeywords" name="keywordValues" type="text" placeholder="react forms"
+                  <input className="input-element labelKeywords" name="keywordValues" type="text" placeholder="open source, forms"
                          onKeyPress={this.handleFormChange}/>
-
                 </div>
 
                 <label className="sorting-options">Sorting Options</label>
@@ -137,19 +138,18 @@ class App extends Component {
     if (this.state.sortType === 'updated') {
       sortType = 'created';
     }
-    this.initiateAPICall(this.state.sortDesc, sortType, this.state.labelValues);
+    this.initiateAPICall(this.state.sortDesc, sortType, this.state.labelValues, this.state.keywordValues);
   }
 
   toggleSortOrder() {
-    this.initiateAPICall(!this.state.sortDesc, this.state.sortType, this.state.labelValues);
+    this.initiateAPICall(!this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues);
   }
 
   handleFormChange(e) {
     if (e.key === 'Enter') {
-      this.setState({[e.target.name]: e.target.value});
       this.initiateAPICall(
-        false,
-        false,
+        this.state.sortDesc,
+        this.state.sortType,
         (e.target.name === 'labelValues') ? e.target.value : this.state.labelValues,
         (e.target.name === 'keywordValues') ? e.target.value : this.state.keywordValues);
     }
