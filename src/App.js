@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Switch from 'react-toggle-switch';
 import Issues from './components/issues';
 import config from './config';
@@ -9,13 +9,13 @@ class App extends Component {
     super();
 
     const placeholderLabels =
-    this.state = {
-      totalCount: '',
-      sortDesc: true,
-      sortType: 'updated',
-      issues: [],
-      labelValues: 'help wanted, bug'
-    };
+      this.state = {
+        totalCount: '',
+        sortDesc: true,
+        sortType: 'updated',
+        issues: [],
+        labelValues: 'help wanted, bug'
+      };
 
     this.toggleSortType = this.toggleSortType.bind(this);
     this.toggleSortOrder = this.toggleSortOrder.bind(this);
@@ -55,14 +55,20 @@ class App extends Component {
 
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
-    let myRequest = new Request('https://api.github.com/search/issues?q=' + labelQuery + '&per_page='+ resultsPerPage +'&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder);
+    let myRequest = new Request('https://api.github.com/search/issues?q=' + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder);
 
     let self = this;
     fetch(myRequest, myInit).then(function (response) {
       return response.json();
     }).then(function (data) {
       //console.log(data);
-      self.setState({totalCount: data.total_count, issues: data.items, sortDesc: sortDesc, sortType: sortType, labelValues: labelValues});
+      self.setState({
+        totalCount: data.total_count,
+        issues: data.items,
+        sortDesc: sortDesc,
+        sortType: sortType,
+        labelValues: labelValues
+      });
     });
   }
 
@@ -81,7 +87,8 @@ class App extends Component {
             <div className="input-elements">
               <div className="label-search-box">
                 <label className="label-name">Github label names</label>
-                <input className="input-element labelSearch" type="text" placeholder="help wanted, bug" onKeyPress={this.handleLabelChange}/>
+                <input className="input-element labelSearch" type="text" placeholder="help wanted, bug"
+                       onKeyPress={this.handleLabelChange}/>
               </div>
 
               <label className="sorting-options">Sorting Options</label>
@@ -122,12 +129,12 @@ class App extends Component {
   }
 
   toggleSortOrder() {
-    this.initiateAPICall(!this.state.sortDesc, this.state.sortType,  this.state.labelValues);
+    this.initiateAPICall(!this.state.sortDesc, this.state.sortType, this.state.labelValues);
   }
 
   handleLabelChange(event) {
     if (event.key === 'Enter') {
-      console.log('tagetvalue: ' +  event.target.value);
+      console.log('tagetvalue: ' + event.target.value);
       this.initiateAPICall(this.state.sortDesc, this.state.sortType, (event.target.value ? event.target.value : ' '));
     }
   }
