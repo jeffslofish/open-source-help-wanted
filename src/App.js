@@ -13,15 +13,14 @@ class App extends Component {
       sortDesc: true,
       sortType: 'updated',
       issues: [],
-      labelValues: 'help wanted, bug',
+      labelValues: '',
       keywordValues: ''
     };
 
     this.toggleSortType = this.toggleSortType.bind(this);
     this.toggleSortOrder = this.toggleSortOrder.bind(this);
     this.initiateAPICall = this.initiateAPICall.bind(this);
-    this.handleLabelChange = this.handleLabelChange.bind(this);
-    this.handleKeywordChange = this.handleKeywordChange.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
 
     this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues);
   }
@@ -38,28 +37,31 @@ class App extends Component {
       mode: 'cors'
     };
 
-    let labelQuery = this.state.labelValues;
-    if (labelValues) {
-      let labels = labelValues.split(',');
+    function formatSearchTerms(searchTerms, label) {
+      let terms = searchTerms.split(',');
 
-      if (labels.length > 0) {
-        labelQuery = '';
+      let query = '';
+      for (let term of terms) {
+        query += label + '"' + term.trim() + '"+';
       }
-      for (let label of labels) {
-        labelQuery += 'label:"' + label.trim() + '"+';
+      if (query.length > 0) {
+        query = query.slice(0, -1);
       }
 
-      //Remove last +
-      labelQuery = labelQuery.slice(0, -1);
+      return query;
     }
 
+
+    let keywordQuery = formatSearchTerms(keywordValues, '');
+    let labelQuery = formatSearchTerms(labelValues, 'label:');
+
     let maybePlus = '+';
-    if (keywordValues === '') {
+    if (keywordQuery === '') {
       maybePlus = '';
     }
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
-    let searchQuery = keywordValues + maybePlus + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder
+    let searchQuery = keywordQuery + maybePlus + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder
     let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
     let self = this;
@@ -88,31 +90,34 @@ class App extends Component {
           <div className="App-intro">
             <p className="total-count">Displaying {this.state.issues.length} of {this.state.totalCount} issues.</p>
 
-            <div className="input-elements">
-              <div className="label-search-box">
-                <label className="label-name">Github label names</label>
-                <input className="input-element labelSearch" type="text" placeholder="help wanted, bug"
-                       onKeyPress={this.handleLabelChange}/>
-                <label className="label-keywords">Keywords</label>
-                <input className="input-element labelKeywords" type="text" placeholder=""
-                       onKeyPress={this.handleKeywordChange}/>
-              </div>
+            <form>
+              <div className="input-elements">
+                <div className="label-search-box">
+                  <label className="label-name">Github label names</label>
+                  <input className="input-element labelSearch" name="labelValues" type="text" placeholder="help wanted, bug"
+                         onKeyPress={this.handleFormChange}/>
+                  <label className="label-keywords">Keywords</label>
+                  <input className="input-element labelKeywords" name="keywordValues" type="text" placeholder="react forms"
+                         onKeyPress={this.handleFormChange}/>
 
-              <label className="sorting-options">Sorting Options</label>
-              <div className="sort-inputs">
-                <div className="input-element">
-                  sort by created time
-                  <Switch on={this.state.sortType === 'updated'} onClick={this.toggleSortType}/>
-                  sorty by updated time
                 </div>
 
-                <div className="input-element">
-                  Oldest first
-                  <Switch on={this.state.sortDesc} onClick={this.toggleSortOrder}/>
-                  Newest first
+                <label className="sorting-options">Sorting Options</label>
+                <div className="sort-inputs">
+                  <div className="input-element">
+                    sort by created time
+                    <Switch on={this.state.sortType === 'updated'} onClick={this.toggleSortType}/>
+                    sorty by updated time
+                  </div>
+
+                  <div className="input-element">
+                    Oldest first
+                    <Switch on={this.state.sortDesc} onClick={this.toggleSortOrder}/>
+                    Newest first
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
 
           <div className="app-results">
@@ -139,18 +144,16 @@ class App extends Component {
     this.initiateAPICall(!this.state.sortDesc, this.state.sortType, this.state.labelValues);
   }
 
-  handleLabelChange(event) {
-    if (event.key === 'Enter') {
-      this.initiateAPICall(this.state.sortDesc, this.state.sortType, (event.target.value ? event.target.value : ' '));
+  handleFormChange(e) {
+    if (e.key === 'Enter') {
+      this.setState({[e.target.name]: e.target.value});
+      this.initiateAPICall(
+        false,
+        false,
+        (e.target.name === 'labelValues') ? e.target.value : this.state.labelValues,
+        (e.target.name === 'keywordValues') ? e.target.value : this.state.keywordValues);
     }
   }
-
-  handleKeywordChange(event) {
-    if (event.key === 'Enter') {
-      this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValue, (event.target.value ? event.target.value : ''));
-    }
-  }
-
 }
 
 export default App;

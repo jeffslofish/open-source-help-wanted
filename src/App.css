@@ -60,6 +60,10 @@ h2 {
   margin-right: 85px;
 }
 
+input::placeholder {
+  color: lightgrey;
+}
+
 .labelSearch, .labelKeywords {
   font-size:32px;
 }
