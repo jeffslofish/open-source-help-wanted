@@ -8,14 +8,13 @@ class App extends Component {
   constructor() {
     super();
 
-    const placeholderLabels =
-      this.state = {
-        totalCount: '',
-        sortDesc: true,
-        sortType: 'updated',
-        issues: [],
-        labelValues: 'help wanted, bug'
-      };
+    this.state = {
+      totalCount: '',
+      sortDesc: true,
+      sortType: 'updated',
+      issues: [],
+      labelValues: 'help wanted, bug'
+    };
 
     this.toggleSortType = this.toggleSortType.bind(this);
     this.toggleSortOrder = this.toggleSortOrder.bind(this);

@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 class Issue extends Component {
 
   getRepoUrlFromIssueUrl(html_url) {
-    let pattern = /^https:\/\/github.com\/[^\/]+\/[^\/]+\//;
+    let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
     let matches = html_url.match(pattern);
     let repoUrl = '';
     if (matches && matches.length > 0) {
