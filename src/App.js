@@ -61,7 +61,6 @@ class App extends Component {
     fetch(myRequest, myInit).then(function (response) {
       return response.json();
     }).then(function (data) {
-      console.log(data);
       self.setState({
         totalCount: data.total_count,
         issues: data.items,
@@ -134,7 +133,6 @@ class App extends Component {
 
   handleLabelChange(event) {
     if (event.key === 'Enter') {
-      console.log('tagetvalue: ' + event.target.value);
       this.initiateAPICall(this.state.sortDesc, this.state.sortType, (event.target.value ? event.target.value : ' '));
     }
   }
