@@ -55,13 +55,13 @@ class App extends Component {
 
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
-    let myRequest = new Request('https://api.github.com/search/issues?q=' + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder);
+    let myRequest = new Request('https://api.github.com/search/issues?q=typeset&text-match&' + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder);
 
     let self = this;
     fetch(myRequest, myInit).then(function (response) {
       return response.json();
     }).then(function (data) {
-      //console.log(data);
+      console.log(data);
       self.setState({
         totalCount: data.total_count,
         issues: data.items,

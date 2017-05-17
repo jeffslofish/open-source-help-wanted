@@ -39,6 +39,15 @@ h2 {
   font-weight: bold;
 }
 
+.avatar {
+  float: left;
+  margin: 20px;
+}
+
+.avatar img {
+  border-radius: 8px;
+}
+
 .label-labels {
   display: inline-block;
 }
