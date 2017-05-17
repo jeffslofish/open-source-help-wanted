@@ -23,11 +23,6 @@ class App extends Component {
     this.handleFormChange = this.handleFormChange.bind(this);
   }
 
-  componentDidMount() {
-    this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues);
-  }
-
-
   initiateAPICall(sortDesc, sortType, labelValues, keywordValues) {
     let myHeaders = new Headers({
       Authorization: 'token ' + config.apiToken
@@ -40,16 +35,19 @@ class App extends Component {
     };
 
     function formatSearchTerms(searchTerms, label) {
-      let terms = searchTerms.split(',');
-
       let query = '';
-      for (let term of terms) {
-        query += label + '"' + term.trim() + '"+';
-      }
-      if (query.length > 0) {
-        query = query.slice(0, -1);
-      }
 
+      if (searchTerms.length > 0) {
+        let terms = searchTerms.split(',');
+
+
+        for (let term of terms) {
+          query += label + '"' + term.trim() + '"+';
+        }
+        if (query.length > 0) {
+          query = query.slice(0, -1);
+        }
+      }
       return query;
     }
 
