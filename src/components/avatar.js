@@ -10,7 +10,7 @@ class Avatar extends Component {
 
     return (
       <div className="avatar">
-        <img style={imgStyle} src={this.props.url} alt="User Avatar"/>
+        <a href={this.props.user_url}><img style={imgStyle} src={this.props.url} alt="User Avatar"/></a>
       </div>
     );
   }
