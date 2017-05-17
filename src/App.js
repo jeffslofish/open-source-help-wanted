@@ -13,19 +13,21 @@ class App extends Component {
       sortDesc: true,
       sortType: 'updated',
       issues: [],
-      labelValues: 'help wanted, bug'
+      labelValues: 'help wanted, bug',
+      keywordValues: ''
     };
 
     this.toggleSortType = this.toggleSortType.bind(this);
     this.toggleSortOrder = this.toggleSortOrder.bind(this);
     this.initiateAPICall = this.initiateAPICall.bind(this);
     this.handleLabelChange = this.handleLabelChange.bind(this);
+    this.handleKeywordChange = this.handleKeywordChange.bind(this);
 
-    this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues);
+    this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues);
   }
 
 
-  initiateAPICall(sortDesc, sortType, labelValues) {
+  initiateAPICall(sortDesc, sortType, labelValues, keywordValues) {
     let myHeaders = new Headers({
       Authorization: 'token ' + config.apiToken
     });
@@ -51,10 +53,14 @@ class App extends Component {
       labelQuery = labelQuery.slice(0, -1);
     }
 
-
+    let maybePlus = '+';
+    if (keywordValues === '') {
+      maybePlus = '';
+    }
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
-    let myRequest = new Request('https://api.github.com/search/issues?q=' + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder);
+    let searchQuery = keywordValues + maybePlus + labelQuery + '&per_page=' + resultsPerPage + '&type=issue&state=open&page=1&sort=' + sortType + '&order=' + sortOrder
+    let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
     let self = this;
     fetch(myRequest, myInit).then(function (response) {
@@ -87,6 +93,9 @@ class App extends Component {
                 <label className="label-name">Github label names</label>
                 <input className="input-element labelSearch" type="text" placeholder="help wanted, bug"
                        onKeyPress={this.handleLabelChange}/>
+                <label className="label-keywords">Keywords</label>
+                <input className="input-element labelKeywords" type="text" placeholder=""
+                       onKeyPress={this.handleKeywordChange}/>
               </div>
 
               <label className="sorting-options">Sorting Options</label>
@@ -133,6 +142,12 @@ class App extends Component {
   handleLabelChange(event) {
     if (event.key === 'Enter') {
       this.initiateAPICall(this.state.sortDesc, this.state.sortType, (event.target.value ? event.target.value : ' '));
+    }
+  }
+
+  handleKeywordChange(event) {
+    if (event.key === 'Enter') {
+      this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValue, (event.target.value ? event.target.value : ''));
     }
   }
 
