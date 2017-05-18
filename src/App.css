@@ -86,11 +86,13 @@ input {
   color: white;
 }
 
-.issueBody {
-  padding: 20px;
+.issue-body {
+  padding: 20px 20px 0;
 }
 
 .issue {
+  padding: 5px 20px 20px;
+  margin: 20px 0;
   background-color: whitesmoke;
   border-radius: 20px;
 }
@@ -163,6 +165,13 @@ footer p a {
 }
 
 
+time {
+  color: black;
+  background-color: lightgrey;
+  margin: 0 20px 20px;
+  border-radius: 6px;
+  padding: 5px;
+}
 /* start responsive design css */
 /* https://codepen.io/Cheesetoast/pen/KFAaq */
 

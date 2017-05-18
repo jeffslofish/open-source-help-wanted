@@ -42,9 +42,8 @@ class Issue extends Component {
         <Avatar url={this.props.user.avatar_url} user_url={this.getUserUrlFromIssueUrl(this.props.html_url)}/>
         <p><a href={this.getRepoUrlFromIssueUrl(this.props.html_url)}>{this.getRepoNameFromIssueUrl(this.props.html_url)}</a></p>
         <Labels labels={this.props.labels}/>
-        <p className="issueBody">{this.props.body}</p>
-        <div><Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{this.props.updated_at}></Moment></div>
-        <div>{this.props.updated_at}</div>
+        <p className="issue-body">{this.props.body}</p>
+        <div className="timeAgo"><Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{this.props.updated_at}></Moment></div>
       </div>
     );
   }
