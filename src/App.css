@@ -1,21 +1,28 @@
 @import "../node_modules/react-toggle-switch/dist/css/switch.min.css";
 
-.forkme {
-    position: absolute; top: 0; right: 0; border: 0;
+html {
+  background-color: black;
+}
+
+.App {
+  background-color: #11202C;
 }
 
 .App-header {
-  background-color: skyblue;
+  background-color: #4484B6;
   padding: 20px 0 5px;
   color: white;
 }
 
 .app-body {
   padding: 0 30px;
+  background-color: #11202C;
 }
 
 .App-intro {
   font-size: large;
+  background-color: #35678E;
+  margin:0;
 }
 
 h1 {
@@ -57,14 +64,14 @@ h2 {
 }
 
 .labelSearch {
-  margin-right: 85px;
+  //margin-right: 85px;
 }
 
 input::placeholder {
   color: lightgrey;
 }
 
-.labelSearch, .labelKeywords {
+input {
   font-size:32px;
 }
 
@@ -72,10 +79,11 @@ input::placeholder {
   text-align: center;
 }
 
-.label-name, .label-keywords {
+.label-name {
   font-size: 24px;
   font-weight: bold;
   margin-right: 10px;
+  color: white;
 }
 
 .issueBody {
@@ -89,19 +97,43 @@ input::placeholder {
 
 .total-count {
   text-align: center;
+  color: white;
+}
+
+.input-component {
+  padding: 10px;
+  //max-width: 300px;
+  display: inline-block;
+}
+
+.label-search-box {
+  padding: 25px;
 }
 .input-elements {
-  margin-left: 40px;
+  padding: 0 25px 25px;
 }
 
 .input-element {
-  margin-bottom: 10px;
+  display: inline-block;
 }
 
+.input-element label {
+  color: black;
+  font-size: 1em;
+}
 
-.sort-inputs {
+.option-inputs .input-element {
+  background-color: lightgrey;
+  margin: 0 25px 10px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.option-inputs {
   border: 2px solid black;
   border-radius: 6px;
+  padding: 25px;
+  text-align: center;
 }
 
 a {
@@ -109,6 +141,27 @@ a {
   text-decoration: none;
   font-weight:bold;
 }
+
+
+.switch {
+  background-color: black;
+}
+
+footer {
+  background-color: black;
+  border: none;
+  text-align: center;
+}
+
+footer p {
+  padding: 15px;
+}
+
+footer p a {
+  color:white;
+  font-size: 1.5em;
+}
+
 
 /* start responsive design css */
 /* https://codepen.io/Cheesetoast/pen/KFAaq */
@@ -233,8 +286,4 @@ MEDIA QUERIES
 }
 header, #content, #middle, #sidebar {
   margin-bottom: 5px;
-}
-
-#pagewrap, header, #content, #middle, #sidebar, footer {
-  border: solid 1px #ccc;
 }
