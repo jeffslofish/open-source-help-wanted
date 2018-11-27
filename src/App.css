@@ -63,10 +63,6 @@ h2 {
   display: block;
 }
 
-.labelSearch {
-  //margin-right: 85px;
-}
-
 input::placeholder {
   color: lightgrey;
 }
@@ -104,7 +100,8 @@ input {
 
 .input-component {
   padding: 10px;
-  //max-width: 300px;
+  max-width: 300px;
+  margin-right: 30px;
   display: inline-block;
 }
 
