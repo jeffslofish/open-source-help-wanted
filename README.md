@@ -1,5 +1,5 @@
 # open-source-help-wanted
-Repo for http://opensourcehelpwanted.com website. Find issues to work on with the labels you specify.
+Find issues to work on with the labels you specify.
 
 
 ## To get started
