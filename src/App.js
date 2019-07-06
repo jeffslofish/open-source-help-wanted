@@ -11,7 +11,7 @@ class App extends Component {
     this.state = {
       totalCount: '',
       sortDesc: true,
-      sortType: 'updated',
+      sortType: 'created',
       issueAssigned: false,
       issues: [],
       labelValues: '',
