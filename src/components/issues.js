@@ -14,6 +14,7 @@ class Issues extends Component {
         updated_at={issue.updated_at}
         labels={issue.labels}
         user={issue.user}
+        assignee={issue.assignee}
       />);
     }
 

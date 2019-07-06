@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Avatar from './avatar';
+import Assignee from './assignee';
 import Labels from './labels';
 import Moment from 'react-moment';
 
@@ -40,7 +41,12 @@ class Issue extends Component {
       <div className="issue">
         <h2><a href={this.props.html_url}>{this.props.title}</a></h2>
         <Avatar url={this.props.user.avatar_url} user_url={this.getUserUrlFromIssueUrl(this.props.html_url)}/>
-        <p><a href={this.getRepoUrlFromIssueUrl(this.props.html_url)}>{this.getRepoNameFromIssueUrl(this.props.html_url)}</a></p>
+        <p>
+          <a href={this.getRepoUrlFromIssueUrl(this.props.html_url)}>{this.getRepoNameFromIssueUrl(this.props.html_url)}</a>
+          {this.props.assignee && 
+            <Assignee html_url={this.props.assignee.html_url} avatar_url={this.props.assignee.avatar_url} />
+          }
+        </p>
         <Labels labels={this.props.labels}/>
         <p className="issue-body">{this.props.body}</p>
         <div className="timeAgo"><Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{this.props.updated_at}></Moment></div>
