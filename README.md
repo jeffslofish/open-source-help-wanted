@@ -1,8 +1,9 @@
 # Open Source Help Wanted
+
 Find issues to work on with the labels you specify.
 
-
 ## To get started
+
 1. Clone this repo
 1. Get a personal access token from Github: https://github.com/settings/tokens
 1. Make a copy of config.sample.js and name it config.js and paste your personal access token in the placeholder text
