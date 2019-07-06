@@ -2,6 +2,8 @@
 
 Find issues to work on with the labels you specify.
 
+![Screenshot](screenshot.png)
+
 ## To get started
 
 1. Clone this repo
