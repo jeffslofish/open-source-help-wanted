@@ -4,7 +4,7 @@ import Issues from './components/issues';
 import config from './config';
 import './App.css';
 
-export default function App() {
+function App() {
   const [totalCount, setTotalCount] = useState('');
   const [sortDesc, setSortDesc] = useState(true);
   const [sortType, setSortType] = useState('created');
@@ -163,3 +163,5 @@ export default function App() {
     }
   }
 }
+
+export default App;

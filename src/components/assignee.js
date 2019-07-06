@@ -1,17 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Assignee extends Component {
-  render() {
+function Assignee(props) {
+  let imgStyle = {
+    maxHeight: '20px',
+    maxWidth: '20px'
+  };
 
-    let imgStyle = {
-      maxHeight: '20px',
-      maxWidth: '20px'
-    };
-
-    return (
-      <a href={this.props.html_url}> <img src={this.props.avatar_url} style={imgStyle} alt="Assignee Img"/></a>
-    );
-  }
+  return (
+    <a href={props.html_url}> <img src={props.avatar_url} style={imgStyle} alt="Assignee Img"/></a>
+  );
 }
 
 export default Assignee;

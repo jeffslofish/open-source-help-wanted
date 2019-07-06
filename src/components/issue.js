@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Avatar from './avatar';
 import Assignee from './assignee';
 import Labels from './labels';
 import Moment from 'react-moment';
 
-class Issue extends Component {
-
-  getRepoUrlFromIssueUrl(html_url) {
+function Issue(props) {
+  function getRepoUrlFromIssueUrl(html_url) {
     let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
     let matches = html_url.match(pattern);
     let repoUrl = '';
@@ -16,7 +15,7 @@ class Issue extends Component {
     return repoUrl;
   }
 
-  getUserUrlFromIssueUrl(html_url) {
+  function getUserUrlFromIssueUrl(html_url) {
     let pattern = /^https:\/\/github.com\/[^/]+\//;
     let matches = html_url.match(pattern);
     let userUrl = '';
@@ -26,7 +25,7 @@ class Issue extends Component {
     return userUrl;
   }
 
-  getRepoNameFromIssueUrl(html_url) {
+  function getRepoNameFromIssueUrl(html_url) {
     let pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
     let matches = html_url.match(pattern);
     let repoName = '';
@@ -36,24 +35,21 @@ class Issue extends Component {
     return repoName;
   }
 
-  render() {
-    return (
-      <div className="issue">
-        <h2><a href={this.props.html_url}>{this.props.title}</a></h2>
-        <Avatar url={this.props.user.avatar_url} user_url={this.getUserUrlFromIssueUrl(this.props.html_url)}/>
-        <p>
-          <a href={this.getRepoUrlFromIssueUrl(this.props.html_url)}>{this.getRepoNameFromIssueUrl(this.props.html_url)}</a>
-          {this.props.assignee && 
-            <Assignee html_url={this.props.assignee.html_url} avatar_url={this.props.assignee.avatar_url} />
-          }
-        </p>
-        <Labels labels={this.props.labels}/>
-        <p className="issue-body">{this.props.body}</p>
-        <div className="timeAgo"><Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{this.props.updated_at}></Moment></div>
-      </div>
-    );
-  }
+  return (
+    <div className="issue">
+      <h2><a href={props.html_url}>{props.title}</a></h2>
+      <Avatar url={props.user.avatar_url} user_url={getUserUrlFromIssueUrl(props.html_url)}/>
+      <p>
+        <a href={getRepoUrlFromIssueUrl(props.html_url)}>{getRepoNameFromIssueUrl(props.html_url)}</a>
+        {props.assignee && 
+          <Assignee html_url={props.assignee.html_url} avatar_url={props.assignee.avatar_url} />
+        }
+      </p>
+      <Labels labels={props.labels}/>
+      <p className="issue-body">{props.body}</p>
+      <div className="timeAgo"><Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.updated_at}></Moment></div>
+    </div>
+  );
 }
-
 
 export default Issue;

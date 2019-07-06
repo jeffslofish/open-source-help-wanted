@@ -1,21 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Avatar extends Component {
-  render() {
+function Avatar(props) {
+  let imgStyle = {
+    maxHeight: '100px',
+    maxWidth: '100px'
+  };
 
-    let imgStyle = {
-      maxHeight: '100px',
-      maxWidth: '100px'
-    };
-
-    return (
-      <div className="avatar">
-        <a href={this.props.user_url}><img style={imgStyle} src={this.props.url} alt="User Avatar"/></a>
-      </div>
-    );
-  }
+  return (
+    <div className="avatar">
+      <a href={props.user_url}><img style={imgStyle} src={props.url} alt="User Avatar"/></a>
+    </div>
+  );
 }
-
 
 export default Avatar;
 
