@@ -37,13 +37,15 @@ h2 {
   color: black;
 }
 
-
 .label {
-  margin: 0 5px;
+  font-size: 12px;
+  margin: 2px 2px;
   padding: 2px;
-  border-radius: 6px;
-  color: white;
-  font-weight: bold;
+  border-radius: 2px;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 11px;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
 }
 
 .avatar {
