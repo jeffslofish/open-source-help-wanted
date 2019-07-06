@@ -65,7 +65,7 @@ class App extends Component {
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-    let searchQuery = keywordQuery + maybePlus + labelQuery + '+type:issue' + issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+    let searchQuery = keywordQuery + maybePlus + labelQuery + '+type:issue+state:open' + issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
     let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
     let self = this;
