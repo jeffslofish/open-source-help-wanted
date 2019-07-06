@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chromatism": "^3.0.0",
     "github": "^14.0.0",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
