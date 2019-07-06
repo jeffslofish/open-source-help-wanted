@@ -12,7 +12,7 @@ class App extends Component {
       totalCount: '',
       sortDesc: true,
       sortType: 'updated',
-      issueOpen: true,
+      issueAssigned: false,
       issues: [],
       labelValues: '',
       keywordValues: ''
@@ -20,13 +20,13 @@ class App extends Component {
 
     this.toggleSortType = this.toggleSortType.bind(this);
     this.toggleSortOrder = this.toggleSortOrder.bind(this);
-    this.toggleIssueOpen = this.toggleIssueOpen.bind(this);
+    this.toggleIssueAssigned = this.toggleIssueAssigned.bind(this);
     this.initiateAPICall = this.initiateAPICall.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleInputBlur = this.handleInputBlur.bind(this);
   }
 
-  initiateAPICall(sortDesc, sortType, labelValues, keywordValues, issueOpen) {
+  initiateAPICall(sortDesc, sortType, labelValues, keywordValues, issueAssigned) {
     let myHeaders = new Headers({
       Authorization: 'token ' + config.apiToken
     });
@@ -64,8 +64,8 @@ class App extends Component {
     }
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
-    let issueState = issueOpen ? 'open' : 'closed';
-    let searchQuery = keywordQuery + maybePlus + labelQuery + '+type:issue+state:' + issueState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+    let issueAssignedState = issueAssigned ? '' : '+no:assignee';
+    let searchQuery = keywordQuery + maybePlus + labelQuery + '+type:issue' + issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
     let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
     let self = this;
@@ -78,7 +78,7 @@ class App extends Component {
         sortDesc: sortDesc,
         sortType: sortType,
         labelValues: labelValues,
-        issueOpen: issueOpen
+        issueAssigned: issueAssigned
       });
     });
   }
@@ -122,9 +122,9 @@ class App extends Component {
                 </div>
 
                 <div className="input-element">
-                  <label>Closed</label>
-                  <Switch on={this.state.issueOpen} onClick={this.toggleIssueOpen}/>
-                  <label>Open</label>
+                  <label>Not Assigned</label>
+                  <Switch on={this.state.issueAssigned} onClick={this.toggleIssueAssigned}/>
+                  <label>Possibly Assigned</label>
                 </div>
               </div>
             </div>
@@ -149,15 +149,15 @@ class App extends Component {
     if (this.state.sortType === 'updated') {
       sortType = 'created';
     }
-    this.initiateAPICall(this.state.sortDesc, sortType, this.state.labelValues, this.state.keywordValues, this.state.issueOpen);
+    this.initiateAPICall(this.state.sortDesc, sortType, this.state.labelValues, this.state.keywordValues, this.state.issueAssigned);
   }
 
   toggleSortOrder() {
-    this.initiateAPICall(!this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues, this.state.issueOpen);
+    this.initiateAPICall(!this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues, this.state.issueAssigned);
   }
 
-  toggleIssueOpen() {
-    this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues, !this.state.issueOpen);
+  toggleIssueAssigned() {
+    this.initiateAPICall(this.state.sortDesc, this.state.sortType, this.state.labelValues, this.state.keywordValues, !this.state.issueAssigned);
   }
 
   handleFormChange(e) {
@@ -167,7 +167,7 @@ class App extends Component {
         this.state.sortType,
         (e.target.name === 'labelValues') ? e.target.value : this.state.labelValues,
         (e.target.name === 'keywordValues') ? e.target.value : this.state.keywordValues,
-        this.state.issueOpen);
+        this.state.issueAssigned);
     }
   }
 
