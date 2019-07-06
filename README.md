@@ -1,4 +1,4 @@
-# open-source-help-wanted
+# Open Source Help Wanted
 Find issues to work on with the labels you specify.
 
 
