@@ -1,6 +1,8 @@
 # Open Source Help Wanted
 
-Find issues to work on with the labels you specify.
+Find issues to work on with the labels and keywords you specify.
+
+![Screenshot](screenshot.png)
 
 ## To get started
 
