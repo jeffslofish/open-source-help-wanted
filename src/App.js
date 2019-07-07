@@ -20,7 +20,7 @@ function App() {
     if (keywordValuesSearch.length > 0 || labelValuesSearch.length > 0) {
       initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, issueAssigned);
     }
-  }, [totalCount, sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch]);
+  }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch]);
 
   function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, issueAssigned) {
     let myHeaders = new Headers({
