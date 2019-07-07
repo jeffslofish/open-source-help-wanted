@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Switch from 'react-toggle-switch';
 import Issues from './components/issues';
 import config from './config';
@@ -12,6 +12,15 @@ function App() {
   const [labelValues, setLabelValues] = useState('');
   const [keywordValues, setKeywordValues] = useState('');
   const [issues, setIssues] = useState([]);
+
+  const [labelValuesSearch, setLabelValuesSearch] = useState('');
+  const [keywordValuesSearch, setKeywordValuesSeach] = useState('');
+
+  useEffect(() => {
+    if (keywordValuesSearch.length > 0 || labelValuesSearch.length > 0) {
+      initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, issueAssigned);
+    }
+  }, [totalCount, sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch]);
 
   function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, issueAssigned) {
     let myHeaders = new Headers({
@@ -66,6 +75,44 @@ function App() {
     });
   }
 
+  function handleLabelValuesChange(event) {
+    setLabelValues(event.target.value);
+  }
+
+  function handlekeywordValuesChange(event) {
+    setKeywordValues(event.target.value);
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      setSearch();
+    }
+  }
+
+  function setSearch() {
+    setLabelValuesSearch(labelValues);
+    setKeywordValuesSeach(keywordValues);
+  }
+
+  function toggleSortType() {
+    let sortTypeParam = sortType;
+    if (sortTypeParam === 'updated') {
+      sortTypeParam = 'created';
+    } else {
+      sortTypeParam = 'updated';
+    }
+
+    setSortType(sortTypeParam);
+  }
+
+  function toggleSortOrder() {
+    setSortDesc(!sortDesc);
+  }
+
+  function toggleIssueAssigned() {
+    setIssueAssigned(!issueAssigned);
+  }
+
   return (
     <div className="App">
       <div className="App-header">
@@ -79,14 +126,12 @@ function App() {
               <div className="input-component">
               <label className="label-name">Github label names</label>
                 <input className="input-element" name="labelValues" type="text"
-                        placeholder="help wanted, bug"
-                        onKeyPress={handleFormChange} onBlur={handleInputBlur}/>
+                        placeholder="help wanted, bug" value={labelValues} onChange={handleLabelValuesChange} onKeyPress={handleKeyPress}/>
               </div>
               <div className="input-component">
                 <label className="label-name">Keywords</label>
                 <input className="input-element" name="keywordValues" type="text"
-                      placeholder="open source, forms"
-                        onKeyPress={handleFormChange} onBlur={handleInputBlur}/>
+                      placeholder="open source, forms" value={keywordValues} onChange={handlekeywordValuesChange} onKeyPress={handleKeyPress}/>
               </div>
             </div>
 
@@ -123,45 +168,6 @@ function App() {
       </footer>
     </div>
   );
-
-  function toggleSortType() {
-    let sortTypeParam = sortType;
-    if (sortTypeParam === 'updated') {
-      sortTypeParam = 'created';
-    } else {
-      sortTypeParam = 'updated';
-    }
-
-    initiateAPICall(sortDesc, sortTypeParam, labelValues, keywordValues, issueAssigned);
-  }
-
-  function toggleSortOrder() {
-    initiateAPICall(!sortDesc, sortType, labelValues, keywordValues, issueAssigned);
-  }
-
-  function toggleIssueAssigned() {
-    initiateAPICall(sortDesc, sortType, labelValues, keywordValues, !issueAssigned);
-  }
-
-  function handleFormChange(e) {
-    if (e.key === 'Enter') {
-      initiateAPICall(
-        sortDesc,
-        sortType,
-        (e.target.name === 'labelValues') ? e.target.value : labelValues,
-        (e.target.name === 'keywordValues') ? e.target.value : keywordValues,
-        issueAssigned);
-    }
-  }
-
-  function handleInputBlur(e) {
-    if (e.target.name === 'labelValues') {
-      setLabelValues(e.target.value);
-    }
-    if (e.target.name === 'keywordValues') {
-      setKeywordValues(e.target.value);
-    }
-  }
 }
 
 export default App;
