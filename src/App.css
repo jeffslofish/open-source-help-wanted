@@ -143,7 +143,6 @@ a {
   font-weight:bold;
 }
 
-
 .switch {
   background-color: black;
 }
@@ -163,14 +162,23 @@ footer p a {
   font-size: 1.5em;
 }
 
+.times {
+  float:right;
+}
+
+.timeAgo {
+  display:inline-block;
+}
 
 time {
   color: black;
   background-color: lightgrey;
-  margin: 0 20px 20px;
-  border-radius: 6px;
-  padding: 5px;
+  margin: 0 10px 20px 5px;
+  border-radius: 2px;
+  padding: 3px;
 }
+
+
 /* start responsive design css */
 /* https://codepen.io/Cheesetoast/pen/KFAaq */
 

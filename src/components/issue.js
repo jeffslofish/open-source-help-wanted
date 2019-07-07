@@ -39,15 +39,18 @@ function Issue(props) {
     <div className="issue">
       <h2><a href={props.html_url}>{props.title}</a></h2>
       <Avatar url={props.user.avatar_url} user_url={getUserUrlFromIssueUrl(props.html_url)}/>
-      <p>
+      <div>
         <a href={getRepoUrlFromIssueUrl(props.html_url)}>{getRepoNameFromIssueUrl(props.html_url)}</a>
         {props.assignee && 
           <Assignee html_url={props.assignee.html_url} avatar_url={props.assignee.avatar_url} />
         }
-      </p>
+        <div className="times">
+          <div className="timeAgo">Created:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.created_at}></Moment></div>
+          <div className="timeAgo">Updated:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.updated_at}></Moment></div>
+        </div>
+      </div>
       <Labels labels={props.labels}/>
       <p className="issue-body">{props.body}</p>
-      <div className="timeAgo"><Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.updated_at}></Moment></div>
     </div>
   );
 }

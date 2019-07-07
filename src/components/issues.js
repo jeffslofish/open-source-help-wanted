@@ -10,6 +10,7 @@ function Issues(props) {
       title={issue.title}
       body={issue.body}
       html_url={issue.html_url}
+      created_at={issue.created_at}
       updated_at={issue.updated_at}
       labels={issue.labels}
       user={issue.user}
