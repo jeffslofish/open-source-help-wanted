@@ -11,18 +11,20 @@ function App() {
   const [issueAssigned, setIssueAssigned] = useState(false);
   const [labelValues, setLabelValues] = useState('');
   const [keywordValues, setKeywordValues] = useState('');
+  const [language, setLanguage] = useState('');
   const [issues, setIssues] = useState([]);
 
   const [labelValuesSearch, setLabelValuesSearch] = useState('');
   const [keywordValuesSearch, setKeywordValuesSeach] = useState('');
+  const [languageSearch, setLanguageSearch] = useState('');
 
   useEffect(() => {
-    if (keywordValuesSearch.length > 0 || labelValuesSearch.length > 0) {
-      initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, issueAssigned);
+    if (keywordValuesSearch.length > 0 || labelValuesSearch.length > 0 || languageSearch.length > 0) {
+      initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, languageSearch, issueAssigned);
     }
-  }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch]);
+  }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch, languageSearch]);
 
-  function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, issueAssigned) {
+  function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, language, issueAssigned) {
     let myHeaders = new Headers({
       Authorization: 'token ' + config.apiToken
     });
@@ -52,6 +54,7 @@ function App() {
 
     let keywordQuery = formatSearchTerms(keywordValues, '');
     let labelQuery = formatSearchTerms(labelValues, 'label:');
+    let languageQuery = language.length > 0 ? '+language:' + language : '';
 
     let maybePlus = '+';
     if (keywordQuery === '') {
@@ -60,7 +63,8 @@ function App() {
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-    let searchQuery = keywordQuery + maybePlus + labelQuery + '+type:issue+state:open' + issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+    let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' + 
+      issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
     let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
     fetch(myRequest, myInit).then(function (response) {
@@ -83,6 +87,10 @@ function App() {
     setKeywordValues(event.target.value);
   }
 
+  function handleLanguageChange(event) {
+    setLanguage(event.target.value);
+  }
+
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       setSearch();
@@ -92,6 +100,7 @@ function App() {
   function setSearch() {
     setLabelValuesSearch(labelValues);
     setKeywordValuesSeach(keywordValues);
+    setLanguageSearch(language);
   }
 
   function toggleSortType() {
@@ -132,6 +141,11 @@ function App() {
                 <label className="label-name">Keywords</label>
                 <input className="input-element" name="keywordValues" type="text"
                       placeholder="open source, forms" value={keywordValues} onChange={handlekeywordValuesChange} onKeyPress={handleKeyPress}/>
+              </div>
+              <div className="input-component">
+                <label className="label-name">Language</label>
+                <input className="input-element" name="language" type="text"
+                      placeholder="javascript" value={language} onChange={handleLanguageChange} onKeyPress={handleKeyPress}/>
               </div>
             </div>
 
