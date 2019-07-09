@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
+const querystring = require('querystring');
 const config = require('./config.js');
 
 const app = express();
@@ -14,7 +15,9 @@ var configHeader = {
 };
 
 app.get('/github/rest', (req, res) => {
-  const query = req.query;
+  const query = querystring.stringify(req.query);
+
+  console.log(query);
 
   axios.get(`https://api.github.com/search/issues?q=${query}`, configHeader)
     .then(response => {
