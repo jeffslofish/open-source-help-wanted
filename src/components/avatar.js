@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Avatar(props) {
   let imgStyle = {
@@ -12,6 +13,11 @@ function Avatar(props) {
     </div>
   );
 }
+
+Avatar.propTypes = {
+  user_url: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
+};
 
 export default Avatar;
 

@@ -1,22 +1,21 @@
 import React from 'react';
 import * as chromatism from 'chromatism';
+import PropTypes from 'prop-types';
 
 function Labels(props) {
-  let labels = [];
-
-  let propsLabels = props.labels;
-
-  for (let i = 0; i < propsLabels.length; i++) {
-    let label = propsLabels[i];
-    let style = {
+  const labels = props.labels.map((label, i) => {
+    const style = {
       backgroundColor: '#' + label.color,
       color: chromatism.contrastRatio("#" + label.color).hex
     };
-    labels.push(<span key={i} className="label" style={style}>{label.name}</span>);
-  }
-  return (
-    <div>{labels}</div>
-  )
+    return <span key={i} className="label" style={style}>{label.name}</span>
+  });
+
+  return <div>{labels}</div>;
 }
+
+Labels.propTypes = {
+  labels: PropTypes.array.isRequired
+};
 
 export default Labels;

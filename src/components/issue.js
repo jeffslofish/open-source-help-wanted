@@ -3,6 +3,7 @@ import Avatar from './avatar';
 import Assignee from './assignee';
 import Labels from './labels';
 import Moment from 'react-moment';
+import PropTypes from 'prop-types';
 
 function Issue(props) {
   function getRepoUrlFromIssueUrl(html_url) {
@@ -45,8 +46,8 @@ function Issue(props) {
           <Assignee html_url={props.assignee.html_url} avatar_url={props.assignee.avatar_url} />
         }
         <div className="times">
-          <div className="timeAgo">Created:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.created_at}></Moment></div>
-          <div className="timeAgo">Updated:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.updated_at}></Moment></div>
+          <div className="timeAgo">Created:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.created_at}</Moment></div>
+          <div className="timeAgo">Updated:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.updated_at}</Moment></div>
         </div>
       </div>
       <Labels labels={props.labels}/>
@@ -54,5 +55,18 @@ function Issue(props) {
     </div>
   );
 }
+
+Issue.propTypes = {
+  user: PropTypes.shape({
+    avatar_url: PropTypes.string.isRequired,
+  }),
+  html_url: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  assignee: PropTypes.string,
+  created_at: PropTypes.string.isRequired,
+  updated_at: PropTypes.string.isRequired,
+  labels: PropTypes.array.isRequired,
+  body: PropTypes.string.isRequired
+};
 
 export default Issue;
