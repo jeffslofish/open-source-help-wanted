@@ -63,7 +63,7 @@ function App() {
     let resultsPerPage = 25;
     let sortOrder = sortDesc ? 'desc' : 'asc';
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-    let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' + 
+    let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
       issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
     let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
@@ -91,13 +91,9 @@ function App() {
     setLanguage(event.target.value);
   }
 
-  function handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      setSearch();
-    }
-  }
+  function handleSubmit(e) {
+    e.preventDefault();
 
-  function setSearch() {
     setLabelValuesSearch(labelValues);
     setKeywordValuesSeach(keywordValues);
     setLanguageSearch(language);
@@ -129,42 +125,43 @@ function App() {
         <h2>Find issues you can work on in Github. Be a contributor!</h2>
       </div>
       <div className="App-intro">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="input-elements">
             <div className="label-search-box">
               <div className="input-component">
-              <label className="label-name">Github label names</label>
+                <label className="label-name">Github label names</label>
                 <input className="input-element" name="labelValues" type="text"
-                        placeholder="help wanted, bug" value={labelValues} onChange={handleLabelValuesChange} onKeyPress={handleKeyPress}/>
+                  placeholder="help wanted, bug" value={labelValues} onChange={handleLabelValuesChange} />
               </div>
               <div className="input-component">
                 <label className="label-name">Keywords</label>
                 <input className="input-element" name="keywordValues" type="text"
-                      placeholder="open source, forms" value={keywordValues} onChange={handlekeywordValuesChange} onKeyPress={handleKeyPress}/>
+                  placeholder="open source, forms" value={keywordValues} onChange={handlekeywordValuesChange} />
               </div>
               <div className="input-component">
                 <label className="label-name">Language</label>
                 <input className="input-element" name="language" type="text"
-                      placeholder="javascript" value={language} onChange={handleLanguageChange} onKeyPress={handleKeyPress}/>
+                  placeholder="javascript" value={language} onChange={handleLanguageChange} />
               </div>
+              <button className="searchButton" type="submit">Search</button>
             </div>
 
             <div className="option-inputs">
               <div className="input-element">
                 <label>Sort by created time</label>
-                <Switch on={sortType === 'updated'} onClick={toggleSortType}/>
+                <Switch on={sortType === 'updated'} onClick={toggleSortType} />
                 <label>Sort by updated time</label>
               </div>
 
               <div className="input-element">
                 <label>Oldest first</label>
-                <Switch on={sortDesc} onClick={toggleSortOrder}/>
+                <Switch on={sortDesc} onClick={toggleSortOrder} />
                 <label>Newest first</label>
               </div>
 
               <div className="input-element">
                 <label>Not Assigned</label>
-                <Switch on={issueAssigned} onClick={toggleIssueAssigned}/>
+                <Switch on={issueAssigned} onClick={toggleIssueAssigned} />
                 <label>Possibly Assigned</label>
               </div>
             </div>
@@ -174,7 +171,7 @@ function App() {
       <div className="app-body">
         <p className="total-count">Displaying {issues.length} of {totalCount ? totalCount : 0} issues.</p>
         <div className="app-results">
-          <Issues data={issues}/>
+          <Issues data={issues} />
         </div>
       </div>
       <footer>

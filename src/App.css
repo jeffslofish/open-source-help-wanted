@@ -70,7 +70,7 @@ input::placeholder {
 }
 
 input {
-  font-size:32px;
+  font-size: 32px;
 }
 
 .label-search-box {
@@ -82,6 +82,11 @@ input {
   font-weight: bold;
   margin-right: 10px;
   color: white;
+}
+
+.searchButton {
+  font-size: 32px;
+  line-height: 40px;
 }
 
 .issue-body {
