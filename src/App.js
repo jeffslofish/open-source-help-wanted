@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Switch from 'react-toggle-switch';
 import Issues from './components/issues';
-import config from './config';
 import './App.css';
 
 function App() {
@@ -25,16 +24,6 @@ function App() {
   }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch, languageSearch]);
 
   function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, language, issueAssigned) {
-    let myHeaders = new Headers({
-      Authorization: 'token ' + config.apiToken
-    });
-
-    let myInit = {
-      method: 'GET',
-      headers: myHeaders,
-      mode: 'cors'
-    };
-
     function formatSearchTerms(searchTerms, label) {
       let query = '';
 
@@ -65,9 +54,12 @@ function App() {
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
     let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
       issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
-    let myRequest = new Request('https://api.github.com/search/issues?q=' + searchQuery);
 
-    fetch(myRequest, myInit).then(function (response) {
+    let myRequest = new Request('http://localhost:3001/github/rest?q=' + searchQuery);
+
+    
+
+    fetch(myRequest).then(function (response) {
       return response.json();
     }).then(function (data) {
       setTotalCount(data.total_count);

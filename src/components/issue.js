@@ -62,7 +62,10 @@ Issue.propTypes = {
   }),
   html_url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  assignee: PropTypes.string,
+  assignee: PropTypes.shape({
+    html_url: PropTypes.string.isRequired,
+    avatar_url: PropTypes.string.isRequired
+  }),
   created_at: PropTypes.string.isRequired,
   updated_at: PropTypes.string.isRequired,
   labels: PropTypes.array.isRequired,

@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "chromatism": "^3.0.0",
     "@octokit/rest": "^16.28.2",
+    "axios": "^0.19.0",
+    "chromatism": "^3.0.0",
+    "cors": "^2.8.5",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "react": "16.8.6",
@@ -16,13 +18,15 @@
     "eslint": "^5.16.0",
     "eslint-plugin-react": "^7.14.2",
     "eslint-plugin-react-hooks": "^1.6.1",
+    "nodemon": "^1.19.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-dev-server": "PORT=3001 nodemon ./server/app.js localhost"
   },
   "browserslist": [
     ">0.2%",
