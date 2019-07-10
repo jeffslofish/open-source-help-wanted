@@ -55,9 +55,7 @@ function App() {
     let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
       issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
 
-    let myRequest = new Request('http://localhost:3001/github/rest?q=' + searchQuery);
-
-    
+    let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
     fetch(myRequest).then(function (response) {
       return response.json();

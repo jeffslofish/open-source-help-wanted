@@ -2,9 +2,10 @@
 .env
 Desktop.ini
 Thumbs.db
-node_modules/*
 /build
 *.log
 .idea
 .vscode
 /server/config.js
+node_modules
+/config.js
