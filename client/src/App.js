@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Switch from 'react-toggle-switch';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
 import './App.css';
+import InputToggle from './components/InputToggle';
 
 function App() {
   const [totalCount, setTotalCount] = useState('');
@@ -125,23 +125,9 @@ function App() {
               <button className="searchButton" type="submit">Search</button>
             </div>
             <div className="option-inputs">
-              <div className="input-element">
-                <label>Sort by created time</label>
-                <Switch on={sortType === 'updated'} onClick={toggleSortType} />
-                <label>Sort by updated time</label>
-              </div>
-
-              <div className="input-element">
-                <label>Oldest first</label>
-                <Switch on={sortDesc} onClick={toggleSortOrder} />
-                <label>Newest first</label>
-              </div>
-
-              <div className="input-element">
-                <label>Not Assigned</label>
-                <Switch on={issueAssigned} onClick={toggleIssueAssigned} />
-                <label>Possibly Assigned</label>
-              </div>
+              <InputToggle leftLabel={'Sort by created time'} rightLabel={'Sort by updated time'} value={sortType === 'updated'} clickHandler={toggleSortType}/>
+              <InputToggle leftLabel={'Oldest first'} rightLabel={'Newest first'} value={sortDesc} clickHandler={toggleSortOrder}/>
+              <InputToggle leftLabel={'Not Assigned'} rightLabel={'Possibly Assigned'} value={issueAssigned} clickHandler={toggleIssueAssigned}/>
             </div>
           </div>
         </form>
