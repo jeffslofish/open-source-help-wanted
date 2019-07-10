@@ -7,12 +7,18 @@ import './App.css';
 
 function App() {
   const [totalCount, setTotalCount] = useState(0);
-  const [sortDesc, setSortDesc] = useState(true);
-  const [sortType, setSortType] = useState('created');
-  const [issueAssigned, setIssueAssigned] = useState(false);
-  const [labelsValues, setLabelsValues] = useState('');
-  const [keywordValues, setKeywordValues] = useState('');
-  const [languageValue, setLanguageValue] = useState('');
+  const sortDescOriginalValue = localStorage.getItem('sortDesc') ? JSON.parse(localStorage.getItem('sortDesc')) : true;
+  const sortCreatedOrignalValue = localStorage.getItem('sortCreated') ? JSON.parse(localStorage.getItem('sortCreated')) : true;
+  const issueAssignedOriginalValue = localStorage.getItem('issueAssigned') ? JSON.parse(localStorage.getItem('issueAssigned')) : false;
+  const labelsOriginalValue = localStorage.getItem('labels') || '';
+  const keywordsOriginalValue = localStorage.getItem('keywords') || '';
+  const languageOriginalValue = localStorage.getItem('language') || '';
+  const [sortDesc, setSortDesc] = useState(sortDescOriginalValue);
+  const [sortCreated, setSortCreated] = useState(sortCreatedOrignalValue);
+  const [issueAssigned, setIssueAssigned] = useState(issueAssignedOriginalValue);
+  const [labelsValues, setLabelsValues] = useState(labelsOriginalValue);
+  const [keywordsValues, setKeywordsValues] = useState(keywordsOriginalValue);
+  const [languageValue, setLanguageValue] = useState(languageOriginalValue);
   const [issues, setIssues] = useState([]);
   const [page, setPage] = useState(1);
   const [submitCount, setSubmitCount] = useState(0);
@@ -25,11 +31,22 @@ function App() {
 
   useEffect(() => {
     if (submitCount > 0) {
-      initiateAPICall(sortDesc, sortType, labelsValues, keywordValues, languageValue, issueAssigned, page);
-    }
-  }, [sortDesc, sortType, issueAssigned, page, labelsValues, keywordValues, languageValue, submitCount]);
+      localStorage.setItem('labels', labelsValues);
+      localStorage.setItem('keywords', keywordsValues);
+      localStorage.setItem('language', languageValue);
 
-  function initiateAPICall(sortDesc, sortType, labelsValues, keywordValues, languageValue, issueAssigned, page) {
+      initiateAPICall(sortDesc, sortCreated, issueAssigned, labelsValues, keywordsValues, languageValue, page);
+    } else {
+      labelsInputEl.current.value = labelsOriginalValue;
+      keywordsInputEl.current.value = keywordsOriginalValue;
+      languageInputEl.current.value = languageOriginalValue;
+    }
+  }, [sortDesc, sortCreated, issueAssigned, page, labelsValues, keywordsValues, languageValue, submitCount,
+      labelsOriginalValue, keywordsOriginalValue, languageOriginalValue,
+      sortDescOriginalValue, sortCreatedOrignalValue, issueAssignedOriginalValue
+    ]);
+
+  function initiateAPICall(sortDesc, sortCreated, issueAssigned, labelsValues, keywordValues, languageValue, page) {
     function formatSearchTerms(searchTerms, label) {
       let query = '';
 
@@ -48,18 +65,19 @@ function App() {
 
     let keywordQuery = formatSearchTerms(keywordValues, '');
     let labelQuery = formatSearchTerms(labelsValues, 'label:');
-    let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue): '';
+    let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
 
     let maybePlus = '+';
     if (keywordQuery === '' || labelQuery === '') {
       maybePlus = '';
     }
 
+    let sortType = sortCreated ? 'created' : 'updated';
     let sortOrder = sortDesc ? 'desc' : 'asc';
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
     let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
       issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
-      
+
     let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
     fetch(myRequest).then(function (response) {
@@ -75,28 +93,25 @@ function App() {
 
     setPage(1);
     setLabelsValues(labelsInputEl.current.value);
-    setKeywordValues(keywordsInputEl.current.value);
+    setKeywordsValues(keywordsInputEl.current.value);
     setLanguageValue(languageInputEl.current.value);
     setSubmitCount(submitCount + 1);
   }
 
   function toggleSortType() {
-    let sortTypeParam = sortType;
-    if (sortTypeParam === 'updated') {
-      sortTypeParam = 'created';
-    } else {
-      sortTypeParam = 'updated';
-    }
-
-    setSortType(sortTypeParam);
+    localStorage.setItem('sortCreated', !sortCreated);
+    setSortCreated(!sortCreated);
   }
 
   function toggleSortOrder() {
+    localStorage.setItem('sortDesc', !sortDesc);
     setSortDesc(!sortDesc);
   }
 
   function toggleIssueAssigned() {
+    localStorage.setItem('issueAssigned', !issueAssigned);
     setIssueAssigned(!issueAssigned);
+    
   }
 
   const handleNextButton = () => { setPage(page + 1) };
@@ -118,7 +133,7 @@ function App() {
               <button className="searchButton" type="submit">Search</button>
             </div>
             <div className="option-inputs">
-              <InputToggle leftLabel={'Sort by created time'} rightLabel={'Sort by updated time'} value={sortType === 'updated'} clickHandler={toggleSortType} />
+              <InputToggle leftLabel={'Sort by updated time'} rightLabel={'Sort by created time'} value={sortCreated} clickHandler={toggleSortType} />
               <InputToggle leftLabel={'Oldest first'} rightLabel={'Newest first'} value={sortDesc} clickHandler={toggleSortOrder} />
               <InputToggle leftLabel={'Not Assigned'} rightLabel={'Possibly Assigned'} value={issueAssigned} clickHandler={toggleIssueAssigned} />
             </div>

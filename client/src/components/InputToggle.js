@@ -15,7 +15,7 @@ function InputToggle(props) {
 InputToggle.propTypes = {
   leftLabel: PropTypes.string.isRequired,
   rightLabel: PropTypes.string.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.bool.isRequired,
   clickHandler: PropTypes.func.isRequired
 };
 
