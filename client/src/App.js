@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
 import InputToggle from './components/InputToggle';
@@ -10,25 +10,26 @@ function App() {
   const [sortDesc, setSortDesc] = useState(true);
   const [sortType, setSortType] = useState('created');
   const [issueAssigned, setIssueAssigned] = useState(false);
-  const [labelValues, setLabelValues] = useState('');
+  const [labelsValues, setLabelsValues] = useState('');
   const [keywordValues, setKeywordValues] = useState('');
-  const [language, setLanguage] = useState('');
+  const [languageValue, setLanguageValue] = useState('');
   const [issues, setIssues] = useState([]);
   const [page, setPage] = useState(1);
+  const [submitCount, setSubmitCount] = useState(0);
 
-  const [labelValuesSearch, setLabelValuesSearch] = useState('');
-  const [keywordValuesSearch, setKeywordValuesSeach] = useState('');
-  const [languageSearch, setLanguageSearch] = useState('');
+  const labelsInputEl = useRef(null);
+  const keywordsInputEl = useRef(null);
+  const languageInputEl = useRef(null);
 
   const resultsPerPage = 25;
 
   useEffect(() => {
-    if (keywordValuesSearch.length > 0 || labelValuesSearch.length > 0 || languageSearch.length > 0) {
-      initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, languageSearch, issueAssigned, page);
+    if (submitCount > 0) {
+      initiateAPICall(sortDesc, sortType, labelsValues, keywordValues, languageValue, issueAssigned, page);
     }
-  }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch, languageSearch, page]);
+  }, [sortDesc, sortType, issueAssigned, page, labelsValues, keywordValues, languageValue, submitCount]);
 
-  function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, language, issueAssigned, page) {
+  function initiateAPICall(sortDesc, sortType, labelsValues, keywordValues, languageValue, issueAssigned, page) {
     function formatSearchTerms(searchTerms, label) {
       let query = '';
 
@@ -46,8 +47,8 @@ function App() {
     }
 
     let keywordQuery = formatSearchTerms(keywordValues, '');
-    let labelQuery = formatSearchTerms(labelValues, 'label:');
-    let languageQuery = language.length > 0 ? '+language:' + language : '';
+    let labelQuery = formatSearchTerms(labelsValues, 'label:');
+    let languageQuery = languageValue.length > 0 ? '+language:' + languageValue : '';
 
     let maybePlus = '+';
     if (keywordQuery === '') {
@@ -65,33 +66,17 @@ function App() {
       return response.json();
     }).then(function (data) {
       setTotalCount(Number.parseInt(data.total_count, 10));
-      setSortDesc(sortDesc);
-      setSortType(sortType);
-      setLabelValues(labelValues);
-      setIssueAssigned(issueAssigned);
       setIssues(data.items);
     });
-  }
-
-  function handleLabelValuesChange(event) {
-    setLabelValues(event.target.value);
-  }
-
-  function handlekeywordValuesChange(event) {
-    setKeywordValues(event.target.value);
-  }
-
-  function handleLanguageChange(event) {
-    setLanguage(event.target.value);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    setPage(1);
-    setLabelValuesSearch(labelValues);
-    setKeywordValuesSeach(keywordValues);
-    setLanguageSearch(language);
+    setLabelsValues(labelsInputEl.current.value);
+    setKeywordValues(keywordsInputEl.current.value);
+    setLanguageValue(languageInputEl.current.value);
+    setSubmitCount(submitCount + 1);
   }
 
   function toggleSortType() {
@@ -126,9 +111,9 @@ function App() {
         <form onSubmit={handleSubmit}>
           <div className="input-elements">
             <div className="label-search-box">
-              <InputElement label={'Github label names'} placeholder={'help wanted, bug'} value={labelValues} changeHandler={handleLabelValuesChange} />
-              <InputElement label={'Keywords'} placeholder={'open source, forms'} value={keywordValues} changeHandler={handlekeywordValuesChange} />
-              <InputElement label={'Language'} placeholder={'javascript'} value={language} changeHandler={handleLanguageChange} />
+              <InputElement label={'Github label names'} placeholder={'help wanted, bug'} reference={labelsInputEl} />
+              <InputElement label={'Keywords'} placeholder={'open source, forms'} reference={keywordsInputEl} />
+              <InputElement label={'Language'} placeholder={'javascript'} reference={languageInputEl} />
               <button className="searchButton" type="submit">Search</button>
             </div>
             <div className="option-inputs">

@@ -6,7 +6,7 @@ const InputElement = props => {
     <div className="input-component">
       <label className="label-name">{props.label}</label>
       <input className="input-element" type="text"
-        placeholder={props.placeholder} value={props.value} onChange={props.changeHandler} />
+        placeholder={props.placeholder} ref={props.reference} />
     </div>
   );
 }
@@ -14,8 +14,7 @@ const InputElement = props => {
 InputElement.propTypes = {
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  changeHandler: PropTypes.func.isRequired
+  reference: PropTypes.any.isRequired
 };
 
 export default InputElement;
