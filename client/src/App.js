@@ -3,6 +3,7 @@ import Issues from './components/Issues';
 import InputElement from './components/InputElement';
 import './App.css';
 import InputToggle from './components/InputToggle';
+import Pagination from './components/Pagination';
 
 function App() {
   const [totalCount, setTotalCount] = useState('');
@@ -13,18 +14,21 @@ function App() {
   const [keywordValues, setKeywordValues] = useState('');
   const [language, setLanguage] = useState('');
   const [issues, setIssues] = useState([]);
+  const [page, setPage] = useState(1);
 
   const [labelValuesSearch, setLabelValuesSearch] = useState('');
   const [keywordValuesSearch, setKeywordValuesSeach] = useState('');
   const [languageSearch, setLanguageSearch] = useState('');
 
+  const resultsPerPage = 25;
+
   useEffect(() => {
     if (keywordValuesSearch.length > 0 || labelValuesSearch.length > 0 || languageSearch.length > 0) {
-      initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, languageSearch, issueAssigned);
+      initiateAPICall(sortDesc, sortType, labelValuesSearch, keywordValuesSearch, languageSearch, issueAssigned, page);
     }
-  }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch, languageSearch]);
+  }, [sortDesc, sortType, issueAssigned, labelValuesSearch, keywordValuesSearch, languageSearch, page]);
 
-  function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, language, issueAssigned) {
+  function initiateAPICall(sortDesc, sortType, labelValues, keywordValues, language, issueAssigned, page) {
     function formatSearchTerms(searchTerms, label) {
       let query = '';
 
@@ -50,11 +54,11 @@ function App() {
     if (keywordQuery === '') {
       maybePlus = '';
     }
-    let resultsPerPage = 25;
+    
     let sortOrder = sortDesc ? 'desc' : 'asc';
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
     let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
-      issueAssignedState + '&page=1&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+      issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
 
     let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
@@ -85,6 +89,7 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    setPage(1);
     setLabelValuesSearch(labelValues);
     setKeywordValuesSeach(keywordValues);
     setLanguageSearch(language);
@@ -108,6 +113,10 @@ function App() {
   function toggleIssueAssigned() {
     setIssueAssigned(!issueAssigned);
   }
+
+  const handleNextButton = () => { setPage(page + 1 )};
+  const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page )};
+  const totalPages = totalCount => { return Math.floor(totalCount / resultsPerPage) + 1 };
 
   return (
     <div className="App">
@@ -133,10 +142,14 @@ function App() {
         </form>
       </div>
       <div className="app-body">
-        <p className="total-count">Displaying {issues.length} of {totalCount ? totalCount : 0} issues.</p>
+        {totalCount > 0 &&
+          <p className="total-count">Displaying Page {page} of {totalPages(totalCount)}.</p>
+        }
+        <Pagination currentPage={page} totalPages={totalPages(totalCount)} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton}/>
         <div className="app-results">
           <Issues data={issues} />
         </div>
+        <Pagination currentPage={page} totalPages={totalPages(totalCount)} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton}/>
       </div>
       <footer>
         <p><a href="https://github.com/jeffslofish/open-source-help-wanted">Fork me on Github and contribute!</a></p>
