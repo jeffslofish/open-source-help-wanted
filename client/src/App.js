@@ -6,7 +6,7 @@ import InputToggle from './components/InputToggle';
 import Pagination from './components/Pagination';
 
 function App() {
-  const [totalCount, setTotalCount] = useState('');
+  const [totalCount, setTotalCount] = useState(0);
   const [sortDesc, setSortDesc] = useState(true);
   const [sortType, setSortType] = useState('created');
   const [issueAssigned, setIssueAssigned] = useState(false);
@@ -54,7 +54,7 @@ function App() {
     if (keywordQuery === '') {
       maybePlus = '';
     }
-    
+
     let sortOrder = sortDesc ? 'desc' : 'asc';
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
     let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
@@ -65,7 +65,7 @@ function App() {
     fetch(myRequest).then(function (response) {
       return response.json();
     }).then(function (data) {
-      setTotalCount(data.total_count);
+      setTotalCount(Number.parseInt(data.total_count, 10));
       setSortDesc(sortDesc);
       setSortType(sortType);
       setLabelValues(labelValues);
@@ -114,9 +114,8 @@ function App() {
     setIssueAssigned(!issueAssigned);
   }
 
-  const handleNextButton = () => { setPage(page + 1 )};
-  const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page )};
-  const totalPages = totalCount => { return Math.floor(totalCount / resultsPerPage) + 1 };
+  const handleNextButton = () => { setPage(page + 1) };
+  const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page) }
 
   return (
     <div className="App">
@@ -134,22 +133,19 @@ function App() {
               <button className="searchButton" type="submit">Search</button>
             </div>
             <div className="option-inputs">
-              <InputToggle leftLabel={'Sort by created time'} rightLabel={'Sort by updated time'} value={sortType === 'updated'} clickHandler={toggleSortType}/>
-              <InputToggle leftLabel={'Oldest first'} rightLabel={'Newest first'} value={sortDesc} clickHandler={toggleSortOrder}/>
-              <InputToggle leftLabel={'Not Assigned'} rightLabel={'Possibly Assigned'} value={issueAssigned} clickHandler={toggleIssueAssigned}/>
+              <InputToggle leftLabel={'Sort by created time'} rightLabel={'Sort by updated time'} value={sortType === 'updated'} clickHandler={toggleSortType} />
+              <InputToggle leftLabel={'Oldest first'} rightLabel={'Newest first'} value={sortDesc} clickHandler={toggleSortOrder} />
+              <InputToggle leftLabel={'Not Assigned'} rightLabel={'Possibly Assigned'} value={issueAssigned} clickHandler={toggleIssueAssigned} />
             </div>
           </div>
         </form>
       </div>
       <div className="app-body">
-        {totalCount > 0 &&
-          <p className="total-count">Displaying Page {page} of {totalPages(totalCount)}.</p>
-        }
-        <Pagination currentPage={page} totalPages={totalPages(totalCount)} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton}/>
+        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
         <div className="app-results">
           <Issues data={issues} />
         </div>
-        <Pagination currentPage={page} totalPages={totalPages(totalCount)} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton}/>
+        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
       </div>
       <footer>
         <p><a href="https://github.com/jeffslofish/open-source-help-wanted">Fork me on Github and contribute!</a></p>
