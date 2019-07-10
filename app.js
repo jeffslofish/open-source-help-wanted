@@ -23,7 +23,7 @@ app.get('/api/github/rest', (req, res) => {
     headers: { 'Authorization': "bearer " + apiToken }
   };
 
-  axios.get(`https://api.github.com/search/issues?q=${query}`, configHeader)
+  axios.get(`https://api.github.com/search/issues?${query}`, configHeader)
     .then(response => {
       res.send(response.data)
     })
