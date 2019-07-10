@@ -37,7 +37,7 @@ function App() {
         let terms = searchTerms.split(',');
 
         for (let term of terms) {
-          query += label + '"' + term.trim() + '"+';
+          query += label + '"' + encodeURIComponent(term.trim()) + '"+';
         }
         if (query.length > 0) {
           query = query.slice(0, -1);
@@ -48,10 +48,10 @@ function App() {
 
     let keywordQuery = formatSearchTerms(keywordValues, '');
     let labelQuery = formatSearchTerms(labelsValues, 'label:');
-    let languageQuery = languageValue.length > 0 ? '+language:' + languageValue : '';
+    let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue): '';
 
     let maybePlus = '+';
-    if (keywordQuery === '') {
+    if (keywordQuery === '' || labelQuery === '') {
       maybePlus = '';
     }
 
@@ -59,7 +59,7 @@ function App() {
     let issueAssignedState = issueAssigned ? '' : '+no:assignee';
     let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
       issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
-
+      
     let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
     fetch(myRequest).then(function (response) {
@@ -73,6 +73,7 @@ function App() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    setPage(1);
     setLabelsValues(labelsInputEl.current.value);
     setKeywordValues(keywordsInputEl.current.value);
     setLanguageValue(languageInputEl.current.value);
