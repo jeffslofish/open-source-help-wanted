@@ -3,10 +3,17 @@ const axios = require('axios');
 const cors = require('cors');
 const path = require('path');
 const querystring = require('querystring');
-const config = require('./config.js');
 const app = express();
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
+const apiToken = process.env.API_TOKEN;
 const port = process.env.PORT || 5000;
+
+console.log("API_TOKEN: ");
+console.log(apiToken);
 
 //todo maybe don't need this if we use proxy correctly
 //app.use(cors()); 
@@ -20,7 +27,7 @@ app.get('/api/github/rest', (req, res) => {
 
   const query = querystring.stringify(req.query);
   const configHeader = {
-    headers: { 'Authorization': "bearer " + config.apiToken }
+    headers: { 'Authorization': "bearer " + apiToken }
   };
 
   axios.get(`https://api.github.com/search/issues?q=${query}`, configHeader)
