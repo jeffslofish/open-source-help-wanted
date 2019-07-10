@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
-import './App.css';
 import InputToggle from './components/InputToggle';
 import Pagination from './components/Pagination';
+import './App.css';
 
 function App() {
   const [totalCount, setTotalCount] = useState(0);
@@ -34,7 +34,6 @@ function App() {
 
       if (searchTerms.length > 0) {
         let terms = searchTerms.split(',');
-
 
         for (let term of terms) {
           query += label + '"' + term.trim() + '"+';

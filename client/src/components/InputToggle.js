@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Switch from 'react-toggle-switch';
 
 function InputToggle(props) {
-
   return (
     <div className="input-element">
       <label>{props.leftLabel}</label>
