@@ -1,7 +1,7 @@
 import React from 'react';
-import Avatar from './avatar';
-import Assignee from './assignee';
-import Labels from './labels';
+import Avatar from './Avatar';
+import Assignee from './Assignee';
+import Labels from './Labels';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 

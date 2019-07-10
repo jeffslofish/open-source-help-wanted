@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Switch from 'react-toggle-switch';
-import Issues from './components/issues';
+import Issues from './components/Issues';
+import InputElement from './components/InputElement';
 import './App.css';
 
 function App() {
@@ -118,24 +119,11 @@ function App() {
         <form onSubmit={handleSubmit}>
           <div className="input-elements">
             <div className="label-search-box">
-              <div className="input-component">
-                <label className="label-name">Github label names</label>
-                <input className="input-element" name="labelValues" type="text"
-                  placeholder="help wanted, bug" value={labelValues} onChange={handleLabelValuesChange} />
-              </div>
-              <div className="input-component">
-                <label className="label-name">Keywords</label>
-                <input className="input-element" name="keywordValues" type="text"
-                  placeholder="open source, forms" value={keywordValues} onChange={handlekeywordValuesChange} />
-              </div>
-              <div className="input-component">
-                <label className="label-name">Language</label>
-                <input className="input-element" name="language" type="text"
-                  placeholder="javascript" value={language} onChange={handleLanguageChange} />
-              </div>
+              <InputElement label={'Github label names'} placeholder={'help wanted, bug'} value={labelValues} changeHandler={handleLabelValuesChange} />
+              <InputElement label={'Keywords'} placeholder={'open source, forms'} value={keywordValues} changeHandler={handlekeywordValuesChange} />
+              <InputElement label={'Language'} placeholder={'javascript'} value={language} changeHandler={handleLanguageChange} />
               <button className="searchButton" type="submit">Search</button>
             </div>
-
             <div className="option-inputs">
               <div className="input-element">
                 <label>Sort by created time</label>

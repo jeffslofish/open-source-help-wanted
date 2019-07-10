@@ -1,5 +1,5 @@
 import React from 'react';
-import Issue from './issue';
+import Issue from './Issue';
 
 //TODO: get prop types validation working in this file.
 function Issues(props) {
