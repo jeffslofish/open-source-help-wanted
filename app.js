@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors');
 const path = require('path');
 const querystring = require('querystring');
 const app = express();
@@ -11,12 +10,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const apiToken = process.env.API_TOKEN;
 const port = process.env.PORT || 5000;
-
-console.log("API_TOKEN: ");
-console.log(apiToken);
-
-//todo maybe don't need this if we use proxy correctly
-//app.use(cors()); 
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
