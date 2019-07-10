@@ -14,7 +14,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "npm run start-dev",
-    "start-prod": "node index.js",
+    "start-prod": "node app.js",
     "start-dev": "concurrently \"npm:start-dev-server\" \"cd client && react-scripts start\"",
     "start-dev-server": "PORT=5000 nodemon ./app.js localhost",
     "heroku-postbuild": "cd client && npm install && npm run build"

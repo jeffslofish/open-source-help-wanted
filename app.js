@@ -12,7 +12,7 @@ const port = process.env.PORT || 5000;
 //app.use(cors()); 
 
 // Serve static files from the React app
-//app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Put all API endpoints under '/api'
 app.get('/api/github/rest', (req, res) => {

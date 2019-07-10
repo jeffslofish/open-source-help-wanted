@@ -9,3 +9,4 @@ Thumbs.db
 /server/config.js
 node_modules
 /config.js
+/client/build
