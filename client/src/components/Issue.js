@@ -6,6 +6,8 @@ import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 
 function Issue(props) {
+  const maxBodyLength = 500;
+
   function getRepoUrlFromIssueUrl(html_url) {
     let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
     let matches = html_url.match(pattern);
@@ -51,7 +53,7 @@ function Issue(props) {
         </div>
       </div>
       <Labels labels={props.labels}/>
-      <p className="issue-body">{props.body}</p>
+      <p className="issue-body">{props.body.length < maxBodyLength ? props.body : props.body.substr(0, maxBodyLength) + '...' }</p>
     </div>
   );
 }
