@@ -74,7 +74,7 @@ function App() {
       //  issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
   
       //let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
-      debugger;
+   
       axios.post('/api/github/graphql', {
         labels: labelQuery,
         startCursor: startCursor,
@@ -93,7 +93,6 @@ function App() {
         setHasNextPage(data.data.search.pageInfo.hasNextPage);
         setHasPrevPage(data.data.search.pageInfo.hasPreviousPage);
         setResponse(data.data.search.nodes);
-        debugger;
       });
     } else {
       labelsInputEl.current.value = labelsOriginalValue;
@@ -135,7 +134,6 @@ function App() {
   // const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page) }
 
   const handleNextButton = () => { 
-    debugger;
     setStartCursor(null);
     setSubmitCount(submitCount+1);
   };
