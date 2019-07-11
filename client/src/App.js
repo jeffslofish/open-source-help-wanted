@@ -1,24 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
-import InputToggle from './components/InputToggle';
 import Pagination from './components/Pagination';
 import './App.css';
 
 function App() {
   const [totalCount, setTotalCount] = useState(0);
-  const sortDescOriginalValue = localStorage.getItem('sortDesc') ? JSON.parse(localStorage.getItem('sortDesc')) : true;
-  const sortCreatedOrignalValue = localStorage.getItem('sortCreated') ? JSON.parse(localStorage.getItem('sortCreated')) : true;
-  const issueAssignedOriginalValue = localStorage.getItem('issueAssigned') ? JSON.parse(localStorage.getItem('issueAssigned')) : false;
-  const labelsOriginalValue = localStorage.getItem('labels') || '';
-  const keywordsOriginalValue = localStorage.getItem('keywords') || '';
-  const languageOriginalValue = localStorage.getItem('language') || '';
-  const [sortDesc, setSortDesc] = useState(sortDescOriginalValue);
-  const [sortCreated, setSortCreated] = useState(sortCreatedOrignalValue);
-  const [issueAssigned, setIssueAssigned] = useState(issueAssignedOriginalValue);
-  const [labelsValues, setLabelsValues] = useState(labelsOriginalValue);
-  const [keywordsValues, setKeywordsValues] = useState(keywordsOriginalValue);
-  const [languageValue, setLanguageValue] = useState(languageOriginalValue);
   const [issues, setIssues] = useState([]);
   const [page, setPage] = useState(1);
   const [submitCount, setSubmitCount] = useState(0);
@@ -26,92 +13,79 @@ function App() {
   const labelsInputEl = useRef(null);
   const keywordsInputEl = useRef(null);
   const languageInputEl = useRef(null);
+  const sortCreatedInputEl = useRef(null);
+  const sortDescInputEl = useRef(null);
+  const issueAssignedInputEl = useRef(null);
 
   const resultsPerPage = 25;
 
+  function formatSearchTerms(searchTerms, label) {
+    let query = '';
+
+    if (searchTerms.length > 0) {
+      let terms = searchTerms.split(',');
+
+      for (let term of terms) {
+        query += label + '"' + encodeURIComponent(term.trim()) + '"+';
+      }
+      if (query.length > 0) {
+        query = query.slice(0, -1);
+      }
+    }
+    return query;
+  }
+
   useEffect(() => {
     if (submitCount > 0) {
-      localStorage.setItem('labels', labelsValues);
-      localStorage.setItem('keywords', keywordsValues);
-      localStorage.setItem('language', languageValue);
+      localStorage.setItem('labels', labelsInputEl.current.value);
+      localStorage.setItem('keywords', keywordsInputEl.current.value);
+      localStorage.setItem('language', languageInputEl.current.value);
+      localStorage.setItem('sortCreated', sortCreatedInputEl.current.value);
+      localStorage.setItem('sortDesc', sortDescInputEl.current.value);
+      localStorage.setItem('issueAssigned', issueAssignedInputEl.current.value);
 
-      initiateAPICall(sortDesc, sortCreated, issueAssigned, labelsValues, keywordsValues, languageValue, page);
-    } else {
-      labelsInputEl.current.value = labelsOriginalValue;
-      keywordsInputEl.current.value = keywordsOriginalValue;
-      languageInputEl.current.value = languageOriginalValue;
-    }
-  }, [sortDesc, sortCreated, issueAssigned, page, labelsValues, keywordsValues, languageValue, submitCount,
-      labelsOriginalValue, keywordsOriginalValue, languageOriginalValue,
-      sortDescOriginalValue, sortCreatedOrignalValue, issueAssignedOriginalValue
-    ]);
+      let keywordQuery = formatSearchTerms(keywordsInputEl.current.value, '');
+      let labelQuery = formatSearchTerms(labelsInputEl.current.value, 'label:');
+      let languageQuery = languageInputEl.current.value.length > 0 ? '+language:' + encodeURIComponent(languageInputEl.current.value) : '';
 
-  function initiateAPICall(sortDesc, sortCreated, issueAssigned, labelsValues, keywordValues, languageValue, page) {
-    function formatSearchTerms(searchTerms, label) {
-      let query = '';
-
-      if (searchTerms.length > 0) {
-        let terms = searchTerms.split(',');
-
-        for (let term of terms) {
-          query += label + '"' + encodeURIComponent(term.trim()) + '"+';
-        }
-        if (query.length > 0) {
-          query = query.slice(0, -1);
-        }
+      let maybePlus = '+';
+      if (keywordQuery === '' || labelQuery === '') {
+        maybePlus = '';
       }
-      return query;
+
+
+      let sortType = JSON.parse(sortCreatedInputEl.current.value) ? 'created' : 'updated';
+      let sortOrder = JSON.parse(sortDescInputEl.current.value) ? 'desc' : 'asc';
+      let issueAssignedState = JSON.parse(issueAssignedInputEl.current.value) ? '' : '+no:assignee';
+      let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
+        issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+
+      let myRequest = new Request('/api/github/rest?q=' + searchQuery);
+
+      fetch(myRequest).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        setTotalCount(Number.parseInt(data.total_count, 10));
+        setIssues(data.items);
+      });
+    } else {
+      labelsInputEl.current.value = localStorage.getItem('labels') || '';
+      keywordsInputEl.current.value = localStorage.getItem('keywords') || '';
+      languageInputEl.current.value = localStorage.getItem('language') || '';
+      //TODO: make function to do optional JSON parse
+      sortCreatedInputEl.current.value = localStorage.getItem('sortCreated') ? JSON.parse(localStorage.getItem('sortCreated')) : true;
+      sortDescInputEl.current.value = localStorage.getItem('sortDesc') ? JSON.parse(localStorage.getItem('sortDesc')) : true;
+      issueAssignedInputEl.current.value = localStorage.getItem('issueAssigned') ? JSON.parse(localStorage.getItem('issueAssigned')) : false;
+
+
     }
-
-    let keywordQuery = formatSearchTerms(keywordValues, '');
-    let labelQuery = formatSearchTerms(labelsValues, 'label:');
-    let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
-
-    let maybePlus = '+';
-    if (keywordQuery === '' || labelQuery === '') {
-      maybePlus = '';
-    }
-
-    let sortType = sortCreated ? 'created' : 'updated';
-    let sortOrder = sortDesc ? 'desc' : 'asc';
-    let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-    let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
-      issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
-
-    let myRequest = new Request('/api/github/rest?q=' + searchQuery);
-
-    fetch(myRequest).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      setTotalCount(Number.parseInt(data.total_count, 10));
-      setIssues(data.items);
-    });
-  }
+  }, [submitCount, page]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     setPage(1);
-    setLabelsValues(labelsInputEl.current.value);
-    setKeywordsValues(keywordsInputEl.current.value);
-    setLanguageValue(languageInputEl.current.value);
     setSubmitCount(submitCount + 1);
-  }
-
-  function toggleSortType() {
-    localStorage.setItem('sortCreated', !sortCreated);
-    setSortCreated(!sortCreated);
-  }
-
-  function toggleSortOrder() {
-    localStorage.setItem('sortDesc', !sortDesc);
-    setSortDesc(!sortDesc);
-  }
-
-  function toggleIssueAssigned() {
-    localStorage.setItem('issueAssigned', !issueAssigned);
-    setIssueAssigned(!issueAssigned);
-    
   }
 
   const handleNextButton = () => { setPage(page + 1) };
@@ -130,17 +104,29 @@ function App() {
               <InputElement label={'Github label names'} placeholder={'help wanted, bug'} reference={labelsInputEl} />
               <InputElement label={'Keywords'} placeholder={'open source, forms'} reference={keywordsInputEl} />
               <InputElement label={'Language'} placeholder={'javascript'} reference={languageInputEl} />
+            </div>
+            <div className="options">
+              <select ref={sortCreatedInputEl}>
+                <option value={true}>Sort by created time</option>
+                <option value={false}>Sort by updated time</option>
+              </select>
+              <select ref={sortDescInputEl}>
+                <option value={true}>Newest first</option>
+                <option value={false}>Oldest first</option>
+              </select>
+              <select ref={issueAssignedInputEl}>
+                <option value={false}>Not Assigned</option>
+                <option value={true}>Possibly Assigned</option>
+              </select>
               <button className="searchButton" type="submit">Search</button>
-            </div>
-            <div className="option-inputs">
-              <InputToggle leftLabel={'Sort by updated time'} rightLabel={'Sort by created time'} value={sortCreated} clickHandler={toggleSortType} />
-              <InputToggle leftLabel={'Oldest first'} rightLabel={'Newest first'} value={sortDesc} clickHandler={toggleSortOrder} />
-              <InputToggle leftLabel={'Not Assigned'} rightLabel={'Possibly Assigned'} value={issueAssigned} clickHandler={toggleIssueAssigned} />
-            </div>
+              </div>
           </div>
         </form>
       </div>
       <div className="app-body">
+        { submitCount > 0 &&
+          <span>{totalCount} Results</span>
+        }
         <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
         <div className="app-results">
           <Issues data={issues} />

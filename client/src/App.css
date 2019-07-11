@@ -15,8 +15,13 @@ html {
 }
 
 .app-body {
-  padding: 0 30px;
+  text-align: center;
+  padding: 5px 30px 0;
   background-color: #11202C;
+}
+
+.app-body span {
+  color: white;
 }
 
 .App-intro {
@@ -73,8 +78,17 @@ input {
   font-size: 32px;
 }
 
-.label-search-box {
+select {
+  font-size: 20px;
+}
+
+.label-search-box, .options {
   text-align: center;
+}
+
+.options select {
+  margin-right: 20px;
+  margin-bottom: 10px;
 }
 
 .label-name {
@@ -85,6 +99,7 @@ input {
 }
 
 .searchButton {
+  border: 2px solid black;
   font-size: 32px;
   line-height: 40px;
 }

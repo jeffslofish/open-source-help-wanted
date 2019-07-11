@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Switch from 'react-toggle-switch';
 
 function InputToggle(props) {
   return (
     <div className="input-element">
       <label>{props.leftLabel}</label>
-      <Switch on={props.value} onClick={props.clickHandler} />
+      <input type="checkbox" ref={props.reference} />
       <label>{props.rightLabel}</label>
     </div>
   );
@@ -15,8 +14,7 @@ function InputToggle(props) {
 InputToggle.propTypes = {
   leftLabel: PropTypes.string.isRequired,
   rightLabel: PropTypes.string.isRequired,
-  value: PropTypes.bool.isRequired,
-  clickHandler: PropTypes.func.isRequired
+  reference: PropTypes.object.isRequired
 };
 
 export default InputToggle;
