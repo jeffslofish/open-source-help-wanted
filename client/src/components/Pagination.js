@@ -10,7 +10,7 @@ function Pagination(props) {
         <button style={{display: 'inline-block', marginRight: '20px'}} onClick={props.prevlickHandler}>Prev</button>
       }
       {totalPages > 0 &&
-        <p style={{display: 'inline-block'}} className="total-count">Displaying Page {props.currentPage} of {totalPages}</p>
+        <p style={{display: 'inline-block'}} className="total-count">Total Issues: {props.totalCount}</p>
       }
       {props.hasNextPage &&
         <button style={{display: 'inline-block', marginLeft: '20px'}} onClick={props.nextClickHandler}>Next</button>
@@ -20,7 +20,8 @@ function Pagination(props) {
 }
 
 Pagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
+  hasPrevPage: PropTypes.bool.isRequired,
+  hasNextPage: PropTypes.bool.isRequired,
   totalCount: PropTypes.number.isRequired,
   resultsPerPage: PropTypes.number.isRequired,
   prevlickHandler: PropTypes.func.isRequired,

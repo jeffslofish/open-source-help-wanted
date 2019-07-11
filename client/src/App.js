@@ -6,6 +6,7 @@ import InputToggle from './components/InputToggle';
 import Pagination from './components/Pagination';
 import './App.css';
 
+
 function App() {
   const [totalCount, setTotalCount] = useState(0);
   const sortDescOriginalValue = localStorage.getItem('sortDesc') ? JSON.parse(localStorage.getItem('sortDesc')) : true;
@@ -100,10 +101,9 @@ function App() {
       keywordsInputEl.current.value = keywordsOriginalValue;
       languageInputEl.current.value = languageOriginalValue;
     }
-  }, [sortDesc, sortCreated, issueAssigned, page, labelsValues, keywordsValues, languageValue, submitCount,
-      labelsOriginalValue, keywordsOriginalValue, languageOriginalValue,
-      sortDescOriginalValue, sortCreatedOrignalValue, issueAssignedOriginalValue
-    ]);
+    // We only want certain things to trigger useEffect, not everything it technically depends on
+    // eslint-disable-next-line
+  }, [sortDesc, sortCreated, issueAssigned, labelsValues, keywordsValues, languageValue, submitCount]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -137,12 +137,14 @@ function App() {
   const handleNextButton = () => { 
     setStartCursor(null);
     setSubmitCount(submitCount+1);
+    //setPage(page + 1);
   };
 
   const handlePrevButton = () => { 
     //setStartCursor(startCursor);
     setEndCursor(null);
     setSubmitCount(submitCount+1);
+    //etPage(page - 1);
   };
 
   return (
