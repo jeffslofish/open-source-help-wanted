@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
 import InputToggle from './components/InputToggle';
@@ -19,8 +20,12 @@ function App() {
   const [labelsValues, setLabelsValues] = useState(labelsOriginalValue);
   const [keywordsValues, setKeywordsValues] = useState(keywordsOriginalValue);
   const [languageValue, setLanguageValue] = useState(languageOriginalValue);
-  const [issues, setIssues] = useState([]);
+  const [response, setResponse] = useState([]);
   const [page, setPage] = useState(1);
+  const [startCursor, setStartCursor] = useState(null);
+  const [endCursor, setEndCursor] = useState(null);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
   const [submitCount, setSubmitCount] = useState(0);
 
   const labelsInputEl = useRef(null);
@@ -29,13 +34,67 @@ function App() {
 
   const resultsPerPage = 25;
 
+  function formatSearchTerms(searchTerms, label) {
+    let query = '';
+
+    if (searchTerms.length > 0) {
+      let terms = searchTerms.split(',');
+
+      for (let term of terms) {
+        query += label + '"' + encodeURIComponent(term.trim()) + '"+';
+      }
+      if (query.length > 0) {
+        query = query.slice(0, -1);
+      }
+    }
+    return query;
+  }
+
   useEffect(() => {
     if (submitCount > 0) {
       localStorage.setItem('labels', labelsValues);
       localStorage.setItem('keywords', keywordsValues);
       localStorage.setItem('language', languageValue);
 
-      initiateAPICall(sortDesc, sortCreated, issueAssigned, labelsValues, keywordsValues, languageValue, page);
+      
+  
+      // let keywordQuery = formatSearchTerms(keywordValues, '');
+      let labelQuery = escape(formatSearchTerms(labelsValues, 'label:'));
+      //let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
+  
+      // let maybePlus = '+';
+      // if (keywordQuery === '' || labelQuery === '') {
+      //   maybePlus = '';
+      // }
+  
+      //let sortType = sortCreated ? 'created' : 'updated';
+      //let sortOrder = sortDesc ? 'desc' : 'asc';
+      //let issueAssignedState = issueAssigned ? '' : '+no:assignee';
+      //let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
+      //  issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+  
+      //let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
+      debugger;
+      axios.post('/api/github/graphql', {
+        labels: labelQuery,
+        startCursor: startCursor,
+        endCursor: endCursor
+      }).then(function (response) {
+  
+      //fetch(myRequest).then(function (response) {
+        //return response.json();
+  
+        return response.data;
+  
+      }).then(function (data) {
+        setTotalCount(data.data.search.issueCount);
+        setStartCursor(data.data.search.pageInfo.startCursor);
+        setEndCursor(data.data.search.pageInfo.endCursor);
+        setHasNextPage(data.data.search.pageInfo.hasNextPage);
+        setHasPrevPage(data.data.search.pageInfo.hasPreviousPage);
+        setResponse(data.data.search.nodes);
+        debugger;
+      });
     } else {
       labelsInputEl.current.value = labelsOriginalValue;
       keywordsInputEl.current.value = keywordsOriginalValue;
@@ -45,48 +104,6 @@ function App() {
       labelsOriginalValue, keywordsOriginalValue, languageOriginalValue,
       sortDescOriginalValue, sortCreatedOrignalValue, issueAssignedOriginalValue
     ]);
-
-  function initiateAPICall(sortDesc, sortCreated, issueAssigned, labelsValues, keywordValues, languageValue, page) {
-    function formatSearchTerms(searchTerms, label) {
-      let query = '';
-
-      if (searchTerms.length > 0) {
-        let terms = searchTerms.split(',');
-
-        for (let term of terms) {
-          query += label + '"' + encodeURIComponent(term.trim()) + '"+';
-        }
-        if (query.length > 0) {
-          query = query.slice(0, -1);
-        }
-      }
-      return query;
-    }
-
-    // let keywordQuery = formatSearchTerms(keywordValues, '');
-    let labelQuery = escape(formatSearchTerms(labelsValues, 'label:'));
-    //let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
-
-    // let maybePlus = '+';
-    // if (keywordQuery === '' || labelQuery === '') {
-    //   maybePlus = '';
-    // }
-
-    //let sortType = sortCreated ? 'created' : 'updated';
-    //let sortOrder = sortDesc ? 'desc' : 'asc';
-    //let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-    //let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
-    //  issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
-
-    let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
-
-    fetch(myRequest).then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      setTotalCount(data.data.search.issueCount);
-      setIssues(data.data.search.edges);
-    });
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -114,8 +131,20 @@ function App() {
     
   }
 
-  const handleNextButton = () => { setPage(page + 1) };
-  const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page) }
+  // const handleNextButton = () => { setPage(page + 1) };
+  // const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page) }
+
+  const handleNextButton = () => { 
+    debugger;
+    setStartCursor(null);
+    setSubmitCount(submitCount+1);
+  };
+
+  const handlePrevButton = () => { 
+    //setStartCursor(startCursor);
+    setEndCursor(null);
+    setSubmitCount(submitCount+1);
+  };
 
   return (
     <div className="App">
@@ -141,11 +170,11 @@ function App() {
         </form>
       </div>
       <div className="app-body">
-        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
+        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} hasPrevPage={hasPrevPage} hasNextPage={hasNextPage} />
         <div className="app-results">
-          <Issues data={issues} />
+          <Issues data={response} />
         </div>
-        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
+        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} hasPrevPage={hasPrevPage} hasNextPage={hasNextPage} />
       </div>
       <footer>
         <p><a href="https://github.com/jeffslofish/open-source-help-wanted">Fork me on Github and contribute!</a></p>

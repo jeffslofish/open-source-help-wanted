@@ -3,9 +3,10 @@ const axios = require('axios');
 const path = require('path');
 const querystring = require('querystring');
 const fs = require('fs');
-const { request } = require('https')
-const { readFile } = require('fs')
-const { resolve } = require('path')
+const { request } = require('https');
+const { readFile } = require('fs');
+const { resolve } = require('path');
+const bodyParser = require("body-parser");
 
 const app = express();
 
@@ -19,61 +20,12 @@ const port = process.env.PORT || 5000;
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
-  search(query: $searchQuery, first: $pageSize, type: ISSUE) {
-    issueCount
-    edges {
-      cursor
-      node {
-        ... on Issue {
-          repository {
-            owner {
-              url
-              avatarUrl
-            }
-            languages(first: 5) {
-              nodes {
-                id
-                name
-                color
-              }
-            }
-          }
-          id
-          state
-          title
-          body
-          author {
-            url
-            avatarUrl
-          }
-          url
-          title
-          assignees(first: 10) {
-            nodes {
-              ... on User {
-                id
-                url
-                avatarUrl
-              }
-            }
-          }
-          createdAt
-          updatedAt
-          body
-          labels(first: 10) {
-            totalCount
-            nodes {
-              id
-              name
-              color
-            }
-          }
-        }
-      }
-    }
-  }
-}`;
+// Use body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+
+
 
 const axiosGitHubGraphQL = axios.create({
   baseURL: 'https://api.github.com/graphql',
@@ -83,18 +35,85 @@ const axiosGitHubGraphQL = axios.create({
 });
 
 // Put all API endpoints under '/api'
-app.get('/api/github/graphql', (req, res) => {
+app.post('/api/github/graphql', (req, res) => {
   console.log('/api/github/graphql');
 
-  console.log(req.query);
+  let firstOrLast = 'first';
+  if (req.body.startCursor) {
+    firstOrLast = 'last'
+  } 
+  const myQuery = `
+query IssuesQuery($searchQuery: String!, $pageSize: Int, $startCursor: String, $endCursor: String) {
+  search(query: $searchQuery, ${firstOrLast}: $pageSize, before: $startCursor, after: $endCursor, type: ISSUE) {
+    issueCount
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    nodes {
+      ... on Issue {
+        repository {
+          owner {
+            url
+            avatarUrl
+          }
+          languages(first: 5) {
+            nodes {
+              id
+              name
+              color
+            }
+          }
+        }
+        id
+        state
+        title
+        body
+        author {
+          url
+          avatarUrl
+        }
+        url
+        title
+        assignees(first: 10) {
+          nodes {
+            ... on User {
+              id
+              url
+              avatarUrl
+            }
+          }
+        }
+        createdAt
+        updatedAt
+        body
+        labels(first: 10) {
+          totalCount
+          nodes {
+            id
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+
+  console.log(req.body);
 
   axiosGitHubGraphQL
     .post('', {
       query: myQuery,
       variables: {
-        
         "searchQuery": 'jeffslofish', //`${req.query.labels}`,
-        "pageSize": 25
+        "pageSize": 25,
+        "startCursor": req.body.startCursor,
+        "endCursor": req.body.endCursor
       }
     })
     .then(result => res.send(result.data))

@@ -6,13 +6,13 @@ function Pagination(props) {
 
   return (
     <div style={{width: '100%', textAlign: 'center'}}>
-      {props.currentPage > 1 &&
+      {props.hasPrevPage &&
         <button style={{display: 'inline-block', marginRight: '20px'}} onClick={props.prevlickHandler}>Prev</button>
       }
       {totalPages > 0 &&
         <p style={{display: 'inline-block'}} className="total-count">Displaying Page {props.currentPage} of {totalPages}</p>
       }
-      {props.currentPage < totalPages &&
+      {props.hasNextPage &&
         <button style={{display: 'inline-block', marginLeft: '20px'}} onClick={props.nextClickHandler}>Next</button>
       }
     </div>
