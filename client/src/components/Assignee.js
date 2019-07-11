@@ -8,13 +8,13 @@ function Assignee(props) {
   };
 
   return (
-    <a href={props.html_url}> <img src={props.avatar_url} style={imgStyle} alt="Assignee Img"/></a>
+    <a href={props.url}> <img src={props.avatarUrl} style={imgStyle} alt="Assignee Img"/></a>
   );
 }
 
 Assignee.propTypes = {
-  html_url: PropTypes.string.isRequired,
-  avatar_url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired
 };
 
 export default Assignee;

@@ -83,8 +83,8 @@ function App() {
     fetch(myRequest).then(function (response) {
       return response.json();
     }).then(function (data) {
-      setTotalCount(Number.parseInt(data.total_count, 10));
-      setIssues(data.items);
+      setTotalCount(data.data.search.issueCount);
+      setIssues(data.data.search.edges);
     });
   }
 

@@ -9,13 +9,13 @@ function Avatar(props) {
 
   return (
     <div className="avatar">
-      <a href={props.user_url}><img style={imgStyle} src={props.url} alt="User Avatar"/></a>
+      <a href={props.url}><img style={imgStyle} src={props.avatarUrl} alt="User Avatar"/></a>
     </div>
   );
 }
 
 Avatar.propTypes = {
-  user_url: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired
 };
 

@@ -26,9 +26,11 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
       cursor
       node {
         ... on Issue {
+          id
           title
           body
           author {
+            url
             avatarUrl
           }
           url
@@ -37,6 +39,7 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
             edges {
               node {
                 ... on User {
+                  id
                   url
                   avatarUrl
                 }
@@ -50,6 +53,7 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
             totalCount
             nodes {
               name
+              color
             }
           }
         }
@@ -74,8 +78,8 @@ app.get('/api/github/rest', (req, res) => {
     .post('', {
       query: myQuery,
       variables: {
-        "searchQuery": "jeffslofish",
-        "pageSize": 2
+        "searchQuery": "test",
+        "pageSize": 25
       }
     })
     .then(result => res.send(result.data))
