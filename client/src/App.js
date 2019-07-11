@@ -42,7 +42,7 @@ function App() {
       let terms = searchTerms.split(',');
 
       for (let term of terms) {
-        query += label + '"' + encodeURIComponent(term.trim()) + '"+';
+        query += label + '"' + term.trim() + '" ';
       }
       if (query.length > 0) {
         query = query.slice(0, -1);
@@ -60,7 +60,7 @@ function App() {
       
   
       // let keywordQuery = formatSearchTerms(keywordValues, '');
-      let labelQuery = escape(formatSearchTerms(labelsValues, 'label:'));
+      let labelQuery = formatSearchTerms(labelsValues, 'label:');
       //let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
   
       // let maybePlus = '+';
@@ -76,8 +76,10 @@ function App() {
   
       //let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
    
+      let searchQuery = `${keywordsValues} ${labelQuery}`;
+
       axios.post('/api/github/graphql', {
-        labels: labelQuery,
+        query: searchQuery,
         pageSize: resultsPerPage,
         startCursor: startCursor,
         endCursor: endCursor
@@ -109,6 +111,8 @@ function App() {
     e.preventDefault();
 
     setPage(1);
+    setStartCursor(null);
+    setEndCursor(null);
     setLabelsValues(labelsInputEl.current.value);
     setKeywordsValues(keywordsInputEl.current.value);
     setLanguageValue(languageInputEl.current.value);

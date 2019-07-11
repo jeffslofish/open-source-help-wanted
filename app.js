@@ -106,15 +106,19 @@ query IssuesQuery($searchQuery: String!, $pageSize: Int, $startCursor: String, $
 
   console.log(req.body);
 
+  const vars = {
+    "searchQuery": `is:issue ${req.body.query}`,
+    "pageSize": req.body.pageSize,
+    "startCursor": req.body.startCursor,
+    "endCursor": req.body.endCursor
+  };
+
+  console.log(vars);
+
   axiosGitHubGraphQL
     .post('', {
       query: myQuery,
-      variables: {
-        "searchQuery": 'jeffslofish', //`${req.query.labels}`,
-        "pageSize": req.body.pageSize,
-        "startCursor": req.body.startCursor,
-        "endCursor": req.body.endCursor
-      }
+      variables: vars
     })
     .then(result => res.send(result.data))
     .catch(err => console.log(err))
