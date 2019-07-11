@@ -8,16 +8,6 @@ import './App.css';
 
 function App() {
   const [totalCount, setTotalCount] = useState(0);
-  const issueAssignedOriginalValue = localStorage.getItem('issueAssigned') ? JSON.parse(localStorage.getItem('issueAssigned')) : false;
-  const labelsOriginalValue = localStorage.getItem('labels') || '';
-  const keywordsOriginalValue = localStorage.getItem('keywords') || '';
-  const languageOriginalValue = localStorage.getItem('language') || '';
-  const statusOriginalValue = localStorage.getItem('status') || 'open'
-  const [issueAssigned, setIssueAssigned] = useState(issueAssignedOriginalValue);
-  const [labelsValues, setLabelsValues] = useState(labelsOriginalValue);
-  const [keywordsValues, setKeywordsValues] = useState(keywordsOriginalValue);
-  const [languageValue, setLanguageValue] = useState(languageOriginalValue);
-
   const [response, setResponse] = useState([]);
   const [page, setPage] = useState(1);
   const [startCursor, setStartCursor] = useState(null);
@@ -52,14 +42,17 @@ function App() {
 
   useEffect(() => {
     if (submitCount > 0) {
-      localStorage.setItem('labels', labelsValues);
-      localStorage.setItem('keywords', keywordsValues);
-      localStorage.setItem('language', languageValue);
+      localStorage.setItem('labels', labelsInputEl.current.value);
+      localStorage.setItem('keywords', keywordsInputEl.current.value);
+      localStorage.setItem('language', languageInputEl.current.value );
       localStorage.setItem('status', statusInputEl.current.value);
+      localStorage.setItem('assigned', assignedInputEl.current.checked);
 
-      let labelQuery = formatSearchTerms(labelsValues, 'label:');
-      let languageQuery = languageValue.length > 0 ? 'language:' + languageValue : '';
-      let assignedQuery = issueAssigned ? '' : 'no:assignee';
+      let keywordsQuery = keywordsInputEl.current.value;
+      let labelQuery = formatSearchTerms(labelsInputEl.current.value, 'label:');
+      let languageQuery = languageInputEl.current.value.length > 0 ? 'language:' + languageInputEl.current.value : '';
+      let assignedQuery = assignedInputEl.current.checked ? '' : 'no:assignee';
+      
       let statusQuery;
       switch (statusInputEl.current.value) {
         case 'open':
@@ -72,7 +65,7 @@ function App() {
           statusQuery = '';
       }
 
-      let searchQuery = `${keywordsValues} ${labelQuery} ${languageQuery} ${assignedQuery} ${statusQuery}`;
+      let searchQuery = `${keywordsQuery} ${labelQuery} ${languageQuery} ${assignedQuery} ${statusQuery}`;
 
       axios.post('/api/github/graphql', {
         query: searchQuery,
@@ -90,10 +83,11 @@ function App() {
         setResponse(data.data.search.nodes);
       });
     } else {
-      labelsInputEl.current.value = labelsOriginalValue;
-      keywordsInputEl.current.value = keywordsOriginalValue;
-      languageInputEl.current.value = languageOriginalValue;
-      statusInputEl.current.value = statusOriginalValue;
+      labelsInputEl.current.value = localStorage.getItem('labels') || '';
+      keywordsInputEl.current.value = localStorage.getItem('keywords') || '';
+      languageInputEl.current.value = localStorage.getItem('language') || '';
+      statusInputEl.current.value = localStorage.getItem('status') || 'open';
+      assignedInputEl.current.checked = localStorage.getItem('assigned') ? JSON.parse(localStorage.getItem('assigned')) : false;
     }
     // We only want certain things to trigger useEffect, not everything it technically depends on
     // eslint-disable-next-line
@@ -105,10 +99,6 @@ function App() {
     setPage(1);
     setStartCursor(null);
     setEndCursor(null);
-    setLabelsValues(labelsInputEl.current.value);
-    setKeywordsValues(keywordsInputEl.current.value);
-    setLanguageValue(languageInputEl.current.value);
-    setIssueAssigned(assignedInputEl.current.checked);
     setSubmitCount(submitCount + 1);
   }
 
