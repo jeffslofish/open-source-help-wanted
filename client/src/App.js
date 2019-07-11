@@ -61,7 +61,7 @@ function App() {
   
       // let keywordQuery = formatSearchTerms(keywordValues, '');
       let labelQuery = formatSearchTerms(labelsValues, 'label:');
-      //let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
+      let languageQuery = languageValue.length > 0 ? '+language:' + languageValue : '';
   
       // let maybePlus = '+';
       // if (keywordQuery === '' || labelQuery === '') {
@@ -76,7 +76,7 @@ function App() {
   
       //let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
    
-      let searchQuery = `${keywordsValues} ${labelQuery}`;
+      let searchQuery = `${keywordsValues} ${labelQuery} ${languageQuery}`;
 
       axios.post('/api/github/graphql', {
         query: searchQuery,
