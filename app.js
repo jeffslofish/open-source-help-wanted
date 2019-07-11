@@ -2,6 +2,11 @@ const express = require('express');
 const axios = require('axios');
 const path = require('path');
 const querystring = require('querystring');
+const fs = require('fs');
+const { request } = require('https')
+const { readFile } = require('fs')
+const { resolve } = require('path')
+
 const app = express();
 
 if (process.env.NODE_ENV !== 'production') {
@@ -14,22 +19,67 @@ const port = process.env.PORT || 5000;
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
+  search(query: $searchQuery, first: $pageSize, type: ISSUE) {
+    issueCount
+    edges {
+      cursor
+      node {
+        ... on Issue {
+          title
+          body
+          author {
+            avatarUrl
+          }
+          url
+          title
+          assignees(first: 10) {
+            edges {
+              node {
+                ... on User {
+                  url
+                  avatarUrl
+                }
+              }
+            }
+          }
+          createdAt
+          updatedAt
+          body
+          labels(first: 10) {
+            totalCount
+            nodes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+const axiosGitHubGraphQL = axios.create({
+  baseURL: 'https://api.github.com/graphql',
+  headers: {
+    Authorization: `bearer ${process.env.API_TOKEN}`,
+  },
+});
+
 // Put all API endpoints under '/api'
 app.get('/api/github/rest', (req, res) => {
   console.log('/api/github/rest');
 
-  const query = querystring.stringify(req.query);
-  const configHeader = {
-    headers: { 'Authorization': "bearer " + apiToken }
-  };
-
-  axios.get(`https://api.github.com/search/issues?${query}`, configHeader)
-    .then(response => {
-      res.send(response.data)
+  axiosGitHubGraphQL
+    .post('', {
+      query: myQuery,
+      variables: {
+        "searchQuery": "jeffslofish",
+        "pageSize": 2
+      }
     })
-    .catch(error => {
-      console.log(error);
-    });
+    .then(result => res.send(result.data))
+    .catch(err => console.log(err))
 });
 
 // The "catchall" handler: for any request that doesn't
