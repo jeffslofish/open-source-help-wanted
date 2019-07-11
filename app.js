@@ -26,7 +26,21 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
       cursor
       node {
         ... on Issue {
+          repository {
+            owner {
+              url
+              avatarUrl
+            }
+            languages(first: 5) {
+              nodes {
+                id
+                name
+                color
+              }
+            }
+          }
           id
+          state
           title
           body
           author {
@@ -36,13 +50,11 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
           url
           title
           assignees(first: 10) {
-            edges {
-              node {
-                ... on User {
-                  id
-                  url
-                  avatarUrl
-                }
+            nodes {
+              ... on User {
+                id
+                url
+                avatarUrl
               }
             }
           }
@@ -52,6 +64,7 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
           labels(first: 10) {
             totalCount
             nodes {
+              id
               name
               color
             }
@@ -60,8 +73,7 @@ const myQuery = `query IssuesQuery($searchQuery: String!, $pageSize: Int) {
       }
     }
   }
-}
-`;
+}`;
 
 const axiosGitHubGraphQL = axios.create({
   baseURL: 'https://api.github.com/graphql',
@@ -71,14 +83,17 @@ const axiosGitHubGraphQL = axios.create({
 });
 
 // Put all API endpoints under '/api'
-app.get('/api/github/rest', (req, res) => {
-  console.log('/api/github/rest');
+app.get('/api/github/graphql', (req, res) => {
+  console.log('/api/github/graphql');
+
+  console.log(req.query);
 
   axiosGitHubGraphQL
     .post('', {
       query: myQuery,
       variables: {
-        "searchQuery": "test",
+        
+        "searchQuery": 'jeffslofish', //`${req.query.labels}`,
         "pageSize": 25
       }
     })

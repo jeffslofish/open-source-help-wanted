@@ -63,22 +63,22 @@ function App() {
       return query;
     }
 
-    let keywordQuery = formatSearchTerms(keywordValues, '');
-    let labelQuery = formatSearchTerms(labelsValues, 'label:');
-    let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
+    // let keywordQuery = formatSearchTerms(keywordValues, '');
+    let labelQuery = escape(formatSearchTerms(labelsValues, 'label:'));
+    //let languageQuery = languageValue.length > 0 ? '+language:' + encodeURIComponent(languageValue) : '';
 
-    let maybePlus = '+';
-    if (keywordQuery === '' || labelQuery === '') {
-      maybePlus = '';
-    }
+    // let maybePlus = '+';
+    // if (keywordQuery === '' || labelQuery === '') {
+    //   maybePlus = '';
+    // }
 
-    let sortType = sortCreated ? 'created' : 'updated';
-    let sortOrder = sortDesc ? 'desc' : 'asc';
-    let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-    let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
-      issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+    //let sortType = sortCreated ? 'created' : 'updated';
+    //let sortOrder = sortDesc ? 'desc' : 'asc';
+    //let issueAssignedState = issueAssigned ? '' : '+no:assignee';
+    //let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
+    //  issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
 
-    let myRequest = new Request('/api/github/rest?q=' + searchQuery);
+    let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
 
     fetch(myRequest).then(function (response) {
       return response.json();
