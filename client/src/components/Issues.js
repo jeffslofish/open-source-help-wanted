@@ -4,7 +4,7 @@ import Issue from './Issue';
 //TODO: get prop types validation working in this file.
 function Issues(props) {
   const issues = props.data;
-
+  
   return issues.map(issue => {
     if (issue.id) { //Sometimes node is empty
       return (
@@ -20,6 +20,7 @@ function Issues(props) {
           author={issue.author}
           assignees={issue.assignees}
           repository={issue.repository}
+          state={issue.state}
         />
       )
     } 

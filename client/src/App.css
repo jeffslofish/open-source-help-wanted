@@ -309,3 +309,7 @@ MEDIA QUERIES
 header, #content, #middle, #sidebar {
   margin-bottom: 5px;
 }
+
+.closed {
+  color: red;
+}

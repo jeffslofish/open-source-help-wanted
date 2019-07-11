@@ -111,7 +111,7 @@ query IssuesQuery($searchQuery: String!, $pageSize: Int, $startCursor: String, $
       query: myQuery,
       variables: {
         "searchQuery": 'jeffslofish', //`${req.query.labels}`,
-        "pageSize": 25,
+        "pageSize": req.body.pageSize,
         "startCursor": req.body.startCursor,
         "endCursor": req.body.endCursor
       }

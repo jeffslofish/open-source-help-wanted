@@ -32,7 +32,7 @@ function App() {
   const keywordsInputEl = useRef(null);
   const languageInputEl = useRef(null);
 
-  const resultsPerPage = 25;
+  const resultsPerPage = 10;
 
   function formatSearchTerms(searchTerms, label) {
     let query = '';
@@ -77,6 +77,7 @@ function App() {
    
       axios.post('/api/github/graphql', {
         labels: labelQuery,
+        pageSize: resultsPerPage,
         startCursor: startCursor,
         endCursor: endCursor
       }).then(function (response) {
