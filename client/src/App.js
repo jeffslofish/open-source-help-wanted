@@ -2,25 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
-import InputToggle from './components/InputToggle';
 import Pagination from './components/Pagination';
 import './App.css';
 
 
 function App() {
   const [totalCount, setTotalCount] = useState(0);
-  const sortDescOriginalValue = localStorage.getItem('sortDesc') ? JSON.parse(localStorage.getItem('sortDesc')) : true;
-  const sortCreatedOrignalValue = localStorage.getItem('sortCreated') ? JSON.parse(localStorage.getItem('sortCreated')) : true;
   const issueAssignedOriginalValue = localStorage.getItem('issueAssigned') ? JSON.parse(localStorage.getItem('issueAssigned')) : false;
   const labelsOriginalValue = localStorage.getItem('labels') || '';
   const keywordsOriginalValue = localStorage.getItem('keywords') || '';
   const languageOriginalValue = localStorage.getItem('language') || '';
-  const [sortDesc, setSortDesc] = useState(sortDescOriginalValue);
-  const [sortCreated, setSortCreated] = useState(sortCreatedOrignalValue);
+  const statusOriginalValue = localStorage.getItem('status') || 'open'
   const [issueAssigned, setIssueAssigned] = useState(issueAssignedOriginalValue);
   const [labelsValues, setLabelsValues] = useState(labelsOriginalValue);
   const [keywordsValues, setKeywordsValues] = useState(keywordsOriginalValue);
   const [languageValue, setLanguageValue] = useState(languageOriginalValue);
+
   const [response, setResponse] = useState([]);
   const [page, setPage] = useState(1);
   const [startCursor, setStartCursor] = useState(null);
@@ -32,6 +29,8 @@ function App() {
   const labelsInputEl = useRef(null);
   const keywordsInputEl = useRef(null);
   const languageInputEl = useRef(null);
+  const assignedInputEl = useRef(null);
+  const statusInputEl = useRef(null);
 
   const resultsPerPage = 10;
 
@@ -56,27 +55,24 @@ function App() {
       localStorage.setItem('labels', labelsValues);
       localStorage.setItem('keywords', keywordsValues);
       localStorage.setItem('language', languageValue);
+      localStorage.setItem('status', statusInputEl.current.value);
 
-      
-  
-      // let keywordQuery = formatSearchTerms(keywordValues, '');
       let labelQuery = formatSearchTerms(labelsValues, 'label:');
-      let languageQuery = languageValue.length > 0 ? '+language:' + languageValue : '';
-  
-      // let maybePlus = '+';
-      // if (keywordQuery === '' || labelQuery === '') {
-      //   maybePlus = '';
-      // }
-  
-      //let sortType = sortCreated ? 'created' : 'updated';
-      //let sortOrder = sortDesc ? 'desc' : 'asc';
-      //let issueAssignedState = issueAssigned ? '' : '+no:assignee';
-      //let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
-      //  issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
-  
-      //let myRequest = new Request('/api/github/graphql?labels=' + labelQuery);
-   
-      let searchQuery = `${keywordsValues} ${labelQuery} ${languageQuery}`;
+      let languageQuery = languageValue.length > 0 ? 'language:' + languageValue : '';
+      let assignedQuery = issueAssigned ? '' : 'no:assignee';
+      let statusQuery;
+      switch (statusInputEl.current.value) {
+        case 'open':
+          statusQuery = 'is:open';
+          break;
+        case 'closed':
+          statusQuery = 'is:closed';
+          break;
+        default:
+          statusQuery = '';
+      }
+
+      let searchQuery = `${keywordsValues} ${labelQuery} ${languageQuery} ${assignedQuery} ${statusQuery}`;
 
       axios.post('/api/github/graphql', {
         query: searchQuery,
@@ -84,12 +80,7 @@ function App() {
         startCursor: startCursor,
         endCursor: endCursor
       }).then(function (response) {
-  
-      //fetch(myRequest).then(function (response) {
-        //return response.json();
-  
         return response.data;
-  
       }).then(function (data) {
         setTotalCount(data.data.search.issueCount);
         setStartCursor(data.data.search.pageInfo.startCursor);
@@ -102,10 +93,11 @@ function App() {
       labelsInputEl.current.value = labelsOriginalValue;
       keywordsInputEl.current.value = keywordsOriginalValue;
       languageInputEl.current.value = languageOriginalValue;
+      statusInputEl.current.value = statusOriginalValue;
     }
     // We only want certain things to trigger useEffect, not everything it technically depends on
     // eslint-disable-next-line
-  }, [sortDesc, sortCreated, issueAssigned, labelsValues, keywordsValues, languageValue, submitCount]);
+  }, [submitCount]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -116,39 +108,18 @@ function App() {
     setLabelsValues(labelsInputEl.current.value);
     setKeywordsValues(keywordsInputEl.current.value);
     setLanguageValue(languageInputEl.current.value);
+    setIssueAssigned(assignedInputEl.current.checked);
     setSubmitCount(submitCount + 1);
   }
 
-  function toggleSortType() {
-    localStorage.setItem('sortCreated', !sortCreated);
-    setSortCreated(!sortCreated);
-  }
-
-  function toggleSortOrder() {
-    localStorage.setItem('sortDesc', !sortDesc);
-    setSortDesc(!sortDesc);
-  }
-
-  function toggleIssueAssigned() {
-    localStorage.setItem('issueAssigned', !issueAssigned);
-    setIssueAssigned(!issueAssigned);
-    
-  }
-
-  // const handleNextButton = () => { setPage(page + 1) };
-  // const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page) }
-
-  const handleNextButton = () => { 
+  const handleNextButton = () => {
     setStartCursor(null);
-    setSubmitCount(submitCount+1);
-    //setPage(page + 1);
+    setSubmitCount(submitCount + 1);
   };
 
-  const handlePrevButton = () => { 
-    //setStartCursor(startCursor);
+  const handlePrevButton = () => {
     setEndCursor(null);
-    setSubmitCount(submitCount+1);
-    //etPage(page - 1);
+    setSubmitCount(submitCount + 1);
   };
 
   return (
@@ -164,12 +135,13 @@ function App() {
               <InputElement label={'Github label names'} placeholder={'help wanted, bug'} reference={labelsInputEl} />
               <InputElement label={'Keywords'} placeholder={'open source, forms'} reference={keywordsInputEl} />
               <InputElement label={'Language'} placeholder={'javascript'} reference={languageInputEl} />
+              <select ref={statusInputEl}>
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="either">Open or Closed</option>
+              </select>
+              <p><input type="checkbox" ref={assignedInputEl} />Possibly Assigned?</p>
               <button className="searchButton" type="submit">Search</button>
-            </div>
-            <div className="option-inputs">
-              <InputToggle leftLabel={'Sort by updated time'} rightLabel={'Sort by created time'} value={sortCreated} clickHandler={toggleSortType} />
-              <InputToggle leftLabel={'Oldest first'} rightLabel={'Newest first'} value={sortDesc} clickHandler={toggleSortOrder} />
-              <InputToggle leftLabel={'Not Assigned'} rightLabel={'Possibly Assigned'} value={issueAssigned} clickHandler={toggleIssueAssigned} />
             </div>
           </div>
         </form>

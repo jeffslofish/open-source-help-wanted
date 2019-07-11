@@ -69,7 +69,7 @@ input::placeholder {
   color: lightgrey;
 }
 
-input {
+input, select, p {
   font-size: 32px;
 }
 
@@ -312,4 +312,8 @@ header, #content, #middle, #sidebar {
 
 .closed {
   color: red;
+}
+
+p {
+  color: black;
 }
