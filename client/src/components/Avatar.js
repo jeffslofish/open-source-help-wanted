@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Avatar(props) {
-  let imgStyle = {
-    maxHeight: '100px',
-    maxWidth: '100px'
-  };
-
+const Avatar = ({ url, user_url }) => {
   return (
-    <div className="avatar">
-      <a href={props.user_url}><img style={imgStyle} src={props.url} alt="User Avatar"/></a>
+    <div className='avatar'>
+      <a href={user_url}>
+        <img style={imgStyle} src={url} alt='' />
+      </a>
     </div>
   );
-}
+};
+
+let imgStyle = {
+  maxHeight: '100px',
+  maxWidth: '100px'
+};
 
 Avatar.propTypes = {
   user_url: PropTypes.string.isRequired,
@@ -20,4 +22,3 @@ Avatar.propTypes = {
 };
 
 export default Avatar;
-

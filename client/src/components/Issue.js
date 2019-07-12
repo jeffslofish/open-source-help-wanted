@@ -5,73 +5,102 @@ import Labels from './Labels';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
 
-function Issue(props) {
-  const maxBodyLength = 500;
-
-  function getRepoUrlFromIssueUrl(html_url) {
-    let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
-    let matches = html_url.match(pattern);
-    let repoUrl = '';
-    if (matches && matches.length > 0) {
-      repoUrl = matches[0];
-    }
-    return repoUrl;
+const Issue = ({
+  issue: {
+    user: { avatar_url },
+    html_url,
+    title,
+    assignee,
+    created_at,
+    updated_at,
+    labels,
+    body
   }
-
-  function getUserUrlFromIssueUrl(html_url) {
-    let pattern = /^https:\/\/github.com\/[^/]+\//;
-    let matches = html_url.match(pattern);
-    let userUrl = '';
-    if (matches && matches.length > 0) {
-      userUrl = matches[0];
-    }
-    return userUrl;
-  }
-
-  function getRepoNameFromIssueUrl(html_url) {
-    let pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
-    let matches = html_url.match(pattern);
-    let repoName = '';
-    if (matches && matches.length > 2) {
-      repoName = matches[1] +  '/' + matches[2];
-    }
-    return repoName;
-  }
-
+}) => {
   return (
-    <div className="issue">
-      <h2><a href={props.html_url}>{props.title}</a></h2>
-      <Avatar url={props.user.avatar_url} user_url={getUserUrlFromIssueUrl(props.html_url)}/>
+    <div className='issue'>
+      <h2>
+        <a href={html_url}>{title}</a>
+      </h2>
+      <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
       <div>
-        <a href={getRepoUrlFromIssueUrl(props.html_url)}>{getRepoNameFromIssueUrl(props.html_url)}</a>
-        {props.assignee && 
-          <Assignee html_url={props.assignee.html_url} avatar_url={props.assignee.avatar_url} />
-        }
-        <div className="times">
-          <div className="timeAgo">Created:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.created_at}</Moment></div>
-          <div className="timeAgo">Updated:<Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">{props.updated_at}</Moment></div>
+        <a href={getRepoUrlFromIssueUrl(html_url)}>
+          {getRepoNameFromIssueUrl(html_url)}
+        </a>
+        {assignee && <Assignee user={assignee} />}
+        <div className='times'>
+          <div className='timeAgo'>
+            Created:
+            <Moment fromNow parse='YYYY-MM-DDTHH:mm:ssZ'>
+              {created_at}
+            </Moment>
+          </div>
+          <div className='timeAgo'>
+            Updated:
+            <Moment fromNow parse='YYYY-MM-DDTHH:mm:ssZ'>
+              {updated_at}
+            </Moment>
+          </div>
         </div>
       </div>
-      <Labels labels={props.labels}/>
-      <p className="issue-body">{props.body.length < maxBodyLength ? props.body : props.body.substr(0, maxBodyLength) + '...' }</p>
+      <Labels labels={labels} />
+      <p className='issue-body'>
+        {body.length < maxBodyLength
+          ? body
+          : body.substr(0, maxBodyLength) + '...'}
+      </p>
     </div>
   );
+};
+
+const maxBodyLength = 500;
+
+function getRepoUrlFromIssueUrl(html_url) {
+  let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
+  let matches = html_url.match(pattern);
+  let repoUrl = '';
+  if (matches && matches.length > 0) {
+    repoUrl = matches[0];
+  }
+  return repoUrl;
+}
+
+function getUserUrlFromIssueUrl(html_url) {
+  let pattern = /^https:\/\/github.com\/[^/]+\//;
+  let matches = html_url.match(pattern);
+  let userUrl = '';
+  if (matches && matches.length > 0) {
+    userUrl = matches[0];
+  }
+  return userUrl;
+}
+
+function getRepoNameFromIssueUrl(html_url) {
+  let pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
+  let matches = html_url.match(pattern);
+  let repoName = '';
+  if (matches && matches.length > 2) {
+    repoName = matches[1] + '/' + matches[2];
+  }
+  return repoName;
 }
 
 Issue.propTypes = {
-  user: PropTypes.shape({
-    avatar_url: PropTypes.string.isRequired,
-  }),
-  html_url: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  assignee: PropTypes.shape({
+  issue: PropTypes.shape({
     html_url: PropTypes.string.isRequired,
-    avatar_url: PropTypes.string.isRequired
-  }),
-  created_at: PropTypes.string.isRequired,
-  updated_at: PropTypes.string.isRequired,
-  labels: PropTypes.array.isRequired,
-  body: PropTypes.string.isRequired
+    user: PropTypes.shape({
+      avatar_url: PropTypes.string.isRequired
+    }).isRequired,
+    title: PropTypes.string.isRequired,
+    assignee: PropTypes.shape({
+      html_url: PropTypes.string.isRequired,
+      avatar_url: PropTypes.string.isRequired
+    }),
+    created_at: PropTypes.string.isRequired,
+    updated_at: PropTypes.string.isRequired,
+    labels: PropTypes.array.isRequired,
+    body: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default Issue;
