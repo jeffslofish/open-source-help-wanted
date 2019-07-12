@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Issues from './components/Issues';
 import InputElement from './components/InputElement';
 import Pagination from './components/Pagination';
 import './App.css';
 
 const App = () => {
-  const [totalCount, setTotalCount] = useState(0);
+  const resultsPerPage = 25;
+
+  const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(null);
+
   const [issues, setIssues] = useState([]);
   const [page, setPage] = useState(1);
-  const [submitCount, setSubmitCount] = useState(0);
-
-  const labelsInputEl = useRef(null);
-  const keywordsInputEl = useRef(null);
-  const languageInputEl = useRef(null);
-  const sortCreatedInputEl = useRef(null);
-  const sortDescInputEl = useRef(null);
-  const issueAssignedInputEl = useRef(null);
-
-  const resultsPerPage = 25;
+  const [labels, setLabels] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [language, setLanguage] = useState('');
+  const [sortCreated, setSortCreated] = useState(true);
+  const [sortDesc, setSortDesc] = useState(true);
+  const [issueAssigned, setIssueAssigned] = useState(false);
 
   function formatSearchTerms(searchTerms, label) {
     let query = '';
@@ -35,95 +35,70 @@ const App = () => {
     return query;
   }
 
-  useEffect(() => {
-    if (submitCount > 0) {
-      localStorage.setItem('labels', labelsInputEl.current.value);
-      localStorage.setItem('keywords', keywordsInputEl.current.value);
-      localStorage.setItem('language', languageInputEl.current.value);
-      localStorage.setItem('sortCreated', sortCreatedInputEl.current.value);
-      localStorage.setItem('sortDesc', sortDescInputEl.current.value);
-      localStorage.setItem('issueAssigned', issueAssignedInputEl.current.value);
+  const search = page => {
+    setLoading(true);
 
-      let keywordQuery = formatSearchTerms(keywordsInputEl.current.value, '');
-      let labelQuery = formatSearchTerms(labelsInputEl.current.value, 'label:');
-      let languageQuery =
-        languageInputEl.current.value.length > 0
-          ? '+language:' + encodeURIComponent(languageInputEl.current.value)
-          : '';
+    let labelQuery = formatSearchTerms(labels, 'label:');
+    let keywordQuery = formatSearchTerms(keywords, '');
+    let languageQuery =
+      language.length > 0 ? '+language:' + encodeURIComponent(language) : '';
 
-      let maybePlus = '+';
-      if (keywordQuery === '' || labelQuery === '') {
-        maybePlus = '';
-      }
-
-      let sortType = JSON.parse(sortCreatedInputEl.current.value)
-        ? 'created'
-        : 'updated';
-      let sortOrder = JSON.parse(sortDescInputEl.current.value)
-        ? 'desc'
-        : 'asc';
-      let issueAssignedState = JSON.parse(issueAssignedInputEl.current.value)
-        ? ''
-        : '+no:assignee';
-      let searchQuery =
-        keywordQuery +
-        maybePlus +
-        labelQuery +
-        languageQuery +
-        '+type:issue+state:open' +
-        issueAssignedState +
-        '&page=' +
-        page +
-        '&sort=' +
-        sortType +
-        '&order=' +
-        sortOrder +
-        '&per_page=' +
-        resultsPerPage;
-
-      let myRequest = new Request('/api/github/rest?q=' + searchQuery);
-
-      fetch(myRequest)
-        .then(function(response) {
-          return response.json();
-        })
-        .then(function(data) {
-          setTotalCount(Number.parseInt(data.total_count, 10));
-          setIssues(data.items);
-        });
-    } else {
-      labelsInputEl.current.value = localStorage.getItem('labels') || '';
-      keywordsInputEl.current.value = localStorage.getItem('keywords') || '';
-      languageInputEl.current.value = localStorage.getItem('language') || '';
-      //TODO: make function to do optional JSON parse
-      sortCreatedInputEl.current.value = localStorage.getItem('sortCreated')
-        ? JSON.parse(localStorage.getItem('sortCreated'))
-        : true;
-      sortDescInputEl.current.value = localStorage.getItem('sortDesc')
-        ? JSON.parse(localStorage.getItem('sortDesc'))
-        : true;
-      issueAssignedInputEl.current.value = localStorage.getItem('issueAssigned')
-        ? JSON.parse(localStorage.getItem('issueAssigned'))
-        : false;
+    let maybePlus = '+';
+    if (keywordQuery === '' || labelQuery === '') {
+      maybePlus = '';
     }
-  }, [submitCount, page]);
+
+    let sortType = JSON.parse(sortCreated) ? 'created' : 'updated';
+    let sortOrder = JSON.parse(sortDesc) ? 'desc' : 'asc';
+    let issueAssignedState = JSON.parse(issueAssigned) ? '' : '+no:assignee';
+    let searchQuery =
+      keywordQuery +
+      maybePlus +
+      labelQuery +
+      languageQuery +
+      '+type:issue+state:open' +
+      issueAssignedState +
+      '&page=' +
+      page +
+      '&sort=' +
+      sortType +
+      '&order=' +
+      sortOrder +
+      '&per_page=' +
+      resultsPerPage;
+
+    let myRequest = new Request('/api/github/rest?q=' + searchQuery);
+
+    fetch(myRequest)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        setTotalCount(Number.parseInt(data.total_count, 10));
+        setPage(page);
+        setIssues(data.items);
+        setLoading(false);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    setPage(1);
-    setSubmitCount(submitCount + 1);
+    search(1);
   }
 
-  const handleNextButton = () => {
-    setPage(page + 1);
-  };
-  const handlePrevButton = () => {
-    setPage(page > 1 ? page - 1 : page);
-  };
+  const handleNextButton = () => search(page + 1);
+  const handlePrevButton = () => search(page > 1 ? page - 1 : page);
+  const onSortCreatedChange = e => setSortCreated(e.target.value);
+  const onSortDescChange = e => setSortDesc(e.target.value);
+  const onIssueAssignedChange = e => setIssueAssigned(e.target.value);
 
   return (
     <div className='App'>
+      {loading && <div className='loading' />}
       <div className='App-header'>
         <h1>Open Source Help Wanted</h1>
         <h2>Find issues you can work on in Github. Be a contributor!</h2>
@@ -135,29 +110,32 @@ const App = () => {
               <InputElement
                 label={'Github label names'}
                 placeholder={'help wanted, bug'}
-                reference={labelsInputEl}
+                text={labels}
+                setText={setLabels}
               />
               <InputElement
                 label={'Keywords'}
                 placeholder={'open source, forms'}
-                reference={keywordsInputEl}
+                text={keywords}
+                setText={setKeywords}
               />
               <InputElement
                 label={'Language'}
                 placeholder={'javascript'}
-                reference={languageInputEl}
+                text={language}
+                setText={setLanguage}
               />
             </div>
             <div className='options'>
-              <select ref={sortCreatedInputEl}>
+              <select value={sortCreated} onChange={onSortCreatedChange}>
                 <option value={true}>Sort by created time</option>
                 <option value={false}>Sort by updated time</option>
               </select>
-              <select ref={sortDescInputEl}>
+              <select value={sortDesc} onChange={onSortDescChange}>
                 <option value={true}>Newest first</option>
                 <option value={false}>Oldest first</option>
               </select>
-              <select ref={issueAssignedInputEl}>
+              <select value={issueAssigned} onChange={onIssueAssignedChange}>
                 <option value={false}>Not Assigned</option>
                 <option value={true}>Possibly Assigned</option>
               </select>
@@ -169,7 +147,7 @@ const App = () => {
         </form>
       </div>
       <div className='app-body'>
-        {submitCount > 0 && <span>{totalCount} Results</span>}
+        {totalCount !== null && <span>{totalCount} Results</span>}
         <Pagination
           currentPage={page}
           totalCount={totalCount}

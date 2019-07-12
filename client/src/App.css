@@ -27,14 +27,14 @@ html {
 .App-intro {
   font-size: large;
   background-color: #35678E;
-  margin:0;
+  margin: 0;
 }
 
 h1 {
   font-size: 48px;
   text-align: center;
-  padding:0;
-  margin:0;
+  padding: 0;
+  margin: 0;
 }
 
 h2 {
@@ -50,7 +50,7 @@ h2 {
   display: inline-block;
   font-weight: 600;
   line-height: 11px;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
 .avatar {
@@ -82,7 +82,8 @@ select {
   font-size: 20px;
 }
 
-.label-search-box, .options {
+.label-search-box,
+.options {
   text-align: center;
 }
 
@@ -131,6 +132,7 @@ select {
 .label-search-box {
   padding: 25px;
 }
+
 .input-elements {
   padding: 0 25px 25px;
 }
@@ -161,7 +163,7 @@ select {
 a {
   color: black;
   text-decoration: none;
-  font-weight:bold;
+  font-weight: bold;
 }
 
 .switch {
@@ -179,16 +181,16 @@ footer p {
 }
 
 footer p a {
-  color:white;
+  color: white;
   font-size: 1.5em;
 }
 
 .times {
-  float:right;
+  float: right;
 }
 
 .timeAgo {
-  display:inline-block;
+  display: inline-block;
 }
 
 time {
@@ -197,8 +199,47 @@ time {
   margin: 0 10px 20px 5px;
   border-radius: 2px;
   padding: 3px;
+
 }
 
+.loading {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+}
+
+.loading {
+  left: 50%;
+  margin-left: -4em;
+  font-size: 10px;
+  border: .8em solid rgba(218, 219, 223, 1);
+  border-left: .8em solid #4484B6;
+  animation: spin 1.1s infinite linear;
+}
+
+.loading,
+.loading:after {
+  border-radius: 50%;
+  width: 8em;
+  height: 8em;
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -4.05em;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(-360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
 
 /* start responsive design css */
 /* https://codepen.io/Cheesetoast/pen/KFAaq */
@@ -219,10 +260,12 @@ body {
   width: 960px;
   margin: 20px auto;
 }
+
 header {
   height: 100px;
   padding: 0 15px;
 }
+
 #content {
   width: 290px;
   float: left;
@@ -230,7 +273,8 @@ header {
 }
 
 #middle {
-  width: 294px; /* Account for margins + border values */
+  width: 294px;
+  /* Account for margins + border values */
   float: left;
   padding: 5px 15px;
   margin: 0px 5px 5px 5px;
@@ -241,6 +285,7 @@ header {
   padding: 5px 15px;
   float: left;
 }
+
 footer {
   clear: both;
   padding: 0 15px;
@@ -255,10 +300,12 @@ MEDIA QUERIES
   #pagewrap {
     width: 94%;
   }
+
   #content {
     width: 41%;
     padding: 1% 4%;
   }
+
   #middle {
     width: 41%;
     padding: 1% 4%;
@@ -273,7 +320,8 @@ MEDIA QUERIES
     float: none;
   }
 
-  header, footer {
+  header,
+  footer {
     padding: 1% 4%;
   }
 }
@@ -305,9 +353,11 @@ MEDIA QUERIES
   header {
     height: auto;
   }
+
   h1 {
     font-size: 2em;
   }
+
   #sidebar {
     display: none;
   }
@@ -318,9 +368,14 @@ MEDIA QUERIES
 #content {
   background: #f8f8f8;
 }
+
 #sidebar {
   background: #f0efef;
 }
-header, #content, #middle, #sidebar {
+
+header,
+#content,
+#middle,
+#sidebar {
   margin-bottom: 5px;
 }
