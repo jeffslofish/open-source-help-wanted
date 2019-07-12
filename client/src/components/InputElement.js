@@ -1,15 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputElement = props => {
+const InputElement = ({ label, placeholder, reference }) => {
   return (
-    <div className="input-component">
-      <label className="label-name">{props.label}</label>
-      <input className="input-element" type="text"
-        placeholder={props.placeholder} ref={props.reference} />
+    <div className='input-component'>
+      <label className='label-name'>{label}</label>
+      <input
+        className='input-element'
+        type='text'
+        placeholder={placeholder}
+        ref={reference}
+      />
     </div>
   );
-}
+};
 
 InputElement.propTypes = {
   label: PropTypes.string.isRequired,

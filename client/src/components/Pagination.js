@@ -1,23 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Pagination(props) {
-  const totalPages =  props.totalCount === 0 ? 0 : Math.floor(props.totalCount / props.resultsPerPage) + 1;
+const Pagination = ({
+  totalCount,
+  resultsPerPage,
+  prevlickHandler,
+  nextClickHandler,
+  currentPage
+}) => {
+  const totalPages =
+    totalCount === 0 ? 0 : Math.floor(totalCount / resultsPerPage) + 1;
 
   return (
-    <div style={{width: '100%', textAlign: 'center'}}>
-      {props.currentPage > 1 &&
-        <button style={{display: 'inline-block', marginRight: '20px'}} onClick={props.prevlickHandler}>Prev</button>
-      }
-      {totalPages > 0 &&
-        <p style={{display: 'inline-block'}} className="total-count">Displaying Page {props.currentPage} of {totalPages}</p>
-      }
-      {props.currentPage < totalPages &&
-        <button style={{display: 'inline-block', marginLeft: '20px'}} onClick={props.nextClickHandler}>Next</button>
-      }
+    <div style={{ width: '100%', textAlign: 'center' }}>
+      {currentPage > 1 && (
+        <button
+          style={{ display: 'inline-block', marginRight: '20px' }}
+          onClick={prevlickHandler}
+        >
+          Prev
+        </button>
+      )}
+      {totalPages > 0 && (
+        <p style={{ display: 'inline-block' }} className='total-count'>
+          Displaying Page {currentPage} of {totalPages}
+        </p>
+      )}
+      {currentPage < totalPages && (
+        <button
+          style={{ display: 'inline-block', marginLeft: '20px' }}
+          onClick={nextClickHandler}
+        >
+          Next
+        </button>
+      )}
     </div>
   );
-}
+};
 
 Pagination.propTypes = {
   currentPage: PropTypes.number.isRequired,

@@ -4,7 +4,7 @@ import InputElement from './components/InputElement';
 import Pagination from './components/Pagination';
 import './App.css';
 
-function App() {
+const App = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [issues, setIssues] = useState([]);
   const [page, setPage] = useState(1);
@@ -46,38 +46,65 @@ function App() {
 
       let keywordQuery = formatSearchTerms(keywordsInputEl.current.value, '');
       let labelQuery = formatSearchTerms(labelsInputEl.current.value, 'label:');
-      let languageQuery = languageInputEl.current.value.length > 0 ? '+language:' + encodeURIComponent(languageInputEl.current.value) : '';
+      let languageQuery =
+        languageInputEl.current.value.length > 0
+          ? '+language:' + encodeURIComponent(languageInputEl.current.value)
+          : '';
 
       let maybePlus = '+';
       if (keywordQuery === '' || labelQuery === '') {
         maybePlus = '';
       }
 
-
-      let sortType = JSON.parse(sortCreatedInputEl.current.value) ? 'created' : 'updated';
-      let sortOrder = JSON.parse(sortDescInputEl.current.value) ? 'desc' : 'asc';
-      let issueAssignedState = JSON.parse(issueAssignedInputEl.current.value) ? '' : '+no:assignee';
-      let searchQuery = keywordQuery + maybePlus + labelQuery + languageQuery + '+type:issue+state:open' +
-        issueAssignedState + '&page=' + page + '&sort=' + sortType + '&order=' + sortOrder + '&per_page=' + resultsPerPage;
+      let sortType = JSON.parse(sortCreatedInputEl.current.value)
+        ? 'created'
+        : 'updated';
+      let sortOrder = JSON.parse(sortDescInputEl.current.value)
+        ? 'desc'
+        : 'asc';
+      let issueAssignedState = JSON.parse(issueAssignedInputEl.current.value)
+        ? ''
+        : '+no:assignee';
+      let searchQuery =
+        keywordQuery +
+        maybePlus +
+        labelQuery +
+        languageQuery +
+        '+type:issue+state:open' +
+        issueAssignedState +
+        '&page=' +
+        page +
+        '&sort=' +
+        sortType +
+        '&order=' +
+        sortOrder +
+        '&per_page=' +
+        resultsPerPage;
 
       let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
-      fetch(myRequest).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        setTotalCount(Number.parseInt(data.total_count, 10));
-        setIssues(data.items);
-      });
+      fetch(myRequest)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          setTotalCount(Number.parseInt(data.total_count, 10));
+          setIssues(data.items);
+        });
     } else {
       labelsInputEl.current.value = localStorage.getItem('labels') || '';
       keywordsInputEl.current.value = localStorage.getItem('keywords') || '';
       languageInputEl.current.value = localStorage.getItem('language') || '';
       //TODO: make function to do optional JSON parse
-      sortCreatedInputEl.current.value = localStorage.getItem('sortCreated') ? JSON.parse(localStorage.getItem('sortCreated')) : true;
-      sortDescInputEl.current.value = localStorage.getItem('sortDesc') ? JSON.parse(localStorage.getItem('sortDesc')) : true;
-      issueAssignedInputEl.current.value = localStorage.getItem('issueAssigned') ? JSON.parse(localStorage.getItem('issueAssigned')) : false;
-
-
+      sortCreatedInputEl.current.value = localStorage.getItem('sortCreated')
+        ? JSON.parse(localStorage.getItem('sortCreated'))
+        : true;
+      sortDescInputEl.current.value = localStorage.getItem('sortDesc')
+        ? JSON.parse(localStorage.getItem('sortDesc'))
+        : true;
+      issueAssignedInputEl.current.value = localStorage.getItem('issueAssigned')
+        ? JSON.parse(localStorage.getItem('issueAssigned'))
+        : false;
     }
   }, [submitCount, page]);
 
@@ -88,24 +115,40 @@ function App() {
     setSubmitCount(submitCount + 1);
   }
 
-  const handleNextButton = () => { setPage(page + 1) };
-  const handlePrevButton = () => { setPage(page > 1 ? page - 1 : page) }
+  const handleNextButton = () => {
+    setPage(page + 1);
+  };
+  const handlePrevButton = () => {
+    setPage(page > 1 ? page - 1 : page);
+  };
 
   return (
-    <div className="App">
-      <div className="App-header">
+    <div className='App'>
+      <div className='App-header'>
         <h1>Open Source Help Wanted</h1>
         <h2>Find issues you can work on in Github. Be a contributor!</h2>
       </div>
-      <div className="App-intro">
+      <div className='App-intro'>
         <form onSubmit={handleSubmit}>
-          <div className="input-elements">
-            <div className="label-search-box">
-              <InputElement label={'Github label names'} placeholder={'help wanted, bug'} reference={labelsInputEl} />
-              <InputElement label={'Keywords'} placeholder={'open source, forms'} reference={keywordsInputEl} />
-              <InputElement label={'Language'} placeholder={'javascript'} reference={languageInputEl} />
+          <div className='input-elements'>
+            <div className='label-search-box'>
+              <InputElement
+                label={'Github label names'}
+                placeholder={'help wanted, bug'}
+                reference={labelsInputEl}
+              />
+              <InputElement
+                label={'Keywords'}
+                placeholder={'open source, forms'}
+                reference={keywordsInputEl}
+              />
+              <InputElement
+                label={'Language'}
+                placeholder={'javascript'}
+                reference={languageInputEl}
+              />
             </div>
-            <div className="options">
+            <div className='options'>
               <select ref={sortCreatedInputEl}>
                 <option value={true}>Sort by created time</option>
                 <option value={false}>Sort by updated time</option>
@@ -118,26 +161,42 @@ function App() {
                 <option value={false}>Not Assigned</option>
                 <option value={true}>Possibly Assigned</option>
               </select>
-              <button className="searchButton" type="submit">Search</button>
-              </div>
+              <button className='searchButton' type='submit'>
+                Search
+              </button>
+            </div>
           </div>
         </form>
       </div>
-      <div className="app-body">
-        { submitCount > 0 &&
-          <span>{totalCount} Results</span>
-        }
-        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
-        <div className="app-results">
-          <Issues data={issues} />
+      <div className='app-body'>
+        {submitCount > 0 && <span>{totalCount} Results</span>}
+        <Pagination
+          currentPage={page}
+          totalCount={totalCount}
+          resultsPerPage={resultsPerPage}
+          prevlickHandler={handlePrevButton}
+          nextClickHandler={handleNextButton}
+        />
+        <div className='app-results'>
+          <Issues issues={issues} />
         </div>
-        <Pagination currentPage={page} totalCount={totalCount} resultsPerPage={resultsPerPage} prevlickHandler={handlePrevButton} nextClickHandler={handleNextButton} />
+        <Pagination
+          currentPage={page}
+          totalCount={totalCount}
+          resultsPerPage={resultsPerPage}
+          prevlickHandler={handlePrevButton}
+          nextClickHandler={handleNextButton}
+        />
       </div>
       <footer>
-        <p><a href="https://github.com/jeffslofish/open-source-help-wanted">Fork me on Github and contribute!</a></p>
+        <p>
+          <a href='https://github.com/jeffslofish/open-source-help-wanted'>
+            Fork me on Github and contribute!
+          </a>
+        </p>
       </footer>
     </div>
   );
-}
+};
 
 export default App;

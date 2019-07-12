@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function InputToggle(props) {
+const InputToggle = ({ leftLabel, rightLabel, reference }) => {
   return (
-    <div className="input-element">
-      <label>{props.leftLabel}</label>
-      <input type="checkbox" ref={props.reference} />
-      <label>{props.rightLabel}</label>
+    <div className='input-element'>
+      <label>{leftLabel}</label>
+      <input type='checkbox' ref={reference} />
+      <label>{rightLabel}</label>
     </div>
   );
-}
+};
 
 InputToggle.propTypes = {
   leftLabel: PropTypes.string.isRequired,
@@ -18,4 +18,3 @@ InputToggle.propTypes = {
 };
 
 export default InputToggle;
-
