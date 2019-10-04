@@ -56,16 +56,16 @@ export default function Main() {
   };
 
   return (
-    <div className='App'>
-      {githubContext.loading && <div className='loading' />}
-      <div className='App-header'>
+    <div className="App">
+      {githubContext.loading && <div className="loading" />}
+      <div className="App-header">
         <h1>Open Source Help Wanted</h1>
         <h2>Find issues you can work on in Github. Be a contributor!</h2>
       </div>
-      <div className='App-intro'>
+      <div className="App-intro">
         <form onSubmit={handleSubmit}>
-          <div className='input-elements'>
-            <div className='label-search-box'>
+          <div className="input-elements">
+            <div className="label-search-box">
               <InputElement
                 label={'Github label names'}
                 placeholder={'help wanted, bug'}
@@ -85,30 +85,28 @@ export default function Main() {
                 setText={setLanguage}
               />
             </div>
-            <div className='options'>
-              <select value={sortCreated} onChange={onSortCreatedChange}>
-                <option value={true}>Sort by created time</option>
-                <option value={false}>Sort by updated time</option>
-              </select>
-              <select value={sortDesc} onChange={onSortDescChange}>
-                <option value={true}>Newest first</option>
-                <option value={false}>Oldest first</option>
-              </select>
-              <select value={issueAssigned} onChange={onIssueAssignedChange}>
-                <option value={false}>Not Assigned</option>
-                <option value={true}>Possibly Assigned</option>
-              </select>
-              <button className='searchButton' type='submit'>
-                Search
-              </button>
-            </div>
+            <button className="searchButton" type="submit">
+              Search
+            </button>
+          </div>
+
+          <div className="options">
+            <select value={sortCreated} onChange={onSortCreatedChange}>
+              <option value={true}>Sort by created time</option>
+              <option value={false}>Sort by updated time</option>
+            </select>
+            <select value={sortDesc} onChange={onSortDescChange}>
+              <option value={true}>Newest first</option>
+              <option value={false}>Oldest first</option>
+            </select>
+            <select value={issueAssigned} onChange={onIssueAssignedChange}>
+              <option value={false}>Not Assigned</option>
+              <option value={true}>Possibly Assigned</option>
+            </select>
           </div>
         </form>
       </div>
-      <div className='app-body'>
-        {githubContext.totalCount !== null && (
-          <span>{githubContext.totalCount} Results</span>
-        )}
+      <div className="app-body">
         <Pagination
           currentPage={githubContext.page}
           totalCount={githubContext.totalCount}
@@ -116,7 +114,7 @@ export default function Main() {
           prevlickHandler={handlePrevButton}
           nextClickHandler={handleNextButton}
         />
-        <div className='app-results'>
+        <div className="app-results">
           <Issues issues={githubContext.issues} />
         </div>
         <Pagination
@@ -129,7 +127,7 @@ export default function Main() {
       </div>
       <footer>
         <p>
-          <a href='https://github.com/jeffslofish/open-source-help-wanted'>
+          <a href="https://github.com/jeffslofish/open-source-help-wanted">
             Fork me on Github and contribute!
           </a>
         </p>

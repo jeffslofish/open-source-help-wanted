@@ -20,11 +20,13 @@ const Issue = ({
   return (
     <div className="issue">
       <h2>
-        <a href={html_url}>{title}</a>
+        <a target="_blank" href={html_url}>
+          {title}
+        </a>
       </h2>
       <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
       <div>
-        <a href={getRepoUrlFromIssueUrl(html_url)}>
+        <a target="_blank" href={getRepoUrlFromIssueUrl(html_url)}>
           {getRepoNameFromIssueUrl(html_url)}
         </a>
         {assignee && <Assignee user={assignee} />}
@@ -35,6 +37,7 @@ const Issue = ({
               {created_at}
             </Moment>
           </div>
+          <br />
           <div className="timeAgo">
             Updated:&nbsp;
             <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">

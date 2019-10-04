@@ -1,390 +1,263 @@
-@import "../node_modules/react-toggle-switch/dist/css/switch.min.css";
-html {
-    background-color: black;
-}
+/* Global Styles */
 
 .App {
-    background-color: #11202C;
-}
-
-.App-header {
-    background-color: #4484B6;
-    padding: 20px 0 5px;
-    color: white;
-}
-
-.app-body {
-    text-align: center;
-    padding: 5px 30px 0;
-    background-color: #11202C;
-}
-
-.app-body span {
-    color: white;
-}
-
-.App-intro {
-    font-size: large;
-    background-color: #35678E;
-    margin: 0;
+  background-color: #11202c;
 }
 
 h1 {
-    font-size: 48px;
-    text-align: center;
-    padding: 0;
-    margin: 0;
+  font-size: 48px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
 }
 
 h2 {
-    text-align: center;
-    color: black;
-    overflow-wrap: break-word;
-}
-
-.label {
-    font-size: 12px;
-    margin: 2px 2px;
-    padding: 2px;
-    border-radius: 2px;
-    display: inline-block;
-    font-weight: 600;
-    line-height: 11px;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
-}
-
-.avatar {
-    float: left;
-    margin: 20px;
-}
-
-.avatar img {
-    border-radius: 8px;
-}
-
-.label-labels {
-    display: inline-block;
-}
-
-.label-labels label {
-    display: block;
-}
-
-input::placeholder {
-    color: lightgrey;
-}
-
-input {
-    font-size: 32px;
-}
-
-select {
-    font-size: 20px;
-}
-
-.label-search-box,
-.options {
-    text-align: center;
-}
-
-.options select {
-    margin-right: 20px;
-    margin-bottom: 10px;
-}
-
-.label-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-right: 10px;
-    color: white;
-}
-
-.searchButton {
-    border: 2px solid black;
-    font-size: 32px;
-    line-height: 40px;
-}
-
-.issue-body {
-    padding: 20px 20px 0;
-    overflow-wrap: break-word;
-}
-
-.issue {
-    min-height: 210px;
-    padding: 5px 20px 20px;
-    margin: 20px 0;
-    background-color: whitesmoke;
-    border-radius: 20px;
-}
-
-.total-count {
-    text-align: center;
-    color: white;
-}
-
-.input-component {
-    padding: 10px;
-    max-width: 300px;
-    margin-right: 30px;
-    display: inline-block;
-}
-
-.label-search-box {
-    padding: 25px;
-}
-
-.input-elements {
-    padding: 0 25px 25px;
-}
-
-.input-element {
-    display: inline-block;
-}
-
-.input-element label {
-    color: black;
-    font-size: 1em;
-}
-
-.option-inputs .input-element {
-    background-color: lightgrey;
-    margin: 0 25px 10px;
-    padding: 30px;
-    border-radius: 10px;
-}
-
-.option-inputs {
-    border: 2px solid black;
-    border-radius: 6px;
-    padding: 25px;
-    text-align: center;
+  text-align: center;
+  color: black;
+  overflow-wrap: break-word;
 }
 
 a {
-    color: black;
-    text-decoration: none;
-    font-weight: bold;
+  color: black;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-.switch {
-    background-color: black;
+/* Header Section */
+
+.App-header {
+  background-color: #4484b6;
+  padding: 20px 0 5px;
+  color: white;
 }
 
-footer {
-    background-color: black;
-    border: none;
-    text-align: center;
+/* Input & Search Section */
+
+.App-intro {
+  font-size: large;
+  background-color: #35678e;
+  margin: 0;
 }
 
-footer p {
-    padding: 15px;
+.input-elements {
+  padding: 10px 10px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-footer p a {
-    color: white;
-    font-size: 1.5em;
+.input-component {
+  display: flex;
+  flex-direction: column;
+}
+
+.label-search-box {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.label-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.input-element {
+  width: 300px;
+  font-size: 32px;
+}
+
+input::placeholder {
+  color: lightgrey;
+}
+
+.options {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 20px 10px 0;
+  background-color: #11202c;
+}
+
+.option-inputs .input-element {
+  background-color: lightgrey;
+  margin: 0 25px 10px;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.option-inputs {
+  border: 2px solid black;
+  border-radius: 6px;
+  padding: 25px;
+  text-align: center;
+}
+
+select {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.searchButton {
+  display: block;
+  font-size: 30px;
+  width: 100%;
+  margin: 10px auto;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.searchButton:hover {
+  background-color: lightyellow;
+}
+
+/* Results Section */
+
+.app-body {
+  padding: 5px 30px 0;
+  background-color: #11202c;
+}
+
+.app-body span {
+  color: white;
+}
+
+.total-count {
+  text-align: center;
+  color: white;
+}
+
+.issue-body {
+  padding: 20px 20px 0;
+  overflow-wrap: break-word;
+}
+
+.issue {
+  min-height: 210px;
+  padding: 5px 20px 20px;
+  margin: 20px 0;
+  background-color: whitesmoke;
+  border-radius: 20px;
+}
+
+.issue:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.label {
+  font-size: 12px;
+  margin: 2px 2px;
+  padding: 2px;
+  border-radius: 2px;
+  display: inline-block;
+  font-weight: 600;
+  line-height: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+}
+
+.avatar {
+  float: left;
+  margin: 20px;
+}
+
+.avatar img {
+  border-radius: 8px;
+}
+
+.label-labels {
+  display: inline-block;
+}
+
+.label-labels label {
+  display: block;
 }
 
 .times {
-    float: right;
+  float: right;
 }
 
 .timeAgo {
-    display: inline-block;
+  display: inline-block;
 }
 
-time {
-    color: black;
-    background-color: lightgrey;
-    margin: 0 10px 20px 5px;
-    border-radius: 2px;
-    padding: 3px;
+/* Footer Section */
+
+footer {
+  background-color: black;
+  border: none;
+  text-align: center;
 }
+
+footer p {
+  padding: 15px;
+}
+
+footer p a {
+  color: white;
+  font-size: 1.5em;
+}
+
+/* Loading Spinner */
 
 .loading {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: #fff;
-}
-
-.loading {
-    left: 50%;
-    margin-left: -4em;
-    font-size: 10px;
-    border: .8em solid rgba(218, 219, 223, 1);
-    border-left: .8em solid #4484B6;
-    animation: spin 1.1s infinite linear;
-}
-
-.loading,
-.loading:after {
-    border-radius: 50%;
-    width: 8em;
-    height: 8em;
-    display: block;
-    position: absolute;
-    top: 50%;
-    margin-top: -4.05em;
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 50%;
+  width: 8em;
+  height: 8em;
+  margin-left: -4em;
+  margin-top: -4em;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 10px;
+  border: 0.8em solid rgba(218, 219, 223, 1);
+  border-left: 0.8em solid #4484b6;
+  animation: spin 1.1s infinite linear;
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(-360deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(-360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
+/* Media Queries */
 
-/* start responsive design css */
+@media screen and (max-width: 990px) {
+  .label-search-box {
+    display: block;
+    margin-bottom: 30px;
+  }
 
+  .input-element {
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-/* https://codepen.io/Cheesetoast/pen/KFAaq */
+  .input-component {
+    margin-bottom: 20px;
+  }
 
-@import url(//fonts.googleapis.com/css?family=Open+Sans);
-body {
-    font-family: 'Open Sans', sans-serif;
-    color: #666;
+  .times {
+    float: none;
+    margin: 10px 0;
+  }
 }
 
+@media screen and (max-width: 640px) {
+  .options {
+    display: block;
+  }
 
-/* STRUCTURE */
-
-#pagewrap {
-    padding: 5px;
-    width: 960px;
-    margin: 20px auto;
-}
-
-header {
-    height: 100px;
-    padding: 0 15px;
-}
-
-#content {
-    width: 290px;
-    float: left;
-    padding: 5px 15px;
-}
-
-#middle {
-    width: 294px;
-    /* Account for margins + border values */
-    float: left;
-    padding: 5px 15px;
-    margin: 0px 5px 5px 5px;
-}
-
-#sidebar {
-    width: 270px;
-    padding: 5px 15px;
-    float: left;
-}
-
-footer {
-    clear: both;
-    padding: 0 15px;
-}
-
-
-/************************************************************************************
-MEDIA QUERIES
-*************************************************************************************/
-
-
-/* for 980px or less */
-
-@media screen and (max-width: 980px) {
-    #pagewrap {
-        width: 94%;
-    }
-    #content {
-        width: 41%;
-        padding: 1% 4%;
-    }
-    #middle {
-        width: 41%;
-        padding: 1% 4%;
-        margin: 0px 0px 5px 5px;
-        float: right;
-    }
-    #sidebar {
-        clear: both;
-        padding: 1% 4%;
-        width: auto;
-        float: none;
-    }
-    header,
-    footer {
-        padding: 1% 4%;
-    }
-}
-
-
-/* for 700px or less */
-
-@media screen and (max-width: 600px) {
-    #content {
-        width: auto;
-        float: none;
-    }
-    #middle {
-        width: auto;
-        float: none;
-        margin-left: 0px;
-    }
-    #sidebar {
-        width: auto;
-        float: none;
-    }
-}
-
-
-/* for 480px or less */
-
-@media screen and (max-width: 599px) {
-    header {
-        height: auto;
-    }
-    h1 {
-        font-size: 2em;
-    }
-    #sidebar {
-        display: none;
-    }
-    /* flex-box to stack selectors*/
-    /* TODO:  */
-    .input-elements {
-        display: flex;
-        flex-flow: column nowrap;
-    }
-    .options select {
-        display: flex;
-        margin-left: 2rem;
-        margin-bottom: 3rem;
-        width: 88%;
-    }
-    .label-search-box {
-        width: 380px;
-    }
-    .searchButton {
-        width: 88%;
-    }
-    #content {
-        background: #f8f8f8;
-    }
-    #sidebar {
-        background: #f0efef;
-    }
-    header,
-    #content,
-    #middle,
-    #sidebar {
-        margin-bottom: 5px;
-    }
+  select {
+    width: 100%;
+  }
 }
