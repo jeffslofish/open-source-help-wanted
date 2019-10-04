@@ -348,7 +348,8 @@ MEDIA QUERIES
 }
 
 /* for 480px or less */
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 599px) {
+
 
   header {
     height: auto;
@@ -362,9 +363,24 @@ MEDIA QUERIES
     display: none;
   }
 
+/* flex-box to stack selectors*/ /* TODO:  */
+.input-elements{
+  display:flex;
+  flex-flow: column nowrap;
 }
+.options select{
+display: flex;
+ margin-left:2rem;
+ margin-bottom: 3rem;
+ width: 88%;
 
-
+}
+.label-search-box{
+  width:380px;
+}
+.searchButton{
+  width:88%;
+}
 #content {
   background: #f8f8f8;
 }
@@ -378,4 +394,5 @@ header,
 #middle,
 #sidebar {
   margin-bottom: 5px;
+}
 }
