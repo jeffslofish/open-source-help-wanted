@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 const Avatar = ({ url, user_url }) => {
   return (
-    <div className='avatar'>
-      <a href={user_url}>
-        <img style={imgStyle} src={url} alt='' />
+    <div className="avatar">
+      <a target="_blank" rel="noopener noreferrer" href={user_url}>
+        <img style={imgStyle} src={url} alt="" />
       </a>
     </div>
   );
