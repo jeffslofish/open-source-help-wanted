@@ -20,13 +20,17 @@ const Issue = ({
   return (
     <div className="issue">
       <h2>
-        <a target="_blank" href={html_url}>
+        <a target="_blank" rel="noopener noreferrer" href={html_url}>
           {title}
         </a>
       </h2>
       <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
       <div>
-        <a target="_blank" href={getRepoUrlFromIssueUrl(html_url)}>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href={getRepoUrlFromIssueUrl(html_url)}
+        >
           {getRepoNameFromIssueUrl(html_url)}
         </a>
         {assignee && <Assignee user={assignee} />}
