@@ -18,7 +18,7 @@ const Issue = ({
   }
 }) => {
   return (
-    <div className='issue'>
+    <div className="issue">
       <h2>
         <a href={html_url}>{title}</a>
       </h2>
@@ -28,26 +28,28 @@ const Issue = ({
           {getRepoNameFromIssueUrl(html_url)}
         </a>
         {assignee && <Assignee user={assignee} />}
-        <div className='times'>
-          <div className='timeAgo'>
-            Created:
-            <Moment fromNow parse='YYYY-MM-DDTHH:mm:ssZ'>
+        <div className="times">
+          <div className="timeAgo">
+            Created:&nbsp;
+            <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
               {created_at}
             </Moment>
           </div>
-          <div className='timeAgo'>
-            Updated:
-            <Moment fromNow parse='YYYY-MM-DDTHH:mm:ssZ'>
+          <div className="timeAgo">
+            Updated:&nbsp;
+            <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
               {updated_at}
             </Moment>
           </div>
         </div>
       </div>
       <Labels labels={labels} />
-      <p className='issue-body'>
-        {body.length < maxBodyLength
-          ? body
-          : body.substr(0, maxBodyLength) + '...'}
+      <p className="issue-body">
+        {body
+          ? body.length < maxBodyLength
+            ? body
+            : body.substr(0, maxBodyLength) + '...'
+          : ''}
       </p>
     </div>
   );
@@ -99,7 +101,7 @@ Issue.propTypes = {
     created_at: PropTypes.string.isRequired,
     updated_at: PropTypes.string.isRequired,
     labels: PropTypes.array.isRequired,
-    body: PropTypes.string.isRequired
+    body: PropTypes.string
   }).isRequired
 };
 
