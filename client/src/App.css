@@ -39,6 +39,7 @@ h1 {
 h2 {
     text-align: center;
     color: black;
+    overflow-wrap: break-word;
 }
 
 .label {
@@ -106,6 +107,7 @@ select {
 
 .issue-body {
     padding: 20px 20px 0;
+    overflow-wrap: break-word;
 }
 
 .issue {
