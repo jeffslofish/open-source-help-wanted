@@ -14,7 +14,14 @@ export default function Main() {
   const [sortDesc, setSortDesc] = useState(true);
   const [issueAssigned, setIssueAssigned] = useState(false);
 
-  const handleNextButton = () =>
+  const handleNextButton = () => {
+
+    window.scroll({
+      top:0,
+      left:0,
+      behavior: 'smooth'
+    })
+
     githubContext.search(
       githubContext.page + 1,
       githubContext.resultsPerPage,
@@ -25,7 +32,13 @@ export default function Main() {
       sortDesc,
       issueAssigned
     );
-  const handlePrevButton = () =>
+  }
+  const handlePrevButton = () => {
+    window.scroll({
+      top:0,
+      left:0,
+      behavior: 'smooth'
+  })
     githubContext.search(
       githubContext.page > 1 ? githubContext.page - 1 : githubContext.page,
       githubContext.resultsPerPage,
@@ -36,6 +49,7 @@ export default function Main() {
       sortDesc,
       issueAssigned
     );
+  }
   const onSortCreatedChange = e => setSortCreated(e.target.value);
   const onSortDescChange = e => setSortDesc(e.target.value);
   const onIssueAssignedChange = e => setIssueAssigned(e.target.value);
