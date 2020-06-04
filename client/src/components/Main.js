@@ -10,7 +10,7 @@ export default function Main() {
   const [labels, setLabels] = useState('');
   const [keywords, setKeywords] = useState('');
   const [language, setLanguage] = useState('');
-  const [sortCreated, setSortCreated] = useState(true);
+  const [sortType, setSortType] = useState('created');
   const [sortDesc, setSortDesc] = useState(true);
   const [issueAssigned, setIssueAssigned] = useState(false);
 
@@ -28,7 +28,7 @@ export default function Main() {
       labels,
       keywords,
       language,
-      sortCreated,
+      sortType,
       sortDesc,
       issueAssigned
     );
@@ -45,12 +45,12 @@ export default function Main() {
       labels,
       keywords,
       language,
-      sortCreated,
+      sortType,
       sortDesc,
       issueAssigned
     );
   }
-  const onSortCreatedChange = e => setSortCreated(e.target.value);
+  const onSortTypeChange = e => setSortType(e.target.value);
   const onSortDescChange = e => setSortDesc(e.target.value);
   const onIssueAssignedChange = e => setIssueAssigned(e.target.value);
 
@@ -63,7 +63,7 @@ export default function Main() {
       labels,
       keywords,
       language,
-      sortCreated,
+      sortType,
       sortDesc,
       issueAssigned
     );
@@ -105,13 +105,22 @@ export default function Main() {
           </div>
 
           <div className="options">
-            <select value={sortCreated} onChange={onSortCreatedChange}>
-              <option value={true}>Sort by created time</option>
-              <option value={false}>Sort by updated time</option>
+            <select value={sortType} onChange={onSortTypeChange}>
+              <option value={'created'}>Sort by created time</option>
+              <option value={'updated'}>Sort by updated time</option>
+              <option value={'comments'}>Sort by number of comments</option>
+              <option value={'reactions'}>Sort by number of reactions</option>
+              <option value={'interactions'}>Sort by number of interactions</option>
+              <option value={'reactions-+1'}>Sort by number of +1s</option>
+              <option value={'reactions--1'}>Sort by number of -1s</option>
+              <option value={'reactions-smile'}>Sort by number of smiles</option>
+              <option value={'reactions-thinking_face'}>Sort by number of thinking faces</option>
+              <option value={'reactions-heart'}>Sort by number of hearts</option>
+              <option value={'reactions-tada'}>Sort by number of tadas</option>
             </select>
             <select value={sortDesc} onChange={onSortDescChange}>
-              <option value={true}>Newest first</option>
-              <option value={false}>Oldest first</option>
+              <option value={true}>Sort Descending</option>
+              <option value={false}>Sort Ascending</option>
             </select>
             <select value={issueAssigned} onChange={onIssueAssignedChange}>
               <option value={false}>Not Assigned</option>

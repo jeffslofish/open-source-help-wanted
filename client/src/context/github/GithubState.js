@@ -22,7 +22,7 @@ const GithubState = props => {
     labels,
     keywords,
     language,
-    sortCreated,
+    sortType,
     sortDesc,
     issueAssigned
   ) => {
@@ -38,7 +38,6 @@ const GithubState = props => {
       maybePlus = '';
     }
 
-    let sortType = JSON.parse(sortCreated) ? 'created' : 'updated';
     let sortOrder = JSON.parse(sortDesc) ? 'desc' : 'asc';
     let issueAssignedState = JSON.parse(issueAssigned) ? '' : '+no:assignee';
     let searchQuery =
