@@ -50,7 +50,7 @@ const GithubState = props => {
       '&page=' +
       page +
       '&sort=' +
-      sortType +
+      encodeURIComponent(sortType) +
       '&order=' +
       sortOrder +
       '&per_page=' +
