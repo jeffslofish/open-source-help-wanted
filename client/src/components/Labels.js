@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const Labels = ({ labels }) => {
   return (
-    <div>
+    <div className="labels">
       {labels.map((label, i) => {
         const style = {
           backgroundColor: '#' + label.color,

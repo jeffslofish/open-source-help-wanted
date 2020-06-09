@@ -12,9 +12,9 @@ h1 {
 }
 
 h2 {
-  text-align: center;
   color: black;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 a {
@@ -128,14 +128,45 @@ select {
   color: white;
 }
 
+.issue-header {
+  display: grid;
+  grid-template-columns: 120px auto;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.issue-header .main {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.issue-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
 .issue-body {
   padding: 20px 20px 0;
   overflow-wrap: break-word;
 }
 
+.issue-body img {
+  max-width: 100%;
+}
+
+.issue-body .mde-header {
+  display: none;
+}
+
+.issue-body .react-mde {
+  border: none;
+}
+
 .issue {
   min-height: 210px;
-  padding: 5px 20px 20px;
+  padding: 10px;
   margin: 20px 0;
   background-color: whitesmoke;
   border-radius: 20px;
@@ -145,6 +176,15 @@ select {
   content: '';
   display: table;
   clear: both;
+}
+
+.repo {
+  margin: 5px 0;
+  overflow-wrap: anywhere;
+}
+
+.labels {
+  margin: 5px 0;
 }
 
 .label {
@@ -160,7 +200,7 @@ select {
 }
 
 .avatar {
-  float: left;
+  /*float: left;*/
   margin: 20px;
 }
 
@@ -177,6 +217,7 @@ select {
 }
 
 .times {
+  margin: 5px 0;
   float: right;
 }
 
@@ -248,7 +289,7 @@ footer p a {
 
   .times {
     float: none;
-    margin: 10px 0;
+    margin: 5px 0;
   }
 }
 
@@ -259,5 +300,14 @@ footer p a {
 
   select {
     width: 100%;
+  }
+
+  .issue-header {
+    display: grid;
+    grid-template-columns: auto;
+  }
+
+  .avatar {
+    display: none;
   }
 }
