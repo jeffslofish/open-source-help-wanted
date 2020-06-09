@@ -4,6 +4,16 @@ import Assignee from './Assignee';
 import Labels from './Labels';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
+import ReactMde from 'react-mde';
+import * as Showdown from 'showdown';
+import 'react-mde/lib/styles/css/react-mde-all.css';
+
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+});
 
 const Issue = ({
   issue: {
@@ -14,50 +24,62 @@ const Issue = ({
     created_at,
     updated_at,
     labels,
-    body
-  }
+    body,
+  },
 }) => {
   return (
     <div className="issue">
-      <h2>
-        <a target="_blank" rel="noopener noreferrer" href={html_url}>
-          {title}
-        </a>
-      </h2>
-      <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
-      <div>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={getRepoUrlFromIssueUrl(html_url)}
-        >
-          {getRepoNameFromIssueUrl(html_url)}
-        </a>
-        {assignee && <Assignee user={assignee} />}
-        <div className="times">
-          <div className="timeAgo">
-            Created:&nbsp;
-            <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
-              {created_at}
-            </Moment>
+      <div className="issue-header">
+        <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
+        <div className="main">
+          <h2 className="issue-title">
+            <a target="_blank" rel="noopener noreferrer" href={html_url}>
+              {title}
+            </a>
+          </h2>
+        
+          <div className="repo">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href={getRepoUrlFromIssueUrl(html_url)}
+            >
+              {getRepoNameFromIssueUrl(html_url)}
+            </a>
+            {assignee && <Assignee user={assignee} />}
           </div>
-          <br />
-          <div className="timeAgo">
-            Updated:&nbsp;
-            <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
-              {updated_at}
-            </Moment>
+          <Labels labels={labels} />
+
+          <div className="times">
+            <div className="timeAgo">
+              Created:&nbsp;
+              <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
+                {created_at}
+              </Moment>
+            </div>
+            <br />
+            <div className="timeAgo">
+              Updated:&nbsp;
+              <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
+                {updated_at}
+              </Moment>
+            </div>
           </div>
         </div>
       </div>
-      <Labels labels={labels} />
-      <p className="issue-body">
-        {body
-          ? body.length < maxBodyLength
-            ? body
-            : body.substr(0, maxBodyLength) + '...'
-          : ''}
-      </p>
+     
+
+      <div className="issue-body">
+        {body && (
+          <ReactMde
+            value={body}
+            selectedTab={'preview'}
+            generateMarkdownPreview={(markdown) =>
+              Promise.resolve(converter.makeHtml(markdown))
+            }
+          />
+        )}
+      </div>
     </div>
   );
 };
@@ -98,18 +120,18 @@ Issue.propTypes = {
   issue: PropTypes.shape({
     html_url: PropTypes.string.isRequired,
     user: PropTypes.shape({
-      avatar_url: PropTypes.string.isRequired
+      avatar_url: PropTypes.string.isRequired,
     }).isRequired,
     title: PropTypes.string.isRequired,
     assignee: PropTypes.shape({
       html_url: PropTypes.string.isRequired,
-      avatar_url: PropTypes.string.isRequired
+      avatar_url: PropTypes.string.isRequired,
     }),
     created_at: PropTypes.string.isRequired,
     updated_at: PropTypes.string.isRequired,
     labels: PropTypes.array.isRequired,
-    body: PropTypes.string
-  }).isRequired
+    body: PropTypes.string,
+  }).isRequired,
 };
 
 export default Issue;
