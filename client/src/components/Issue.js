@@ -32,11 +32,11 @@ const Issue = ({
       <div className="issue-header">
         <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
         <div className="main">
-          <h2 className="issue-title">
+          <p className="issue-title">
             <a target="_blank" rel="noopener noreferrer" href={html_url}>
               {title}
             </a>
-          </h2>
+          </p>
         
           <div className="repo">
             <a
