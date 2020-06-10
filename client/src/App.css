@@ -148,7 +148,7 @@ select {
 }
 
 .issue-body {
-  padding: 20px 20px 0;
+  padding: 0 20px;
   overflow-wrap: break-word;
 }
 
@@ -164,8 +164,11 @@ select {
   border: none;
 }
 
+.issue-body .mde-preview {
+  min-height: 0px !important;
+}
+
 .issue {
-  min-height: 210px;
   padding: 10px;
   margin: 20px 0;
   background-color: whitesmoke;
