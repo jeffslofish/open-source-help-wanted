@@ -72,12 +72,15 @@ input::placeholder {
   color: lightgrey;
 }
 
+.advanced-options {
+  border: 2px solid black;
+}
+
 .options {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
   padding: 20px 10px 0;
-  background-color: #11202c;
 }
 
 .option-inputs .input-element {
