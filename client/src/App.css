@@ -248,6 +248,20 @@ footer p a {
   font-size: 1.5em;
 }
 
+.octicon {
+  display: inline-block;
+  vertical-align: text-top;
+  fill: currentColor;
+}
+
+.open.octicon {
+  color: #28a745;
+}
+
+.closed.octicon {
+  color: #cb2431;
+}
+
 /* Loading Spinner */
 
 .loading {
