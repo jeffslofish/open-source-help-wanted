@@ -29,7 +29,10 @@ const GithubState = (props) => {
     inBody,
     inComments,
     issueOrPullRequest,
-    state
+    state,
+    user,
+    org,
+    repo
   ) => {
     setLoading();
 
@@ -42,6 +45,10 @@ const GithubState = (props) => {
     if (keywordQuery === '' || labelQuery === '') {
       maybePlus = '';
     }
+
+    const userQuery = user.length ? 'user:' + encodeURIComponent(user) : '';
+    const orgQuery = org.length ? 'org:' + encodeURIComponent(org) : '';
+    const repoQuery = repo.length ? 'repo:' + encodeURIComponent(repo) : '';
 
     const inTitleQuery = inTitle ? ' in:title ' : '';
     const inBodyQuery = inBody ? ' in:body ' : '';
@@ -73,6 +80,9 @@ const GithubState = (props) => {
       inTitleQuery +
       inBodyQuery +
       inCommentsQuery +
+      userQuery +
+      orgQuery +
+      repoQuery +
       issueOrPullRequestQuery +
       maybePlus +
       labelQuery +

@@ -19,6 +19,9 @@ export default function Main() {
   const [issueOrPullRequest, setIssueOrPullRequest] = useState('issue');
   const [state, setState] = useState('open');
   const [expanded, setExpanded] = useState(false);
+  const [user, setUser] = useState('');
+  const [org, setOrg] = useState('');
+  const [repo, setRepo] = useState('');
 
   const handleNextButton = () => {
     window.scroll({
@@ -40,7 +43,10 @@ export default function Main() {
       inBody,
       inComments,
       issueOrPullRequest,
-      state
+      state,
+      user,
+      org,
+      repo
     );
   };
   const handlePrevButton = () => {
@@ -62,7 +68,10 @@ export default function Main() {
       inBody,
       inComments,
       issueOrPullRequest,
-      state
+      state,
+      user,
+      org,
+      repo
     );
   };
   const onSortTypeChange = (e) => setSortType(e.target.value);
@@ -101,7 +110,10 @@ export default function Main() {
       inBody,
       inComments,
       issueOrPullRequest,
-      state
+      state,
+      user,
+      org,
+      repo
     );
   };
 
@@ -145,6 +157,29 @@ export default function Main() {
 
             {expanded && (
               <div className="advanced-options">
+                <div className="label-search-box">
+                  <InputElement
+                    label={'User'}
+                    placeholder={'jeffslofish'}
+                    text={user}
+                    setText={setUser}
+                  />
+
+                  <InputElement
+                    label={'Org'}
+                    placeholder={'slofish'}
+                    text={org}
+                    setText={setOrg}
+                  />
+
+                  <InputElement
+                    label={'Repo'}
+                    placeholder={'jeffslofish/open-source-help-wanted'}
+                    text={repo}
+                    setText={setRepo}
+                  />
+                </div>
+
                 <div className="options"></div>
                 <fieldset>
                   <legend>Search for keywords in: </legend>
