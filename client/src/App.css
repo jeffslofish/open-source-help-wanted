@@ -72,12 +72,15 @@ input::placeholder {
   color: lightgrey;
 }
 
+.advanced-options {
+  border: 2px solid black;
+}
+
 .options {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
   padding: 20px 10px 0;
-  background-color: #11202c;
 }
 
 .option-inputs .input-element {
@@ -243,6 +246,20 @@ footer p {
 footer p a {
   color: white;
   font-size: 1.5em;
+}
+
+.octicon {
+  display: inline-block;
+  vertical-align: text-top;
+  fill: currentColor;
+}
+
+.open.octicon {
+  color: #28a745;
+}
+
+.closed.octicon {
+  color: #cb2431;
 }
 
 /* Loading Spinner */

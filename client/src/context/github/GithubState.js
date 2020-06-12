@@ -3,13 +3,13 @@ import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING } from '../types';
 
-const GithubState = props => {
+const GithubState = (props) => {
   const initialState = {
     issues: [],
     totalCount: 0,
     resultsPerPage: 25,
     page: 1,
-    loading: false
+    loading: false,
   };
 
   const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -24,7 +24,17 @@ const GithubState = props => {
     language,
     sortType,
     sortDesc,
-    issueAssigned
+    issueAssigned,
+    inTitle,
+    inBody,
+    inComments,
+    issueOrPullRequest,
+    state,
+    user,
+    org,
+    repo,
+    author,
+    assignee
   ) => {
     setLoading();
 
@@ -38,19 +48,56 @@ const GithubState = props => {
       maybePlus = '';
     }
 
+    const authorQuery = author.length
+      ? 'author:' + encodeURIComponent(author)
+      : '';
+    const userQuery = user.length ? 'user:' + encodeURIComponent(user) : '';
+    const orgQuery = org.length ? 'org:' + encodeURIComponent(org) : '';
+    const repoQuery = repo.length ? 'repo:' + encodeURIComponent(repo) : '';
+    const assigneeQuery = assignee.length
+      ? 'assignee:' + encodeURIComponent(assignee)
+      : '';
+
+    const inTitleQuery = inTitle ? ' in:title ' : '';
+    const inBodyQuery = inBody ? ' in:body ' : '';
+    const inCommentsQuery = inComments ? 'in:comments ' : '';
+
+    let issueOrPullRequestQuery = ' ';
+    if (issueOrPullRequest === 'issue') {
+      issueOrPullRequestQuery = ' is:issue ';
+    } else if (issueOrPullRequest === 'pr') {
+      issueOrPullRequestQuery = ' is:pr ';
+    }
+
+    let stateQuery = ' ';
+    if (state === 'open') {
+      stateQuery = ' is:open ';
+    } else if (state === 'closed') {
+      stateQuery = ' is:closed ';
+    }
+
     // Prevent issues that were somehow created or updated "in the future" to show up in results: only show past issues
-    const today = new Date().toISOString().slice(0,10);
+    const today = new Date().toISOString().slice(0, 10);
     const pastIssueQuery = ` created:<=${today} updated:<=${today} `;
 
     let sortOrder = JSON.parse(sortDesc) ? 'desc' : 'asc';
     let issueAssignedState = JSON.parse(issueAssigned) ? '' : '+no:assignee';
     let searchQuery =
       keywordQuery +
-      pastIssueQuery + 
+      pastIssueQuery +
+      inTitleQuery +
+      inBodyQuery +
+      inCommentsQuery +
+      authorQuery +
+      userQuery +
+      orgQuery +
+      repoQuery +
+      assigneeQuery +
+      issueOrPullRequestQuery +
       maybePlus +
       labelQuery +
       languageQuery +
-      '+type:issue+state:open' +
+      stateQuery +
       issueAssignedState +
       '&page=' +
       page +
@@ -64,20 +111,20 @@ const GithubState = props => {
     let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
     fetch(myRequest)
-      .then(function(response) {
+      .then(function (response) {
         return response.json();
       })
-      .then(function(data) {
+      .then(function (data) {
         dispatch({
           type: SEARCH_ISSUES,
           payload: {
             issues: data.items,
             totalCount: Number.parseInt(data.total_count, 10),
-            page: page
-          }
+            page: page,
+          },
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err); //TODO: proper error handling
       });
   };
@@ -90,7 +137,7 @@ const GithubState = props => {
         resultsPerPage: state.resultsPerPage,
         page: state.page,
         loading: state.loading,
-        search
+        search,
       }}
     >
       {props.children}
