@@ -27,7 +27,9 @@ const GithubState = (props) => {
     issueAssigned,
     inTitle,
     inBody,
-    inComments
+    inComments,
+    issueOrPullRequest,
+    state
   ) => {
     setLoading();
 
@@ -45,6 +47,20 @@ const GithubState = (props) => {
     const inBodyQuery = inBody ? ' in:body ' : '';
     const inCommentsQuery = inComments ? 'in:comments ' : '';
 
+    let issueOrPullRequestQuery = ' ';
+    if (issueOrPullRequest === 'issue') {
+      issueOrPullRequestQuery = ' is:issue ';
+    } else if (issueOrPullRequest === 'pr') {
+      issueOrPullRequestQuery = ' is:pr ';
+    }
+
+    let stateQuery = ' ';
+    if (state === 'open') {
+      stateQuery = ' is:open ';
+    } else if (state === 'closed') {
+      stateQuery = ' is:closed ';
+    }
+
     // Prevent issues that were somehow created or updated "in the future" to show up in results: only show past issues
     const today = new Date().toISOString().slice(0, 10);
     const pastIssueQuery = ` created:<=${today} updated:<=${today} `;
@@ -57,10 +73,11 @@ const GithubState = (props) => {
       inTitleQuery +
       inBodyQuery +
       inCommentsQuery +
+      issueOrPullRequestQuery +
       maybePlus +
       labelQuery +
       languageQuery +
-      '+type:issue+state:open' +
+      stateQuery +
       issueAssignedState +
       '&page=' +
       page +

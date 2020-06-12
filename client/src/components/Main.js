@@ -16,6 +16,8 @@ export default function Main() {
   const [inTitle, setInTitle] = useState(true);
   const [inBody, setInBody] = useState(true);
   const [inComments, setInComments] = useState(true);
+  const [issueOrPullRequest, setIssueOrPullRequest] = useState('issue');
+  const [state, setState] = useState('open');
 
   const handleNextButton = () => {
     window.scroll({
@@ -35,7 +37,9 @@ export default function Main() {
       issueAssigned,
       inTitle,
       inBody,
-      inComments
+      inComments,
+      issueOrPullRequest,
+      state
     );
   };
   const handlePrevButton = () => {
@@ -55,7 +59,9 @@ export default function Main() {
       issueAssigned,
       inTitle,
       inBody,
-      inComments
+      inComments,
+      issueOrPullRequest,
+      state
     );
   };
   const onSortTypeChange = (e) => setSortType(e.target.value);
@@ -64,6 +70,9 @@ export default function Main() {
   const onInTitleChange = (e) => setInTitle(e.target.checked);
   const onInBodyChange = (e) => setInBody(e.target.checked);
   const onInCommentsChange = (e) => setInComments(e.target.checked);
+  const onIssueOrPullRequestChange = (e) =>
+    setIssueOrPullRequest(e.target.value);
+  const onStateChange = (e) => setState(e.target.value);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -79,7 +88,9 @@ export default function Main() {
       issueAssigned,
       inTitle,
       inBody,
-      inComments
+      inComments,
+      issueOrPullRequest,
+      state
     );
   };
 
@@ -150,7 +161,7 @@ export default function Main() {
             </select>
           </div>
           <fieldset>
-            <legend>Search in: </legend>
+            <legend>Search for keywords in: </legend>
             <label>
               <input
                 type="checkbox"
@@ -176,6 +187,19 @@ export default function Main() {
               comments
             </label>
           </fieldset>
+          <select
+            value={issueOrPullRequest}
+            onChange={onIssueOrPullRequestChange}
+          >
+            <option value={'issue'}>Is Issue</option>
+            <option value={'pr'}>Is Pull Request</option>
+            <option value={'either'}>Is Issue or Pull Request</option>
+          </select>
+          <select value={state} onChange={onStateChange}>
+            <option value={'open'}>Is Open</option>
+            <option value={'closed'}>Is Closed</option>
+            <option value={'either'}>Is Open or Closed</option>
+          </select>
         </form>
       </div>
       <div className="app-body">

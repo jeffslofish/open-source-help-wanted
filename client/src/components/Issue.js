@@ -25,10 +25,16 @@ const Issue = ({
     updated_at,
     labels,
     body,
+    draft,
+    state,
   },
 }) => {
   return (
     <div className="issue">
+      {draft === undefined && state === 'open' && <p>open issue</p>}
+      {draft === undefined && state === 'closed' && <p>closed issue</p>}
+      {draft !== undefined && state === 'open' && <p>open pr</p>}
+      {draft !== undefined && state === 'closed' && <p>closed pr</p>}
       <div className="issue-header">
         <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
         <div className="main">
@@ -37,7 +43,7 @@ const Issue = ({
               {title}
             </a>
           </p>
-        
+
           <div className="repo">
             <a
               target="_blank"
@@ -67,7 +73,6 @@ const Issue = ({
           </div>
         </div>
       </div>
-     
 
       <div className="issue-body">
         {body && (
