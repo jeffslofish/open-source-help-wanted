@@ -136,14 +136,14 @@ export default function Main() {
       {githubContext.loading && <div className="loading" />}
       <div className="App-header">
         <h1>Open Source Help Wanted</h1>
-        <h2>Find issues you can work on in Github. Be a contributor!</h2>
+        <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
       </div>
       <div className="App-intro">
         <form onSubmit={handleSubmit}>
           <div className="input-elements">
             <div className="label-search-box">
               <InputElement
-                label={'Github label names'}
+                label={'GitHub label names'}
                 placeholder={'help wanted, bug'}
                 text={labels}
                 setText={setLabels}
@@ -331,7 +331,7 @@ export default function Main() {
       <footer>
         <p>
           <a href="https://github.com/jeffslofish/open-source-help-wanted">
-            Fork me on Github and contribute!
+            Fork me on GitHub and contribute!
           </a>
         </p>
       </footer>
