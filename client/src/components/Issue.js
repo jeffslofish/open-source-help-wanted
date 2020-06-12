@@ -84,8 +84,6 @@ const Issue = ({
   );
 };
 
-const maxBodyLength = 500;
-
 function getRepoUrlFromIssueUrl(html_url) {
   let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
   let matches = html_url.match(pattern);
