@@ -2,6 +2,8 @@
 
 Find issues to work on with the labels and keywords you specify.
 
+See live app running here: https://open-source-help-wanted.herokuapp.com (please allow several seconds for first load).
+
 ![Screenshot](screenshot.png)
 
 ## To get started
