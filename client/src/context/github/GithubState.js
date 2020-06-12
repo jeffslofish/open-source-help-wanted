@@ -38,10 +38,15 @@ const GithubState = props => {
       maybePlus = '';
     }
 
+    // Prevent issues that were somehow created or updated "in the future" to show up in results: only show past issues
+    const today = new Date().toISOString().slice(0,10);
+    const pastIssueQuery = ` created:<=${today} updated:<=${today} `;
+
     let sortOrder = JSON.parse(sortDesc) ? 'desc' : 'asc';
     let issueAssignedState = JSON.parse(issueAssigned) ? '' : '+no:assignee';
     let searchQuery =
       keywordQuery +
+      pastIssueQuery + 
       maybePlus +
       labelQuery +
       languageQuery +
