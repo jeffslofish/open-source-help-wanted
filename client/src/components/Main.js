@@ -19,6 +19,7 @@ export default function Main() {
   const [issueOrPullRequest, setIssueOrPullRequest] = useState('issue');
   const [state, setState] = useState('open');
   const [expanded, setExpanded] = useState(false);
+  const [author, setAuthor] = useState('');
   const [user, setUser] = useState('');
   const [org, setOrg] = useState('');
   const [repo, setRepo] = useState('');
@@ -46,7 +47,8 @@ export default function Main() {
       state,
       user,
       org,
-      repo
+      repo,
+      author
     );
   };
   const handlePrevButton = () => {
@@ -71,7 +73,8 @@ export default function Main() {
       state,
       user,
       org,
-      repo
+      repo,
+      author
     );
   };
   const onSortTypeChange = (e) => setSortType(e.target.value);
@@ -113,7 +116,8 @@ export default function Main() {
       state,
       user,
       org,
-      repo
+      repo,
+      author
     );
   };
 
@@ -158,6 +162,13 @@ export default function Main() {
             {expanded && (
               <div className="advanced-options">
                 <div className="label-search-box">
+                  <InputElement
+                    label={'Author'}
+                    placeholder={'jeffslofish'}
+                    text={author}
+                    setText={setAuthor}
+                  />
+
                   <InputElement
                     label={'User'}
                     placeholder={'jeffslofish'}

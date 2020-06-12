@@ -32,7 +32,8 @@ const GithubState = (props) => {
     state,
     user,
     org,
-    repo
+    repo,
+    author
   ) => {
     setLoading();
 
@@ -46,6 +47,9 @@ const GithubState = (props) => {
       maybePlus = '';
     }
 
+    const authorQuery = author.length
+      ? 'author:' + encodeURIComponent(author)
+      : '';
     const userQuery = user.length ? 'user:' + encodeURIComponent(user) : '';
     const orgQuery = org.length ? 'org:' + encodeURIComponent(org) : '';
     const repoQuery = repo.length ? 'repo:' + encodeURIComponent(repo) : '';
@@ -80,6 +84,7 @@ const GithubState = (props) => {
       inTitleQuery +
       inBodyQuery +
       inCommentsQuery +
+      authorQuery +
       userQuery +
       orgQuery +
       repoQuery +
