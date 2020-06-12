@@ -3,13 +3,13 @@ import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING } from '../types';
 
-const GithubState = props => {
+const GithubState = (props) => {
   const initialState = {
     issues: [],
     totalCount: 0,
     resultsPerPage: 25,
     page: 1,
-    loading: false
+    loading: false,
   };
 
   const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -24,7 +24,10 @@ const GithubState = props => {
     language,
     sortType,
     sortDesc,
-    issueAssigned
+    issueAssigned,
+    inTitle,
+    inBody,
+    inComments
   ) => {
     setLoading();
 
@@ -38,15 +41,22 @@ const GithubState = props => {
       maybePlus = '';
     }
 
+    const inTitleQuery = inTitle ? ' in:title ' : '';
+    const inBodyQuery = inBody ? ' in:body ' : '';
+    const inCommentsQuery = inComments ? 'in:comments ' : '';
+
     // Prevent issues that were somehow created or updated "in the future" to show up in results: only show past issues
-    const today = new Date().toISOString().slice(0,10);
+    const today = new Date().toISOString().slice(0, 10);
     const pastIssueQuery = ` created:<=${today} updated:<=${today} `;
 
     let sortOrder = JSON.parse(sortDesc) ? 'desc' : 'asc';
     let issueAssignedState = JSON.parse(issueAssigned) ? '' : '+no:assignee';
     let searchQuery =
       keywordQuery +
-      pastIssueQuery + 
+      pastIssueQuery +
+      inTitleQuery +
+      inBodyQuery +
+      inCommentsQuery +
       maybePlus +
       labelQuery +
       languageQuery +
@@ -64,20 +74,20 @@ const GithubState = props => {
     let myRequest = new Request('/api/github/rest?q=' + searchQuery);
 
     fetch(myRequest)
-      .then(function(response) {
+      .then(function (response) {
         return response.json();
       })
-      .then(function(data) {
+      .then(function (data) {
         dispatch({
           type: SEARCH_ISSUES,
           payload: {
             issues: data.items,
             totalCount: Number.parseInt(data.total_count, 10),
-            page: page
-          }
+            page: page,
+          },
         });
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.log(err); //TODO: proper error handling
       });
   };
@@ -90,7 +100,7 @@ const GithubState = props => {
         resultsPerPage: state.resultsPerPage,
         page: state.page,
         loading: state.loading,
-        search
+        search,
       }}
     >
       {props.children}

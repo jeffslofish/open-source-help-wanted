@@ -13,14 +13,16 @@ export default function Main() {
   const [sortType, setSortType] = useState('created');
   const [sortDesc, setSortDesc] = useState(true);
   const [issueAssigned, setIssueAssigned] = useState(false);
+  const [inTitle, setInTitle] = useState(true);
+  const [inBody, setInBody] = useState(true);
+  const [inComments, setInComments] = useState(true);
 
   const handleNextButton = () => {
-
     window.scroll({
-      top:0,
-      left:0,
-      behavior: 'smooth'
-    })
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
 
     githubContext.search(
       githubContext.page + 1,
@@ -30,15 +32,18 @@ export default function Main() {
       language,
       sortType,
       sortDesc,
-      issueAssigned
+      issueAssigned,
+      inTitle,
+      inBody,
+      inComments
     );
-  }
+  };
   const handlePrevButton = () => {
     window.scroll({
-      top:0,
-      left:0,
-      behavior: 'smooth'
-  })
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     githubContext.search(
       githubContext.page > 1 ? githubContext.page - 1 : githubContext.page,
       githubContext.resultsPerPage,
@@ -47,14 +52,20 @@ export default function Main() {
       language,
       sortType,
       sortDesc,
-      issueAssigned
+      issueAssigned,
+      inTitle,
+      inBody,
+      inComments
     );
-  }
-  const onSortTypeChange = e => setSortType(e.target.value);
-  const onSortDescChange = e => setSortDesc(e.target.value);
-  const onIssueAssignedChange = e => setIssueAssigned(e.target.value);
+  };
+  const onSortTypeChange = (e) => setSortType(e.target.value);
+  const onSortDescChange = (e) => setSortDesc(e.target.value);
+  const onIssueAssignedChange = (e) => setIssueAssigned(e.target.value);
+  const onInTitleChange = (e) => setInTitle(e.target.checked);
+  const onInBodyChange = (e) => setInBody(e.target.checked);
+  const onInCommentsChange = (e) => setInComments(e.target.checked);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     githubContext.search(
@@ -65,7 +76,10 @@ export default function Main() {
       language,
       sortType,
       sortDesc,
-      issueAssigned
+      issueAssigned,
+      inTitle,
+      inBody,
+      inComments
     );
   };
 
@@ -110,12 +124,20 @@ export default function Main() {
               <option value={'updated'}>Sort by updated time</option>
               <option value={'comments'}>Sort by number of comments</option>
               <option value={'reactions'}>Sort by number of reactions</option>
-              <option value={'interactions'}>Sort by number of interactions</option>
+              <option value={'interactions'}>
+                Sort by number of interactions
+              </option>
               <option value={'reactions-+1'}>Sort by number of +1s</option>
               <option value={'reactions--1'}>Sort by number of -1s</option>
-              <option value={'reactions-smile'}>Sort by number of smiles</option>
-              <option value={'reactions-thinking_face'}>Sort by number of thinking faces</option>
-              <option value={'reactions-heart'}>Sort by number of hearts</option>
+              <option value={'reactions-smile'}>
+                Sort by number of smiles
+              </option>
+              <option value={'reactions-thinking_face'}>
+                Sort by number of thinking faces
+              </option>
+              <option value={'reactions-heart'}>
+                Sort by number of hearts
+              </option>
               <option value={'reactions-tada'}>Sort by number of tadas</option>
             </select>
             <select value={sortDesc} onChange={onSortDescChange}>
@@ -127,6 +149,33 @@ export default function Main() {
               <option value={true}>Possibly Assigned</option>
             </select>
           </div>
+          <fieldset>
+            <legend>Search in: </legend>
+            <label>
+              <input
+                type="checkbox"
+                checked={inTitle}
+                onChange={onInTitleChange}
+              />
+              title
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={inBody}
+                onChange={onInBodyChange}
+              />
+              body
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={inComments}
+                onChange={onInCommentsChange}
+              />
+              comments
+            </label>
+          </fieldset>
         </form>
       </div>
       <div className="app-body">
