@@ -163,10 +163,14 @@ export default function Main() {
             </div>
 
             {!expanded && (
-              <button onClick={onExpand}>Show Advanced Options</button>
+              <button type={'button'} onClick={onExpand}>
+                Show Advanced Options
+              </button>
             )}
             {expanded && (
-              <button onClick={onCollapse}>Hide Advanded Options</button>
+              <button type={'button'} onClick={onCollapse}>
+                Hide Advanded Options
+              </button>
             )}
 
             {expanded && (
