@@ -23,6 +23,7 @@ export default function Main() {
   const [user, setUser] = useState('');
   const [org, setOrg] = useState('');
   const [repo, setRepo] = useState('');
+  const [assignee, setAssignee] = useState('');
 
   const handleNextButton = () => {
     window.scroll({
@@ -48,7 +49,8 @@ export default function Main() {
       user,
       org,
       repo,
-      author
+      author,
+      assignee
     );
   };
   const handlePrevButton = () => {
@@ -74,12 +76,19 @@ export default function Main() {
       user,
       org,
       repo,
-      author
+      author,
+      assignee
     );
   };
   const onSortTypeChange = (e) => setSortType(e.target.value);
   const onSortDescChange = (e) => setSortDesc(e.target.value);
-  const onIssueAssignedChange = (e) => setIssueAssigned(e.target.value);
+  const onIssueAssignedChange = (e) => {
+    if (e.target.value === 'false') {
+      setAssignee('');
+    }
+    setIssueAssigned(e.target.value);
+  };
+
   const onInTitleChange = (e) => setInTitle(e.target.checked);
   const onInBodyChange = (e) => setInBody(e.target.checked);
   const onInCommentsChange = (e) => setInComments(e.target.checked);
@@ -117,7 +126,8 @@ export default function Main() {
       user,
       org,
       repo,
-      author
+      author,
+      assignee
     );
   };
 
@@ -188,6 +198,16 @@ export default function Main() {
                     placeholder={'jeffslofish/open-source-help-wanted'}
                     text={repo}
                     setText={setRepo}
+                  />
+
+                  <InputElement
+                    label={'Assignee'}
+                    placeholder={'jeffslofish'}
+                    text={assignee}
+                    setText={(val) => {
+                      setIssueAssigned('true');
+                      setAssignee(val);
+                    }}
                   />
                 </div>
 
