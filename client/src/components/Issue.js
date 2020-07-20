@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from './Avatar';
 import Assignee from './Assignee';
 import Labels from './Labels';
@@ -29,6 +29,17 @@ const Issue = ({
     state,
   },
 }) => {
+  const [issueOpen, setIssueOpen] = useState({ open: false, text: 'more...' });
+  function openIssue() {
+    if (issueOpen.open === false) {
+      setIssueOpen({
+        open: true,
+        text: '...less',
+      });
+    } else {
+      setIssueOpen({ open: false, text: 'more...' });
+    }
+  }
   return (
     <div className="issue">
       <div className="issue-header">
@@ -100,47 +111,54 @@ const Issue = ({
             </a>
           </p>
 
-          <div className="repo">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={getRepoUrlFromIssueUrl(html_url)}
-            >
-              {getRepoNameFromIssueUrl(html_url)}
-            </a>
-            {assignee && <Assignee user={assignee} />}
-          </div>
-          <Labels labels={labels} />
-
-          <div className="times">
-            <div className="timeAgo">
-              Created:&nbsp;
-              <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
-                {created_at}
-              </Moment>
+          <div className="issue-details">
+            <div className="issue-repo">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={getRepoUrlFromIssueUrl(html_url)}
+              >
+                {getRepoNameFromIssueUrl(html_url)}
+              </a>
+              {assignee && <Assignee user={assignee} />}
+              <Labels labels={labels} />
             </div>
-            <br />
-            <div className="timeAgo">
-              Updated:&nbsp;
-              <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
-                {updated_at}
-              </Moment>
+            <div className="issue-times">
+              <div className="issue-time-ago">
+                Created:&nbsp;
+                <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
+                  {created_at}
+                </Moment>
+              </div>
+              <div className="issue-time-ago">
+                Updated:&nbsp;
+                <Moment fromNow parse="YYYY-MM-DDTHH:mm:ssZ">
+                  {updated_at}
+                </Moment>
+              </div>
             </div>
+            {body && (
+              <button className="moreButton" onClick={openIssue}>
+                {issueOpen.text}
+              </button>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="issue-body">
-        {body && (
-          <ReactMde
-            value={body}
-            selectedTab={'preview'}
-            generateMarkdownPreview={(markdown) =>
-              Promise.resolve(converter.makeHtml(markdown))
-            }
-          />
-        )}
-      </div>
+      {issueOpen.open && (
+        <div className="issue-body">
+          {body && (
+            <ReactMde
+              value={body}
+              selectedTab={'preview'}
+              generateMarkdownPreview={(markdown) =>
+                Promise.resolve(converter.makeHtml(markdown))
+              }
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };
