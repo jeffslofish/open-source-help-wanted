@@ -6,13 +6,16 @@ const InputElement = ({ label, placeholder, text, setText }) => {
 
   return (
     <div className="input-component">
-      <label className="label-name">{label}</label>
+      <label className="input-label-name" htmlFor={label}>
+        {label}
+      </label>
       <input
         className="input-element"
         type="text"
         placeholder={placeholder}
         value={text}
         onChange={onChange}
+        id={label}
       />
     </div>
   );
