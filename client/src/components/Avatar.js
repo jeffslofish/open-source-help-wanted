@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const Avatar = ({ url, user_url }) => {
   return (
-    <div className="avatar">
+    <div className="issue-avatar">
       <a target="_blank" rel="noopener noreferrer" href={user_url}>
         <img style={imgStyle} src={url} alt="" />
       </a>

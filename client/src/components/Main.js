@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import GithubContext from '../context/github/GithubContext';
 import InputElement from './InputElement';
 import Pagination from './Pagination';
@@ -25,13 +25,25 @@ export default function Main() {
   const [repo, setRepo] = useState('');
   const [assignee, setAssignee] = useState('');
 
-  const handleNextButton = () => {
-    window.scroll({
+  function scrollTop() {
+    const element = document.querySelector('.results-container');
+    const headerHeight = document.querySelector('.App-header').scrollHeight;
+    const searchHeight = document.querySelector('.search-container')
+      .scrollHeight;
+    element.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth',
     });
+    window.scroll({
+      top: headerHeight + searchHeight,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
 
+  const handleNextButton = () => {
+    scrollTop();
     githubContext.search(
       githubContext.page + 1,
       githubContext.resultsPerPage,
@@ -54,11 +66,7 @@ export default function Main() {
     );
   };
   const handlePrevButton = () => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
+    scrollTop();
     githubContext.search(
       githubContext.page > 1 ? githubContext.page - 1 : githubContext.page,
       githubContext.resultsPerPage,
@@ -108,7 +116,7 @@ export default function Main() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    scrollTop();
     githubContext.search(
       1,
       25,
@@ -131,210 +139,270 @@ export default function Main() {
     );
   };
 
+  useEffect(() => {
+    githubContext.search(
+      1,
+      25,
+      labels,
+      keywords,
+      language,
+      sortType,
+      sortDesc,
+      issueAssigned,
+      inTitle,
+      inBody,
+      inComments,
+      issueOrPullRequest,
+      state,
+      user,
+      org,
+      repo,
+      author,
+      assignee
+    );
+  }, []);
+
   return (
     <div className="App">
-      {githubContext.loading && <div className="loading" />}
       <div className="App-header">
-        <h1>Open Source Help Wanted</h1>
-        <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
+        <a href="/">
+          <h1>Open Source Help Wanted</h1>
+          <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
+        </a>
       </div>
-      <div className="App-intro">
-        <form onSubmit={handleSubmit}>
-          <div className="input-elements">
-            <div className="label-search-box">
-              <InputElement
-                label={'GitHub label names'}
-                placeholder={'help wanted, bug'}
-                text={labels}
-                setText={setLabels}
-              />
-              <InputElement
-                label={'Keywords'}
-                placeholder={'open source, forms'}
-                text={keywords}
-                setText={setKeywords}
-              />
-              <InputElement
-                label={'Language'}
-                placeholder={'javascript'}
-                text={language}
-                setText={setLanguage}
-              />
-            </div>
-
-            {!expanded && (
-              <button type={'button'} onClick={onExpand}>
-                Show Advanced Options
-              </button>
-            )}
-            {expanded && (
-              <button type={'button'} onClick={onCollapse}>
-                Hide Advanded Options
-              </button>
-            )}
-
-            {expanded && (
-              <div className="advanced-options">
-                <div className="label-search-box">
-                  <InputElement
-                    label={'Author'}
-                    placeholder={'jeffslofish'}
-                    text={author}
-                    setText={setAuthor}
-                  />
-
-                  <InputElement
-                    label={'User'}
-                    placeholder={'jeffslofish'}
-                    text={user}
-                    setText={setUser}
-                  />
-
-                  <InputElement
-                    label={'Org'}
-                    placeholder={'slofish'}
-                    text={org}
-                    setText={setOrg}
-                  />
-
-                  <InputElement
-                    label={'Repo'}
-                    placeholder={'jeffslofish/open-source-help-wanted'}
-                    text={repo}
-                    setText={setRepo}
-                  />
-
-                  <InputElement
-                    label={'Assignee'}
-                    placeholder={'jeffslofish'}
-                    text={assignee}
-                    setText={(val) => {
-                      setIssueAssigned('true');
-                      setAssignee(val);
-                    }}
-                  />
-                </div>
-
-                <div className="options"></div>
-                <fieldset>
-                  <legend>Search for keywords in: </legend>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={inTitle}
-                      onChange={onInTitleChange}
-                    />
-                    title
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={inBody}
-                      onChange={onInBodyChange}
-                    />
-                    body
-                  </label>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={inComments}
-                      onChange={onInCommentsChange}
-                    />
-                    comments
-                  </label>
-                </fieldset>
-                <select
-                  value={issueOrPullRequest}
-                  onChange={onIssueOrPullRequestChange}
-                >
-                  <option value={'issue'}>Is Issue</option>
-                  <option value={'pr'}>Is Pull Request</option>
-                  <option value={'either'}>Is Issue or Pull Request</option>
-                </select>
-                <select value={state} onChange={onStateChange}>
-                  <option value={'open'}>Is Open</option>
-                  <option value={'closed'}>Is Closed</option>
-                  <option value={'either'}>Is Open or Closed</option>
-                </select>
-                <select value={issueAssigned} onChange={onIssueAssignedChange}>
-                  <option value={false}>Not Assigned</option>
-                  <option value={true}>Possibly Assigned</option>
-                </select>
-
-                <fieldset>
-                  <legend>Sorting Options</legend>
-                  <select value={sortType} onChange={onSortTypeChange}>
-                    <option value={'created'}>Sort by created time</option>
-                    <option value={'updated'}>Sort by updated time</option>
-                    <option value={'comments'}>
-                      Sort by number of comments
-                    </option>
-                    <option value={'reactions'}>
-                      Sort by number of reactions
-                    </option>
-                    <option value={'interactions'}>
-                      Sort by number of interactions
-                    </option>
-                    <option value={'reactions-+1'}>
-                      Sort by number of +1s
-                    </option>
-                    <option value={'reactions--1'}>
-                      Sort by number of -1s
-                    </option>
-                    <option value={'reactions-smile'}>
-                      Sort by number of smiles
-                    </option>
-                    <option value={'reactions-thinking_face'}>
-                      Sort by number of thinking faces
-                    </option>
-                    <option value={'reactions-heart'}>
-                      Sort by number of hearts
-                    </option>
-                    <option value={'reactions-tada'}>
-                      Sort by number of tadas
-                    </option>
-                  </select>
-
-                  <select value={sortDesc} onChange={onSortDescChange}>
-                    <option value={true}>Sort Descending</option>
-                    <option value={false}>Sort Ascending</option>
-                  </select>
-                </fieldset>
+      <div className="App-container">
+        <div className="search-container">
+          <form onSubmit={handleSubmit}>
+            <div className="input-elements">
+              <div className="label-search-box">
+                <InputElement
+                  label={'GitHub label names'}
+                  placeholder={'help wanted, bug'}
+                  text={labels}
+                  setText={setLabels}
+                />
+                <InputElement
+                  label={'Keywords'}
+                  placeholder={'open source, forms'}
+                  text={keywords}
+                  setText={setKeywords}
+                />
+                <InputElement
+                  label={'Language'}
+                  placeholder={'javascript'}
+                  text={language}
+                  setText={setLanguage}
+                />
               </div>
-            )}
 
-            <button className="searchButton" type="submit">
-              Search
-            </button>
-          </div>
-        </form>
-      </div>
-      <div className="app-body">
-        <Pagination
-          currentPage={githubContext.page}
-          totalCount={githubContext.totalCount}
-          resultsPerPage={githubContext.resultsPerPage}
-          prevlickHandler={handlePrevButton}
-          nextClickHandler={handleNextButton}
-        />
-        <div className="app-results">
-          <Issues issues={githubContext.issues} />
+              {!expanded && (
+                <button
+                  className="expandButton"
+                  type={'button'}
+                  onClick={onExpand}
+                >
+                  Show Advanced Options
+                </button>
+              )}
+              {expanded && (
+                <button
+                  className="expandButton"
+                  type={'button'}
+                  onClick={onCollapse}
+                >
+                  Hide Advanded Options
+                </button>
+              )}
+
+              {expanded && (
+                <div className="advanced-options">
+                  <div className="label-search-box">
+                    <InputElement
+                      label={'Author'}
+                      placeholder={'jeffslofish'}
+                      text={author}
+                      setText={setAuthor}
+                    />
+
+                    <InputElement
+                      label={'User'}
+                      placeholder={'jeffslofish'}
+                      text={user}
+                      setText={setUser}
+                    />
+
+                    <InputElement
+                      label={'Org'}
+                      placeholder={'slofish'}
+                      text={org}
+                      setText={setOrg}
+                    />
+
+                    <InputElement
+                      label={'Repo'}
+                      placeholder={'jeffslofish/open-source-help-wanted'}
+                      text={repo}
+                      setText={setRepo}
+                    />
+
+                    <InputElement
+                      label={'Assignee'}
+                      placeholder={'jeffslofish'}
+                      text={assignee}
+                      setText={(val) => {
+                        setIssueAssigned('true');
+                        setAssignee(val);
+                      }}
+                    />
+                  </div>
+
+                  <fieldset className="input-component">
+                    <legend className="input-label-name">
+                      Search for keywords in:{' '}
+                    </legend>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={inTitle}
+                        onChange={onInTitleChange}
+                      />
+                      title
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={inBody}
+                        onChange={onInBodyChange}
+                      />
+                      body
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={inComments}
+                        onChange={onInCommentsChange}
+                      />
+                      comments
+                    </label>
+                  </fieldset>
+                  <fieldset className="input-component">
+                    <legend className="input-label-name">
+                      Filter by type/status
+                    </legend>
+                    <select
+                      className="input-element"
+                      value={issueOrPullRequest}
+                      onChange={onIssueOrPullRequestChange}
+                    >
+                      <option value={'issue'}>Is Issue</option>
+                      <option value={'pr'}>Is Pull Request</option>
+                      <option value={'either'}>Is Issue or Pull Request</option>
+                    </select>
+                    <select
+                      className="input-element"
+                      value={state}
+                      onChange={onStateChange}
+                    >
+                      <option value={'open'}>Is Open</option>
+                      <option value={'closed'}>Is Closed</option>
+                      <option value={'either'}>Is Open or Closed</option>
+                    </select>
+                    <select
+                      className="input-element"
+                      value={issueAssigned}
+                      onChange={onIssueAssignedChange}
+                    >
+                      <option value={false}>Not Assigned</option>
+                      <option value={true}>Possibly Assigned</option>
+                    </select>
+                  </fieldset>
+
+                  <fieldset>
+                    <legend className="input-label-name">
+                      Sorting Options
+                    </legend>
+                    <select
+                      className="input-element"
+                      value={sortType}
+                      onChange={onSortTypeChange}
+                    >
+                      <option value={'created'}>Sort by created time</option>
+                      <option value={'updated'}>Sort by updated time</option>
+                      <option value={'comments'}>
+                        Sort by number of comments
+                      </option>
+                      <option value={'reactions'}>
+                        Sort by number of reactions
+                      </option>
+                      <option value={'interactions'}>
+                        Sort by number of interactions
+                      </option>
+                      <option value={'reactions-+1'}>
+                        Sort by number of +1s
+                      </option>
+                      <option value={'reactions--1'}>
+                        Sort by number of -1s
+                      </option>
+                      <option value={'reactions-smile'}>
+                        Sort by number of smiles
+                      </option>
+                      <option value={'reactions-thinking_face'}>
+                        Sort by number of thinking faces
+                      </option>
+                      <option value={'reactions-heart'}>
+                        Sort by number of hearts
+                      </option>
+                      <option value={'reactions-tada'}>
+                        Sort by number of tadas
+                      </option>
+                    </select>
+
+                    <select
+                      className="input-element"
+                      value={sortDesc}
+                      onChange={onSortDescChange}
+                    >
+                      <option value={true}>Sort Descending</option>
+                      <option value={false}>Sort Ascending</option>
+                    </select>
+                  </fieldset>
+                </div>
+              )}
+
+              <button className="searchButton" type="submit">
+                Search
+              </button>
+            </div>
+          </form>
         </div>
-        <Pagination
-          currentPage={githubContext.page}
-          totalCount={githubContext.totalCount}
-          resultsPerPage={githubContext.resultsPerPage}
-          prevlickHandler={handlePrevButton}
-          nextClickHandler={handleNextButton}
-        />
+        <div className="results-container">
+          {githubContext.loading && <div className="loading" />}
+          <Pagination
+            currentPage={githubContext.page}
+            totalCount={githubContext.totalCount}
+            resultsPerPage={githubContext.resultsPerPage}
+            prevlickHandler={handlePrevButton}
+            nextClickHandler={handleNextButton}
+          />
+          <div>
+            <Issues issues={githubContext.issues} />
+          </div>
+          <Pagination
+            currentPage={githubContext.page}
+            totalCount={githubContext.totalCount}
+            resultsPerPage={githubContext.resultsPerPage}
+            prevlickHandler={handlePrevButton}
+            nextClickHandler={handleNextButton}
+          />
+        </div>
+        <footer>
+          <p>
+            <a href="https://github.com/jeffslofish/open-source-help-wanted">
+              Fork me on GitHub and contribute!
+            </a>
+          </p>
+        </footer>
       </div>
-      <footer>
-        <p>
-          <a href="https://github.com/jeffslofish/open-source-help-wanted">
-            Fork me on GitHub and contribute!
-          </a>
-        </p>
-      </footer>
     </div>
   );
 }

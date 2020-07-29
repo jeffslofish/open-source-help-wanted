@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 const Labels = ({ labels }) => {
   return (
-    <div className="labels">
+    <div className="issue-labels">
       {labels.map((label, i) => {
         const style = {
           backgroundColor: '#' + label.color,
           color: chromatism.contrastRatio('#' + label.color).hex
         };
         return (
-          <span key={i} className='label' style={style}>
+          <span key={i} className="issue-label" style={style}>
             {label.name}
           </span>
         );
