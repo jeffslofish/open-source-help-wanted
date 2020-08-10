@@ -3,6 +3,7 @@ import GithubContext from '../context/github/GithubContext';
 import InputElement from './InputElement';
 import Pagination from './Pagination';
 import Issues from './Issues';
+import Logo from '../images/Searching_Logo.png';
 
 export default function Main() {
   const githubContext = useContext(GithubContext);
@@ -166,7 +167,7 @@ export default function Main() {
     <div className="App">
       <div className="App-header">
         <a href="/">
-          <h1>Open Source Help Wanted</h1>
+          <img src={Logo} class="main-logo" alt="Open Source Help Wanted" />
           <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
         </a>
       </div>
