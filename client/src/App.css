@@ -9,7 +9,7 @@ font-family: 'Noto Sans', sans-serif; */
   --bg-mid: rgb(68, 132, 182);
   --bg-neutral: rgb(238, 238, 238);
   --border-radius: 5px;
-  --header-footer-height: 80px;
+  --header-footer-height: 85px;
   --text-light: rgb(224, 224, 224);
 }
 
@@ -108,11 +108,16 @@ button:active {
   flex-direction: column;
   flex-wrap: wrap;
   height: var(--header-footer-height);
-  padding: 10px;
+  padding: 5px 10px 10px 10px;
 }
 
 .App-header a {
   text-decoration: none;
+}
+
+.main-logo {
+  height: calc(var(--header-footer-height) * 0.6);  
+  max-width: 100% !important;
 }
 
 /* Input & Search Section */
