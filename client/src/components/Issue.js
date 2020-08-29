@@ -17,7 +17,7 @@ const converter = new Showdown.Converter({
 
 const Issue = ({
   issue: {
-    user: { avatar_url },
+    user: { avatar_url, html_url: user_html_url },
     html_url,
     title,
     assignee,
@@ -65,7 +65,7 @@ const Issue = ({
   return (
     <div className="issue">
       <div className="issue-header">
-        <Avatar url={avatar_url} user_url={getUserUrlFromIssueUrl(html_url)} />
+        <Avatar url={avatar_url} user_url={user_html_url} />
         <div className="main">
           <p className="issue-title">
             <a target="_blank" rel="noopener noreferrer" href={html_url}>
@@ -193,16 +193,6 @@ function getRepoUrlFromIssueUrl(html_url) {
     repoUrl = matches[0];
   }
   return repoUrl;
-}
-
-function getUserUrlFromIssueUrl(html_url) {
-  let pattern = /^https:\/\/github.com\/[^/]+\//;
-  let matches = html_url.match(pattern);
-  let userUrl = '';
-  if (matches && matches.length > 0) {
-    userUrl = matches[0];
-  }
-  return userUrl;
 }
 
 function getRepoNameFromIssueUrl(html_url) {
