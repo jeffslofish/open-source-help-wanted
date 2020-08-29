@@ -25,6 +25,7 @@ export default function Main() {
   const [org, setOrg] = useState('');
   const [repo, setRepo] = useState('');
   const [assignee, setAssignee] = useState('');
+  const [filterFake, setFilterFake] = useState(true);
 
   function scrollTop() {
     const element = document.querySelector('.results-container');
@@ -115,6 +116,8 @@ export default function Main() {
     setExpanded(false);
   };
 
+  const onFilterFakeChange= (e) => setFilterFake(e.target.checked);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     scrollTop();
@@ -161,6 +164,7 @@ export default function Main() {
       author,
       assignee
     );
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -367,6 +371,17 @@ export default function Main() {
                       <option value={false}>Sort Ascending</option>
                     </select>
                   </fieldset>
+
+                  <fieldset className="input-component">
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filterFake}
+                        onChange={onFilterFakeChange}
+                      />
+                      Exclude known fake issues
+                    </label>
+                  </fieldset>                  
                 </div>
               )}
 
@@ -386,7 +401,7 @@ export default function Main() {
             nextClickHandler={handleNextButton}
           />
           <div>
-            <Issues issues={githubContext.issues} />
+            <Issues issues={githubContext.issues} filter={filterFake} />
           </div>
           <Pagination
             currentPage={githubContext.page}

@@ -28,6 +28,7 @@ const Issue = ({
     draft,
     state,
   },
+  filter: filterFake
 }) => {
   const [issueOpen, setIssueOpen] = useState({ open: false, text: 'more...' });
   function openIssue() {
@@ -39,6 +40,27 @@ const Issue = ({
     } else {
       setIssueOpen({ open: false, text: 'more...' });
     }
+  }
+
+  // Checks for known sources of fake issues
+  const repoName = getRepoNameFromIssueUrl(html_url)
+  const [issueFake, setIssueFake] = useState(() => {
+    // pddemo/demo creates a new fake issue every minute  
+    if (repoName === "pddemo/demo") {
+      return true;
+    }
+    // Avatar url 10575 is GitHub Learning Lab which creates issues as pieces of tutorials for users to follow as 
+    // they create projects.
+    if (avatar_url === "https://avatars0.githubusercontent.com/in/10572?v=4"){
+      return true;
+    }
+    return false;
+  });
+  
+   
+  if (issueFake === true && filterFake === true ) {    // filterFake is an option in advanced search
+    //console.log("Excluded " + repoName + " - " + title + " - for being a test, tutorial or fake issue");
+    return null;
   }
   return (
     <div className="issue">
