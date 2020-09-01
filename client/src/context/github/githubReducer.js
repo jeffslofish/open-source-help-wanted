@@ -8,12 +8,12 @@ export default (state, action) => {
         issues: action.payload.issues,
         totalCount: action.payload.totalCount,
         page: action.payload.page,
-        loading: false
+        loading: false,
       };
     case SET_LOADING:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     default:
       return state;

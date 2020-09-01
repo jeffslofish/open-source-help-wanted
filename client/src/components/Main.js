@@ -116,7 +116,7 @@ export default function Main() {
     setExpanded(false);
   };
 
-  const onFilterFakeChange= (e) => setFilterFake(e.target.checked);
+  const onFilterFakeChange = (e) => setFilterFake(e.target.checked);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -168,18 +168,18 @@ export default function Main() {
   }, []);
 
   return (
-    <div className="App">
-      <div className="App-header">
-        <a href="/">
-          <img src={Logo} className="main-logo" alt="Open Source Help Wanted" />
+    <div className='App'>
+      <div className='App-header'>
+        <a href='/'>
+          <img src={Logo} className='main-logo' alt='Open Source Help Wanted' />
           <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
         </a>
       </div>
-      <div className="App-container">
-        <div className="search-container">
+      <div className='App-container'>
+        <div className='search-container'>
           <form onSubmit={handleSubmit}>
-            <div className="input-elements">
-              <div className="label-search-box">
+            <div className='input-elements'>
+              <div className='label-search-box'>
                 <InputElement
                   label={'GitHub label names'}
                   placeholder={'help wanted, bug'}
@@ -202,7 +202,7 @@ export default function Main() {
 
               {!expanded && (
                 <button
-                  className="expandButton"
+                  className='expandButton'
                   type={'button'}
                   onClick={onExpand}
                 >
@@ -211,7 +211,7 @@ export default function Main() {
               )}
               {expanded && (
                 <button
-                  className="expandButton"
+                  className='expandButton'
                   type={'button'}
                   onClick={onCollapse}
                 >
@@ -220,8 +220,8 @@ export default function Main() {
               )}
 
               {expanded && (
-                <div className="advanced-options">
-                  <div className="label-search-box">
+                <div className='advanced-options'>
+                  <div className='label-search-box'>
                     <InputElement
                       label={'Author'}
                       placeholder={'jeffslofish'}
@@ -261,13 +261,13 @@ export default function Main() {
                     />
                   </div>
 
-                  <fieldset className="input-component">
-                    <legend className="input-label-name">
+                  <fieldset className='input-component'>
+                    <legend className='input-label-name'>
                       Search for keywords in:{' '}
                     </legend>
                     <label>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={inTitle}
                         onChange={onInTitleChange}
                       />
@@ -275,7 +275,7 @@ export default function Main() {
                     </label>
                     <label>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={inBody}
                         onChange={onInBodyChange}
                       />
@@ -283,19 +283,19 @@ export default function Main() {
                     </label>
                     <label>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={inComments}
                         onChange={onInCommentsChange}
                       />
                       comments
                     </label>
                   </fieldset>
-                  <fieldset className="input-component">
-                    <legend className="input-label-name">
+                  <fieldset className='input-component'>
+                    <legend className='input-label-name'>
                       Filter by type/status
                     </legend>
                     <select
-                      className="input-element"
+                      className='input-element'
                       value={issueOrPullRequest}
                       onChange={onIssueOrPullRequestChange}
                     >
@@ -304,7 +304,7 @@ export default function Main() {
                       <option value={'either'}>Is Issue or Pull Request</option>
                     </select>
                     <select
-                      className="input-element"
+                      className='input-element'
                       value={state}
                       onChange={onStateChange}
                     >
@@ -313,7 +313,7 @@ export default function Main() {
                       <option value={'either'}>Is Open or Closed</option>
                     </select>
                     <select
-                      className="input-element"
+                      className='input-element'
                       value={issueAssigned}
                       onChange={onIssueAssignedChange}
                     >
@@ -323,11 +323,11 @@ export default function Main() {
                   </fieldset>
 
                   <fieldset>
-                    <legend className="input-label-name">
+                    <legend className='input-label-name'>
                       Sorting Options
                     </legend>
                     <select
-                      className="input-element"
+                      className='input-element'
                       value={sortType}
                       onChange={onSortTypeChange}
                     >
@@ -363,7 +363,7 @@ export default function Main() {
                     </select>
 
                     <select
-                      className="input-element"
+                      className='input-element'
                       value={sortDesc}
                       onChange={onSortDescChange}
                     >
@@ -372,27 +372,27 @@ export default function Main() {
                     </select>
                   </fieldset>
 
-                  <fieldset className="input-component">
+                  <fieldset className='input-component'>
                     <label>
                       <input
-                        type="checkbox"
+                        type='checkbox'
                         checked={filterFake}
                         onChange={onFilterFakeChange}
                       />
                       Exclude known fake issues
                     </label>
-                  </fieldset>                  
+                  </fieldset>
                 </div>
               )}
 
-              <button className="searchButton" type="submit">
+              <button className='searchButton' type='submit'>
                 Search
               </button>
             </div>
           </form>
         </div>
-        <div className="results-container">
-          {githubContext.loading && <div className="loading" />}
+        <div className='results-container'>
+          {githubContext.loading && <div className='loading' />}
           <Pagination
             currentPage={githubContext.page}
             totalCount={githubContext.totalCount}
@@ -413,7 +413,7 @@ export default function Main() {
         </div>
         <footer>
           <p>
-            <a href="https://github.com/jeffslofish/open-source-help-wanted">
+            <a href='https://github.com/jeffslofish/open-source-help-wanted'>
               Fork me on GitHub and contribute!
             </a>
           </p>

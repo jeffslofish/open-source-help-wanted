@@ -6,7 +6,7 @@ const Pagination = ({
   resultsPerPage,
   prevlickHandler,
   nextClickHandler,
-  currentPage
+  currentPage,
 }) => {
   const totalPages =
     totalCount === 0 ? 0 : Math.floor(totalCount / resultsPerPage) + 1;
@@ -43,7 +43,7 @@ Pagination.propTypes = {
   totalCount: PropTypes.number.isRequired,
   resultsPerPage: PropTypes.number.isRequired,
   prevlickHandler: PropTypes.func.isRequired,
-  nextClickHandler: PropTypes.func.isRequired
+  nextClickHandler: PropTypes.func.isRequired,
 };
 
 export default Pagination;

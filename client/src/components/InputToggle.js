@@ -14,7 +14,7 @@ const InputToggle = ({ leftLabel, rightLabel, reference }) => {
 InputToggle.propTypes = {
   leftLabel: PropTypes.string.isRequired,
   rightLabel: PropTypes.string.isRequired,
-  reference: PropTypes.object.isRequired
+  reference: PropTypes.object.isRequired,
 };
 
 export default InputToggle;

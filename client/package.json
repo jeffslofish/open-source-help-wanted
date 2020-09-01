@@ -27,7 +27,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint 'src/**/*.js'",
-    "format": "prettier 'src/**/*.{js,css,json}'"
+    "format": "prettier 'src/**/*.{js,css,json}' --write"
   },
   "proxy": "http://localhost:5000",
   "browserslist": [
