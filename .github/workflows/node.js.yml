@@ -29,4 +29,4 @@ jobs:
     - run: cd client && npm ci
     - run: cd client && npm run lint
     - run: cd client && npm run format-check
-    - run: npm run heroku-postbuild
+    - run: cd client && npm run build
