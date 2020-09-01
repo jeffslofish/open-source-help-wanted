@@ -16,7 +16,6 @@
     "showdown": "^1.9.1"
   },
   "devDependencies": {
-    "eslint": "^7.8.0",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.0",
     "prettier": "^2.1.1",
