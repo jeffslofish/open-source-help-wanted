@@ -5,7 +5,7 @@ const querystring = require('querystring');
 const app = express();
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
+  require('dotenv').config();
 }
 
 const apiToken = process.env.API_TOKEN;
@@ -16,29 +16,33 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Put all API endpoints under '/api'
 app.get('/api/github/rest', (req, res) => {
-    console.log('/api/github/rest');
+  console.log('/api/github/rest');
 
-    const query = querystring.stringify(req.query);
+  const query = querystring.stringify(req.query);
 
-    // Only use an authorization header if there is an apiToken defined from the .env file
-    const configHeader = typeof apiToken === 'undefined' ? null : {
-        headers: { 'Authorization': "bearer " + apiToken }
-    };
+  // Only use an authorization header if there is an apiToken defined from the .env file
+  const configHeader =
+    typeof apiToken === 'undefined'
+      ? null
+      : {
+          headers: { Authorization: 'bearer ' + apiToken },
+        };
 
-    axios.get(`https://api.github.com/search/issues?${query}`, configHeader)
-        .then(response => {
-            res.send(response.data)
-        })
-        .catch(error => {
-            console.log(error);
-        });
+  axios
+    .get(`https://api.github.com/search/issues?${query}`, configHeader)
+    .then((response) => {
+      res.send(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 app.get('*', (req, res) => {
-    console.log('*');
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  console.log('*');
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
