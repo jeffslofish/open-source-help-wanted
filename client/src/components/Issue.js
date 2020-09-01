@@ -44,6 +44,7 @@ const Issue = ({
 
   // Checks for known sources of fake issues
   const repoName = getRepoNameFromIssueUrl(html_url)
+  // eslint-disable-next-line
   const [issueFake, setIssueFake] = useState(() => {
     // pddemo/demo creates a new fake issue every minute  
     if (repoName === "pddemo/demo") {
@@ -210,6 +211,7 @@ Issue.propTypes = {
     html_url: PropTypes.string.isRequired,
     user: PropTypes.shape({
       avatar_url: PropTypes.string.isRequired,
+      html_url: PropTypes.string.isRequired,
     }).isRequired,
     title: PropTypes.string.isRequired,
     assignee: PropTypes.shape({
@@ -220,7 +222,10 @@ Issue.propTypes = {
     updated_at: PropTypes.string.isRequired,
     labels: PropTypes.array.isRequired,
     body: PropTypes.string,
+    draft: PropTypes.bool,
+    state: PropTypes.string.isRequired,
   }).isRequired,
+  filter: PropTypes.bool.isRequired,
 };
 
 export default Issue;

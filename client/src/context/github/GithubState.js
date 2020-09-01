@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import PropTypes from 'prop-types';
 import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING } from '../types';
@@ -125,7 +126,8 @@ const GithubState = (props) => {
         });
       })
       .catch(function (err) {
-        console.log(err); //TODO: proper error handling
+        // eslint-disable-next-line
+        console.error(err); //TODO: proper error handling
       });
   };
 
@@ -160,5 +162,10 @@ function formatSearchTerms(searchTerms, label) {
   }
   return query;
 }
+
+GithubState.propTypes = {
+  children: PropTypes.array
+};
+
 
 export default GithubState;

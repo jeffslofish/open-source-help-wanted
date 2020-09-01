@@ -9,11 +9,12 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "eslint-plugin-react": "^7.14.2",
-    "nodemon": "^2.0.4",
-    "react-scripts": "^3.4.1"
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2"
+    "cross-env": "^7.0.2",
+    "react-scripts": "^3.4.3"
   },
   "scripts": {
     "start": "npm run start-dev",
