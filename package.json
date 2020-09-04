@@ -1,32 +1,49 @@
 {
   "name": "open-source-help-wanted",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Find issues to work on with the labels and keywords you specify.",
-  "main": "app.js",
+  "private": true,
   "dependencies": {
+    "@octokit/rest": "^16.28.2",
     "axios": "^0.19.0",
-    "concurrently": "^5.2.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.0.0",
-    "eslint-plugin-react": "^7.14.2",
-    "express": "^4.17.1",
-    "nodemon": "^2.0.4"
+    "chromatism": "^3.0.0",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.26",
+    "netlify-lambda": "^2.0.1",
+    "npm-run-all": "^4.1.5",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-mde": "^10.0.3",
+    "react-moment": "^0.9.2",
+    "react-toggle-switch": "^3.0.4",
+    "showdown": "^1.9.1"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
     "prettier": "^2.1.1",
     "react-scripts": "^3.4.3"
   },
   "scripts": {
-    "start": "npm run start-dev",
-    "start-prod": "node app.js",
-    "start-dev": "concurrently \"npm:start-dev-server\" \"cd client && react-scripts start\"",
-    "start-dev-server": "cross-env PORT=5000 nodemon ./app.js localhost",
-    "heroku-postbuild": "cd client && npm install && npm run build",
-    "lint": "eslint 'app.js'",
-    "format-check": "prettier 'app.js' --check",
-    "format": "prettier 'app.js' --write"
+    "start": "run-p start:**",
+    "build": "run-p build:**",
+    "start:app": "react-scripts start",
+    "build:app": "react-scripts build",
+    "test:app": "react-scripts test --env=jsdom",
+    "eject:app": "react-scripts eject",
+    "start:lambda": "netlify-lambda serve src/api",
+    "build:lambda": "netlify-lambda build src/api",
+    "lint": "eslint 'src/**/*.js'",
+    "format-check": "prettier 'src/**/*.{js,css,json}' --check",
+    "format": "prettier 'src/**/*.{js,css,json}' --write"
   },
+  "proxy": "http://localhost:9000/",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jeffslofish/open-source-help-wanted.git"
@@ -35,6 +52,5 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jeffslofish/open-source-help-wanted/issues"
-  },
-  "homepage": "https://github.com/jeffslofish/open-source-help-wanted#readme"
+  }
 }

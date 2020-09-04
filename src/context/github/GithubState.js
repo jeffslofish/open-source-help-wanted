@@ -109,7 +109,9 @@ const GithubState = (props) => {
       '&per_page=' +
       resultsPerPage;
 
-    let myRequest = new Request('/api/github/rest?q=' + searchQuery);
+    let myRequest = new Request(
+      '/.netlify/functions/getissues?q=' + searchQuery
+    );
 
     fetch(myRequest)
       .then(function (response) {
