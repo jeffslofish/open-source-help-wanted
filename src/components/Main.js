@@ -8,24 +8,35 @@ import Logo from '../images/Searching_Logo.png';
 export default function Main() {
   const githubContext = useContext(GithubContext);
 
-  const [labels, setLabels] = useState('');
-  const [keywords, setKeywords] = useState('');
-  const [language, setLanguage] = useState('');
-  const [sortType, setSortType] = useState('created');
-  const [sortDesc, setSortDesc] = useState(true);
-  const [issueAssigned, setIssueAssigned] = useState(false);
-  const [inTitle, setInTitle] = useState(true);
-  const [inBody, setInBody] = useState(true);
-  const [inComments, setInComments] = useState(true);
-  const [issueOrPullRequest, setIssueOrPullRequest] = useState('issue');
-  const [state, setState] = useState('open');
   const [expanded, setExpanded] = useState(false);
-  const [author, setAuthor] = useState('');
-  const [user, setUser] = useState('');
-  const [org, setOrg] = useState('');
-  const [repo, setRepo] = useState('');
-  const [assignee, setAssignee] = useState('');
-  const [filterFake, setFilterFake] = useState(true);
+
+  const [formInput, setFormInput] = useState({
+    labels: '',
+    keywords: '',
+    language: '',
+    sortType: 'created',
+    sortDesc: true,
+    inTitle: true,
+    inBody: true,
+    inComments: true,
+    issueOrPullRequest: 'issue',
+    state: 'open',
+    author: '',
+    user: '',
+    org: '',
+    repo: '',
+    assignee: '',
+    issueAssigned: 'false',
+    filterFake: true,
+  });
+
+  const handleSetFormInput = (e) => {
+    setFormInput({ ...formInput, [e.target.name]: e.target.value });
+  };
+
+  const handleSetFormCheckbox = (e) => {
+    setFormInput({ ...formInput, [e.target.name]: e.target.checked });
+  };
 
   function scrollTop() {
     const element = document.querySelector('.results-container');
@@ -49,22 +60,22 @@ export default function Main() {
     githubContext.search(
       githubContext.page + 1,
       githubContext.resultsPerPage,
-      labels,
-      keywords,
-      language,
-      sortType,
-      sortDesc,
-      issueAssigned,
-      inTitle,
-      inBody,
-      inComments,
-      issueOrPullRequest,
-      state,
-      user,
-      org,
-      repo,
-      author,
-      assignee
+      formInput.labels,
+      formInput.keywords,
+      formInput.language,
+      formInput.sortType,
+      formInput.sortDesc,
+      formInput.issueAssigned,
+      formInput.inTitle,
+      formInput.inBody,
+      formInput.inComments,
+      formInput.issueOrPullRequest,
+      formInput.state,
+      formInput.user,
+      formInput.org,
+      formInput.repo,
+      formInput.author,
+      formInput.assignee
     );
   };
   const handlePrevButton = () => {
@@ -72,39 +83,31 @@ export default function Main() {
     githubContext.search(
       githubContext.page > 1 ? githubContext.page - 1 : githubContext.page,
       githubContext.resultsPerPage,
-      labels,
-      keywords,
-      language,
-      sortType,
-      sortDesc,
-      issueAssigned,
-      inTitle,
-      inBody,
-      inComments,
-      issueOrPullRequest,
-      state,
-      user,
-      org,
-      repo,
-      author,
-      assignee
+      formInput.labels,
+      formInput.keywords,
+      formInput.language,
+      formInput.sortType,
+      formInput.sortDesc,
+      formInput.issueAssigned,
+      formInput.inTitle,
+      formInput.inBody,
+      formInput.inComments,
+      formInput.issueOrPullRequest,
+      formInput.state,
+      formInput.user,
+      formInput.org,
+      formInput.repo,
+      formInput.author,
+      formInput.assignee
     );
   };
-  const onSortTypeChange = (e) => setSortType(e.target.value);
-  const onSortDescChange = (e) => setSortDesc(e.target.value);
   const onIssueAssignedChange = (e) => {
+    console.log('target', e.target.value);
     if (e.target.value === 'false') {
-      setAssignee('');
+      setFormInput({ ...formInput, assignee: '' });
     }
-    setIssueAssigned(e.target.value);
+    setFormInput({ ...formInput, [e.target.name]: e.target.value });
   };
-
-  const onInTitleChange = (e) => setInTitle(e.target.checked);
-  const onInBodyChange = (e) => setInBody(e.target.checked);
-  const onInCommentsChange = (e) => setInComments(e.target.checked);
-  const onIssueOrPullRequestChange = (e) =>
-    setIssueOrPullRequest(e.target.value);
-  const onStateChange = (e) => setState(e.target.value);
 
   const onExpand = (e) => {
     e.preventDefault();
@@ -116,30 +119,28 @@ export default function Main() {
     setExpanded(false);
   };
 
-  const onFilterFakeChange = (e) => setFilterFake(e.target.checked);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     scrollTop();
     githubContext.search(
       1,
       25,
-      labels,
-      keywords,
-      language,
-      sortType,
-      sortDesc,
-      issueAssigned,
-      inTitle,
-      inBody,
-      inComments,
-      issueOrPullRequest,
-      state,
-      user,
-      org,
-      repo,
-      author,
-      assignee
+      formInput.labels,
+      formInput.keywords,
+      formInput.language,
+      formInput.sortType,
+      formInput.sortDesc,
+      formInput.issueAssigned,
+      formInput.inTitle,
+      formInput.inBody,
+      formInput.inComments,
+      formInput.issueOrPullRequest,
+      formInput.state,
+      formInput.user,
+      formInput.org,
+      formInput.repo,
+      formInput.author,
+      formInput.assignee
     );
   };
 
@@ -147,22 +148,22 @@ export default function Main() {
     githubContext.search(
       1,
       25,
-      labels,
-      keywords,
-      language,
-      sortType,
-      sortDesc,
-      issueAssigned,
-      inTitle,
-      inBody,
-      inComments,
-      issueOrPullRequest,
-      state,
-      user,
-      org,
-      repo,
-      author,
-      assignee
+      formInput.labels,
+      formInput.keywords,
+      formInput.language,
+      formInput.sortType,
+      formInput.sortDesc,
+      formInput.issueAssigned,
+      formInput.inTitle,
+      formInput.inBody,
+      formInput.inComments,
+      formInput.issueOrPullRequest,
+      formInput.state,
+      formInput.user,
+      formInput.org,
+      formInput.repo,
+      formInput.author,
+      formInput.assignee
     );
     // eslint-disable-next-line
   }, []);
@@ -183,20 +184,23 @@ export default function Main() {
                 <InputElement
                   label={'GitHub label names'}
                   placeholder={'help wanted, bug'}
-                  text={labels}
-                  setText={setLabels}
+                  text={formInput.labels}
+                  name='labels'
+                  setText={handleSetFormInput}
                 />
                 <InputElement
                   label={'Keywords'}
                   placeholder={'open source, forms'}
-                  text={keywords}
-                  setText={setKeywords}
+                  text={formInput.keywords}
+                  name='keywords'
+                  setText={handleSetFormInput}
                 />
                 <InputElement
                   label={'Language'}
                   placeholder={'javascript'}
-                  text={language}
-                  setText={setLanguage}
+                  text={formInput.language}
+                  name='language'
+                  setText={handleSetFormInput}
                 />
               </div>
 
@@ -225,38 +229,46 @@ export default function Main() {
                     <InputElement
                       label={'Author'}
                       placeholder={'jeffslofish'}
-                      text={author}
-                      setText={setAuthor}
+                      text={formInput.author}
+                      name='author'
+                      setText={handleSetFormInput}
                     />
 
                     <InputElement
                       label={'User'}
                       placeholder={'jeffslofish'}
-                      text={user}
-                      setText={setUser}
+                      text={formInput.user}
+                      name='user'
+                      setText={handleSetFormInput}
                     />
 
                     <InputElement
                       label={'Org'}
                       placeholder={'slofish'}
-                      text={org}
-                      setText={setOrg}
+                      text={formInput.org}
+                      name='org'
+                      setText={handleSetFormInput}
                     />
 
                     <InputElement
                       label={'Repo'}
                       placeholder={'jeffslofish/open-source-help-wanted'}
-                      text={repo}
-                      setText={setRepo}
+                      text={formInput.repo}
+                      name='repo'
+                      setText={handleSetFormInput}
                     />
 
                     <InputElement
                       label={'Assignee'}
                       placeholder={'jeffslofish'}
-                      text={assignee}
-                      setText={(val) => {
-                        setIssueAssigned('true');
-                        setAssignee(val);
+                      text={formInput.assignee}
+                      name='assignee'
+                      setText={(e) => {
+                        setFormInput({
+                          ...formInput,
+                          issueAssigned: 'true',
+                          assignee: e.target.value,
+                        });
                       }}
                     />
                   </div>
@@ -268,24 +280,27 @@ export default function Main() {
                     <label>
                       <input
                         type='checkbox'
-                        checked={inTitle}
-                        onChange={onInTitleChange}
+                        checked={formInput.inTitle}
+                        name='inTitle'
+                        onChange={handleSetFormCheckbox}
                       />
                       title
                     </label>
                     <label>
                       <input
                         type='checkbox'
-                        checked={inBody}
-                        onChange={onInBodyChange}
+                        checked={formInput.inBody}
+                        name='inBody'
+                        onChange={handleSetFormCheckbox}
                       />
                       body
                     </label>
                     <label>
                       <input
                         type='checkbox'
-                        checked={inComments}
-                        onChange={onInCommentsChange}
+                        checked={formInput.inComments}
+                        name='inComments'
+                        onChange={handleSetFormCheckbox}
                       />
                       comments
                     </label>
@@ -296,8 +311,9 @@ export default function Main() {
                     </legend>
                     <select
                       className='input-element'
-                      value={issueOrPullRequest}
-                      onChange={onIssueOrPullRequestChange}
+                      value={formInput.issueOrPullRequest}
+                      name='issueOrPullRequest'
+                      onChange={handleSetFormInput}
                     >
                       <option value={'issue'}>Is Issue</option>
                       <option value={'pr'}>Is Pull Request</option>
@@ -305,8 +321,9 @@ export default function Main() {
                     </select>
                     <select
                       className='input-element'
-                      value={state}
-                      onChange={onStateChange}
+                      value={formInput.state}
+                      name='state'
+                      onChange={handleSetFormInput}
                     >
                       <option value={'open'}>Is Open</option>
                       <option value={'closed'}>Is Closed</option>
@@ -314,7 +331,8 @@ export default function Main() {
                     </select>
                     <select
                       className='input-element'
-                      value={issueAssigned}
+                      value={formInput.issueAssigned}
+                      name='issueAssigned'
                       onChange={onIssueAssignedChange}
                     >
                       <option value={false}>Not Assigned</option>
@@ -328,8 +346,9 @@ export default function Main() {
                     </legend>
                     <select
                       className='input-element'
-                      value={sortType}
-                      onChange={onSortTypeChange}
+                      value={formInput.sortType}
+                      name='sortType'
+                      onChange={handleSetFormInput}
                     >
                       <option value={'created'}>Sort by created time</option>
                       <option value={'updated'}>Sort by updated time</option>
@@ -364,8 +383,9 @@ export default function Main() {
 
                     <select
                       className='input-element'
-                      value={sortDesc}
-                      onChange={onSortDescChange}
+                      value={formInput.sortDesc}
+                      name='sortDesc'
+                      onChange={handleSetFormInput}
                     >
                       <option value={true}>Sort Descending</option>
                       <option value={false}>Sort Ascending</option>
@@ -376,8 +396,9 @@ export default function Main() {
                     <label>
                       <input
                         type='checkbox'
-                        checked={filterFake}
-                        onChange={onFilterFakeChange}
+                        checked={formInput.filterFake}
+                        name='filterFake'
+                        onChange={handleSetFormCheckbox}
                       />
                       Exclude known fake issues
                     </label>
@@ -401,7 +422,10 @@ export default function Main() {
             nextClickHandler={handleNextButton}
           />
           <div>
-            <Issues issues={githubContext.issues} filter={filterFake} />
+            <Issues
+              issues={githubContext.issues}
+              filter={formInput.filterFake}
+            />
           </div>
           <Pagination
             currentPage={githubContext.page}

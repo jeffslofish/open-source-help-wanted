@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InputElement = ({ label, placeholder, text, setText }) => {
-  const onChange = (e) => setText(e.target.value);
+const InputElement = ({ label, placeholder, text, setText, name }) => {
+  const onChange = (e) => setText(e);
 
   return (
     <div className='input-component'>
@@ -14,6 +14,7 @@ const InputElement = ({ label, placeholder, text, setText }) => {
         type='text'
         placeholder={placeholder}
         value={text}
+        name={name}
         onChange={onChange}
         id={label}
       />
@@ -26,6 +27,7 @@ InputElement.propTypes = {
   placeholder: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   setText: PropTypes.func.isRequired,
+  name: PropTypes.string,
 };
 
 export default InputElement;

@@ -166,7 +166,7 @@ function formatSearchTerms(searchTerms, label) {
 }
 
 GithubState.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.object,
 };
 
 export default GithubState;
