@@ -30,6 +30,14 @@ export default function Main() {
     filterFake: true,
   });
 
+  const [savedSearches, setSavedSearches] = useState(
+    JSON.parse(localStorage.getItem('oshw-saved-searches'))
+  );
+
+  useEffect(() => {
+    localStorage.setItem('oshw-saved-searches', JSON.stringify(savedSearches));
+  }, [savedSearches]);
+
   const handleSetFormInput = (e) => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value });
   };
@@ -93,6 +101,16 @@ export default function Main() {
     e.preventDefault();
     scrollTop();
     githubContext.search(1, 25, formInput);
+  };
+
+  const handleSaveSearch = () => {
+    setSavedSearches(formInput);
+  };
+
+  const handleLoadSearch = () => {
+    if (savedSearches) {
+      setFormInput(savedSearches);
+    }
   };
 
   useEffect(() => {
@@ -340,6 +358,22 @@ export default function Main() {
 
               <button className='searchButton' type='submit'>
                 Search
+              </button>
+
+              <button
+                className='searchButton'
+                type='button'
+                onClick={handleSaveSearch}
+              >
+                Save Search
+              </button>
+
+              <button
+                className='searchButton'
+                type='button'
+                onClick={handleLoadSearch}
+              >
+                Load Search
               </button>
             </div>
           </form>
