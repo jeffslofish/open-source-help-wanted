@@ -6,8 +6,6 @@ exports.handler = function (event, _context, callback) {
     require('dotenv').config();
   }
 
-  console.log("Logging inside functions ", process.env.TEST);
-
   const apiToken = process.env.API_TOKEN;
   const query = querystring.stringify(event.queryStringParameters);
 
@@ -18,8 +16,6 @@ exports.handler = function (event, _context, callback) {
       : {
           headers: { Authorization: 'bearer ' + apiToken },
         };
-
-  console.log("config header: ", configHeader);
 
   axios
     .get(`https://api.github.com/search/issues?${query}`, configHeader)
