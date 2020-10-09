@@ -19,7 +19,7 @@ exports.handler = function (event, _context, callback) {
           headers: { Authorization: 'bearer ' + apiToken },
         };
 
-  console.log("config header: ", configHeader ? 'yes': 'no')
+  console.log("config header: ", configHeader);
 
   axios
     .get(`https://api.github.com/search/issues?${query}`, configHeader)
