@@ -6,8 +6,8 @@ exports.handler = function (event, _context, callback) {
     require('dotenv').config();
   }
 
-  console.log("Logging inside functions");
-  
+  console.log("Logging inside functions ", process.env.TEST);
+
   const apiToken = process.env.API_TOKEN;
   const query = querystring.stringify(event.queryStringParameters);
 
