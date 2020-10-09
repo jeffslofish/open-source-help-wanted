@@ -60,22 +60,7 @@ export default function Main() {
     githubContext.search(
       githubContext.page + 1,
       githubContext.resultsPerPage,
-      formInput.labels,
-      formInput.keywords,
-      formInput.language,
-      formInput.sortType,
-      formInput.sortDesc,
-      formInput.issueAssigned,
-      formInput.inTitle,
-      formInput.inBody,
-      formInput.inComments,
-      formInput.issueOrPullRequest,
-      formInput.state,
-      formInput.user,
-      formInput.org,
-      formInput.repo,
-      formInput.author,
-      formInput.assignee
+      formInput
     );
   };
   const handlePrevButton = () => {
@@ -83,22 +68,7 @@ export default function Main() {
     githubContext.search(
       githubContext.page > 1 ? githubContext.page - 1 : githubContext.page,
       githubContext.resultsPerPage,
-      formInput.labels,
-      formInput.keywords,
-      formInput.language,
-      formInput.sortType,
-      formInput.sortDesc,
-      formInput.issueAssigned,
-      formInput.inTitle,
-      formInput.inBody,
-      formInput.inComments,
-      formInput.issueOrPullRequest,
-      formInput.state,
-      formInput.user,
-      formInput.org,
-      formInput.repo,
-      formInput.author,
-      formInput.assignee
+      formInput
     );
   };
   const onIssueAssignedChange = (e) => {
@@ -122,49 +92,11 @@ export default function Main() {
   const handleSubmit = (e) => {
     e.preventDefault();
     scrollTop();
-    githubContext.search(
-      1,
-      25,
-      formInput.labels,
-      formInput.keywords,
-      formInput.language,
-      formInput.sortType,
-      formInput.sortDesc,
-      formInput.issueAssigned,
-      formInput.inTitle,
-      formInput.inBody,
-      formInput.inComments,
-      formInput.issueOrPullRequest,
-      formInput.state,
-      formInput.user,
-      formInput.org,
-      formInput.repo,
-      formInput.author,
-      formInput.assignee
-    );
+    githubContext.search(1, 25, formInput);
   };
 
   useEffect(() => {
-    githubContext.search(
-      1,
-      25,
-      formInput.labels,
-      formInput.keywords,
-      formInput.language,
-      formInput.sortType,
-      formInput.sortDesc,
-      formInput.issueAssigned,
-      formInput.inTitle,
-      formInput.inBody,
-      formInput.inComments,
-      formInput.issueOrPullRequest,
-      formInput.state,
-      formInput.user,
-      formInput.org,
-      formInput.repo,
-      formInput.author,
-      formInput.assignee
-    );
+    githubContext.search(1, 25, formInput);
     // eslint-disable-next-line
   }, []);
 

@@ -17,26 +17,25 @@ const GithubState = (props) => {
 
   const setLoading = () => dispatch({ type: SET_LOADING });
 
-  const search = (
-    page,
-    resultsPerPage,
-    labels,
-    keywords,
-    language,
-    sortType,
-    sortDesc,
-    issueAssigned,
-    inTitle,
-    inBody,
-    inComments,
-    issueOrPullRequest,
-    state,
-    user,
-    org,
-    repo,
-    author,
-    assignee
-  ) => {
+  const search = (page, resultsPerPage, formInput) => {
+    const {
+      labels,
+      keywords,
+      language,
+      sortType,
+      sortDesc,
+      issueAssigned,
+      inTitle,
+      inBody,
+      inComments,
+      issueOrPullRequest,
+      state,
+      user,
+      org,
+      repo,
+      author,
+      assignee,
+    } = formInput;
     setLoading();
 
     let labelQuery = formatSearchTerms(labels, 'label:');
