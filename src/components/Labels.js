@@ -21,7 +21,12 @@ const Labels = ({ labels }) => {
 };
 
 Labels.propTypes = {
-  labels: PropTypes.array.isRequired,
+  labels: PropTypes.arrayOf(
+    PropTypes.shape({
+      color: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
 };
 
 export default Labels;

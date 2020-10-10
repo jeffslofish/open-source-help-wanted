@@ -208,6 +208,7 @@ function getRepoNameFromIssueUrl(html_url) {
 
 Issue.propTypes = {
   issue: PropTypes.shape({
+    id: PropTypes.isRequired,
     html_url: PropTypes.string.isRequired,
     user: PropTypes.shape({
       avatar_url: PropTypes.string.isRequired,
@@ -220,7 +221,12 @@ Issue.propTypes = {
     }),
     created_at: PropTypes.string.isRequired,
     updated_at: PropTypes.string.isRequired,
-    labels: PropTypes.array.isRequired,
+    labels: PropTypes.arrayOf(
+      PropTypes.shape({
+        color: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+      })
+    ),
     body: PropTypes.string,
     draft: PropTypes.bool,
     state: PropTypes.string.isRequired,
