@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Assignee = ({ user: { html_url, avatar_url } }) => {
   return (
     <a href={html_url}>
-      <img src={avatar_url} style={imgStyle} alt='' />
+      <img src={avatar_url} style={imgStyle} alt='User Avatar' />
     </a>
   );
 };
