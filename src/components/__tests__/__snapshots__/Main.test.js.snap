@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Main renders correctly 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="App-header"
+  >
+    <a
+      href="/"
+    >
+      <img
+        alt="Open Source Help Wanted"
+        className="main-logo"
+        src="Searching_Logo.png"
+      />
+      <h2>
+        Find issues you can work on in GitHub. Be a contributor!
+      </h2>
+    </a>
+  </div>
+  <div
+    className="App-container"
+  >
+    <div
+      className="search-container"
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <div
+          className="input-elements"
+        >
+          <div
+            className="label-search-box"
+          >
+            <div
+              className="input-component"
+            >
+              <label
+                className="input-label-name"
+                htmlFor="GitHub label names"
+              >
+                GitHub label names
+              </label>
+              <input
+                className="input-element"
+                id="GitHub label names"
+                name="labels"
+                onChange={[Function]}
+                placeholder="help wanted, bug"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              className="input-component"
+            >
+              <label
+                className="input-label-name"
+                htmlFor="Keywords"
+              >
+                Keywords
+              </label>
+              <input
+                className="input-element"
+                id="Keywords"
+                name="keywords"
+                onChange={[Function]}
+                placeholder="open source, forms"
+                type="text"
+                value=""
+              />
+            </div>
+            <div
+              className="input-component"
+            >
+              <label
+                className="input-label-name"
+                htmlFor="Language"
+              >
+                Language
+              </label>
+              <input
+                className="input-element"
+                id="Language"
+                name="language"
+                onChange={[Function]}
+                placeholder="javascript"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <button
+            className="expandButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Show Advanced Options
+          </button>
+          <button
+            className="searchButton"
+            type="submit"
+          >
+            Search
+          </button>
+          <button
+            className="searchButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Save Search
+          </button>
+          <button
+            className="searchButton"
+            onClick={[Function]}
+            type="button"
+          >
+            Load Search
+          </button>
+        </div>
+      </form>
+    </div>
+    <div
+      className="results-container"
+    >
+      <div
+        style={
+          Object {
+            "textAlign": "center",
+            "width": "100%",
+          }
+        }
+      />
+      <div />
+      <div
+        style={
+          Object {
+            "textAlign": "center",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+    <footer>
+      <p>
+        <a
+          href="https://github.com/jeffslofish/open-source-help-wanted"
+        >
+          Fork me on GitHub and contribute!
+        </a>
+      </p>
+    </footer>
+  </div>
+</div>
+`;

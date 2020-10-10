@@ -1,0 +1,529 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Issue renders correctly with draft:false and filter:false 1`] = `
+<div
+  className="issue"
+>
+  <div
+    className="issue-header"
+  >
+    <div
+      className="issue-avatar"
+    >
+      <a
+        href="html_url-test"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt=""
+          src="avatar_url-test"
+          style={
+            Object {
+              "maxHeight": "100px",
+              "maxWidth": "100px",
+            }
+          }
+        />
+      </a>
+    </div>
+    <div
+      className="main"
+    >
+      <p
+        className="issue-title"
+      >
+        <a
+          href="html_url-test"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+           
+          title-test
+        </a>
+      </p>
+      <div
+        className="issue-details"
+      >
+        <div
+          className="issue-repo"
+        >
+          <a
+            href=""
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+          </a>
+          <a
+            href="html_url_test-2"
+          >
+            <img
+              alt="User Avatar"
+              src="avatar_url-test"
+              style={
+                Object {
+                  "maxHeight": "20px",
+                  "maxWidth": "20px",
+                }
+              }
+            />
+          </a>
+          <div
+            className="issue-labels"
+          >
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#012345",
+                  "color": "#ffffff",
+                }
+              }
+            >
+              label-1-test
+            </span>
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#fedba0",
+                  "color": "#000000",
+                }
+              }
+            >
+              label-2-test
+            </span>
+          </div>
+        </div>
+        <div
+          className="issue-times"
+        >
+          <div
+            className="issue-time-ago"
+          >
+            Created: 
+            <time
+              dateTime={"2020-10-09T15:39:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+          <div
+            className="issue-time-ago"
+          >
+            Updated: 
+            <time
+              dateTime={"2020-11-12T17:21:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+        </div>
+        <button
+          className="moreButton"
+          onClick={[Function]}
+        >
+          more...
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Issue renders correctly with draft:false and filter:true 1`] = `
+<div
+  className="issue"
+>
+  <div
+    className="issue-header"
+  >
+    <div
+      className="issue-avatar"
+    >
+      <a
+        href="html_url-test"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt=""
+          src="avatar_url-test"
+          style={
+            Object {
+              "maxHeight": "100px",
+              "maxWidth": "100px",
+            }
+          }
+        />
+      </a>
+    </div>
+    <div
+      className="main"
+    >
+      <p
+        className="issue-title"
+      >
+        <a
+          href="html_url-test"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+           
+          title-test
+        </a>
+      </p>
+      <div
+        className="issue-details"
+      >
+        <div
+          className="issue-repo"
+        >
+          <a
+            href=""
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+          </a>
+          <a
+            href="html_url_test-2"
+          >
+            <img
+              alt="User Avatar"
+              src="avatar_url-test"
+              style={
+                Object {
+                  "maxHeight": "20px",
+                  "maxWidth": "20px",
+                }
+              }
+            />
+          </a>
+          <div
+            className="issue-labels"
+          >
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#012345",
+                  "color": "#ffffff",
+                }
+              }
+            >
+              label-1-test
+            </span>
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#fedba0",
+                  "color": "#000000",
+                }
+              }
+            >
+              label-2-test
+            </span>
+          </div>
+        </div>
+        <div
+          className="issue-times"
+        >
+          <div
+            className="issue-time-ago"
+          >
+            Created: 
+            <time
+              dateTime={"2020-10-09T15:39:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+          <div
+            className="issue-time-ago"
+          >
+            Updated: 
+            <time
+              dateTime={"2020-11-12T17:21:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+        </div>
+        <button
+          className="moreButton"
+          onClick={[Function]}
+        >
+          more...
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Issue renders correctly with draft:true and filter:false 1`] = `
+<div
+  className="issue"
+>
+  <div
+    className="issue-header"
+  >
+    <div
+      className="issue-avatar"
+    >
+      <a
+        href="html_url-test"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt=""
+          src="avatar_url-test"
+          style={
+            Object {
+              "maxHeight": "100px",
+              "maxWidth": "100px",
+            }
+          }
+        />
+      </a>
+    </div>
+    <div
+      className="main"
+    >
+      <p
+        className="issue-title"
+      >
+        <a
+          href="html_url-test"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+           
+          title-test
+        </a>
+      </p>
+      <div
+        className="issue-details"
+      >
+        <div
+          className="issue-repo"
+        >
+          <a
+            href=""
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+          </a>
+          <a
+            href="html_url_test-2"
+          >
+            <img
+              alt="User Avatar"
+              src="avatar_url-test"
+              style={
+                Object {
+                  "maxHeight": "20px",
+                  "maxWidth": "20px",
+                }
+              }
+            />
+          </a>
+          <div
+            className="issue-labels"
+          >
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#012345",
+                  "color": "#ffffff",
+                }
+              }
+            >
+              label-1-test
+            </span>
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#fedba0",
+                  "color": "#000000",
+                }
+              }
+            >
+              label-2-test
+            </span>
+          </div>
+        </div>
+        <div
+          className="issue-times"
+        >
+          <div
+            className="issue-time-ago"
+          >
+            Created: 
+            <time
+              dateTime={"2020-10-09T15:39:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+          <div
+            className="issue-time-ago"
+          >
+            Updated: 
+            <time
+              dateTime={"2020-11-12T17:21:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+        </div>
+        <button
+          className="moreButton"
+          onClick={[Function]}
+        >
+          more...
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Issue renders correctly with draft:true and filter:true 1`] = `
+<div
+  className="issue"
+>
+  <div
+    className="issue-header"
+  >
+    <div
+      className="issue-avatar"
+    >
+      <a
+        href="html_url-test"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <img
+          alt=""
+          src="avatar_url-test"
+          style={
+            Object {
+              "maxHeight": "100px",
+              "maxWidth": "100px",
+            }
+          }
+        />
+      </a>
+    </div>
+    <div
+      className="main"
+    >
+      <p
+        className="issue-title"
+      >
+        <a
+          href="html_url-test"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+           
+          title-test
+        </a>
+      </p>
+      <div
+        className="issue-details"
+      >
+        <div
+          className="issue-repo"
+        >
+          <a
+            href=""
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            
+          </a>
+          <a
+            href="html_url_test-2"
+          >
+            <img
+              alt="User Avatar"
+              src="avatar_url-test"
+              style={
+                Object {
+                  "maxHeight": "20px",
+                  "maxWidth": "20px",
+                }
+              }
+            />
+          </a>
+          <div
+            className="issue-labels"
+          >
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#012345",
+                  "color": "#ffffff",
+                }
+              }
+            >
+              label-1-test
+            </span>
+            <span
+              className="issue-label"
+              style={
+                Object {
+                  "backgroundColor": "#fedba0",
+                  "color": "#000000",
+                }
+              }
+            >
+              label-2-test
+            </span>
+          </div>
+        </div>
+        <div
+          className="issue-times"
+        >
+          <div
+            className="issue-time-ago"
+          >
+            Created: 
+            <time
+              dateTime={"2020-10-09T15:39:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+          <div
+            className="issue-time-ago"
+          >
+            Updated: 
+            <time
+              dateTime={"2020-11-12T17:21:00.000Z"}
+            >
+              in 4 years
+            </time>
+          </div>
+        </div>
+        <button
+          className="moreButton"
+          onClick={[Function]}
+        >
+          more...
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
