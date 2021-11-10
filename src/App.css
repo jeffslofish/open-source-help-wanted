@@ -7,6 +7,7 @@ font-family: 'Noto Sans', sans-serif; */
   --bg-darken: rgba(0, 0, 0, 0.4);
   --bg-light: rgb(250, 250, 250);
   --bg-mid: rgb(68, 132, 182);
+  --bg-mid-darker: rgb(42, 93, 133);
   --bg-neutral: rgb(238, 238, 238);
   --border-radius: 5px;
   --header-footer-height: 85px;
@@ -22,6 +23,20 @@ font-family: 'Noto Sans', sans-serif; */
   outline: 2px solid var(--bg-mid);
 }
 
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-light);
+  border-radius: 20px;
+}
+
 h1,
 h2,
 a {
@@ -29,8 +44,15 @@ a {
 }
 
 h1,
-h2 {
+h2{
   color: var(--text-light);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h5{
+  color: black;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -101,22 +123,26 @@ button:active {
 .App-header {
   align-items: center;
   background-color: var(--bg-mid);
-  border-bottom: 3px solid var(--bg-light);
+  border-bottom: 3px solid var(--bg-mid-darker);
   box-sizing: border-box;
   color: var(--text-light);
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   height: var(--header-footer-height);
-  padding: 5px 10px 10px 10px;
+  padding: 10px;
 }
 
 .App-header a {
   text-decoration: none;
 }
 
+.App-header img {
+  margin-left: 15px;
+}
+
 .main-logo {
-  height: calc(var(--header-footer-height) * 0.6);
+  height: calc(var(--header-footer-height) * 0.5);
   max-width: 100% !important;
 }
 
@@ -143,6 +169,7 @@ button:active {
   display: block;
   font-size: 12px;
   font-weight: 700;
+  margin: 5px 0;
 }
 
 .input-element {
@@ -151,7 +178,7 @@ button:active {
   border: 1px solid var(--bg-mid);
   box-sizing: border-box;
   color: var(--text-light);
-  padding: 2px;
+  padding: 5px;
   width: 100%;
 }
 
@@ -195,6 +222,7 @@ select {
   background-repeat: no-repeat;
   background-size: 10px auto;
   color: var(--text-light);
+  margin: 5px 0;
 }
 
 select:hover {
@@ -205,6 +233,8 @@ select:hover {
   background-color: var(--bg-darken);
   border: none;
   width: 100%;
+  padding: 5px 0;
+  margin-top: 5px;
 }
 
 .expandButton:hover {
@@ -260,7 +290,8 @@ select:hover {
 .octicon {
   display: inline-block;
   fill: currentColor;
-  vertical-align: text-top;
+  vertical-align: baseline;
+  margin-right: 5px;
 }
 
 .open.octicon {
@@ -304,7 +335,7 @@ select:hover {
   font-weight: 600;
   line-height: 11px;
   margin: 2px 2px;
-  padding: 3px;
+  padding: 4px;
 }
 
 .issue-times {
@@ -324,7 +355,8 @@ select:hover {
 }
 
 .moreButton:hover {
-  border-color: var(--bg-dark);
+  background-color: var(--bg-mid-darker);
+  border-color: var(--bg-mid-darker);
 }
 
 .issue-body {
@@ -349,7 +381,7 @@ select:hover {
 
 footer {
   background-color: var(--bg-mid);
-  border-top: 3px solid var(--bg-light);
+  border-top: 3px solid var(--bg-mid-darker);
   display: grid;
   grid-area: footer;
   height: var(--header-footer-height);
@@ -401,6 +433,10 @@ footer a {
 @media screen and (max-width: 640px) {
   h1 {
     font-size: 20px;
+  }
+
+  .App-header img {
+    margin-left: 5px;
   }
 
   .App-container {

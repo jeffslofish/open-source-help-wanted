@@ -123,7 +123,7 @@ export default function Main() {
       <div className='App-header'>
         <a href='/'>
           <img src={Logo} className='main-logo' alt='Open Source Help Wanted' />
-          <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
+          <h5>Find issues you can work on in GitHub. Be a contributor!</h5>
         </a>
       </div>
       <div className='App-container'>
