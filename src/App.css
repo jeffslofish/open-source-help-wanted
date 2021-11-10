@@ -10,7 +10,8 @@ font-family: 'Noto Sans', sans-serif; */
   --bg-mid-darker: rgb(42, 93, 133);
   --bg-neutral: rgb(238, 238, 238);
   --border-radius: 5px;
-  --header-footer-height: 85px;
+  --header-footer-height: 50px;
+  --header-footer-height-mobile: 85px;
   --text-light: rgb(224, 224, 224);
 }
 
@@ -39,7 +40,8 @@ font-family: 'Noto Sans', sans-serif; */
 
 h1,
 h2,
-a {
+a,
+h5 {
   font-family: 'Bitter', serif;
 }
 
@@ -111,7 +113,7 @@ button:active {
     'search results'
     'footer results';
   grid-template-columns: minmax(250px, 30%) auto;
-  grid-template-rows: 4fr 0.5fr;
+  grid-template-rows: 4fr 0.4fr;
   height: calc(100vh - var(--header-footer-height));
   margin: auto;
   max-width: 1200px;
@@ -127,18 +129,16 @@ button:active {
   box-sizing: border-box;
   color: var(--text-light);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
   height: var(--header-footer-height);
   padding: 10px;
 }
 
 .App-header a {
   text-decoration: none;
-}
-
-.App-header img {
-  margin-left: 15px;
+  padding: 0 5em;
 }
 
 .main-logo {
@@ -234,7 +234,7 @@ select:hover {
   border: none;
   width: 100%;
   padding: 5px 0;
-  margin-top: 5px;
+  margin: 5px 0;
 }
 
 .expandButton:hover {
@@ -428,6 +428,12 @@ footer a {
   h2 {
     font-size: 12px;
   }
+  .App-header a{
+    padding: 0 10px;
+  }
+  footer {
+    height: var(--header-footer-height-mobile);
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -435,8 +441,9 @@ footer a {
     font-size: 20px;
   }
 
-  .App-header img {
-    margin-left: 5px;
+  .App-header {
+    height: var(--header-footer-height-mobile);
+    justify-content: center;
   }
 
   .App-container {
@@ -446,7 +453,7 @@ footer a {
       'results'
       'footer';
     grid-template-columns: auto;
-    grid-template-rows: auto auto var(--header-footer-height);
+    grid-template-rows: auto auto var(--header-footer-height-mobile);
     height: initial;
   }
 
