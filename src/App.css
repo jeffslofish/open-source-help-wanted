@@ -113,7 +113,7 @@ button:active {
     'search results'
     'footer results';
   grid-template-columns: minmax(250px, 30%) auto;
-  grid-template-rows: 4fr 0.4fr;
+  grid-template-rows: 4fr 0fr;
   height: calc(100vh - var(--header-footer-height));
   margin: auto;
   max-width: 1200px;
