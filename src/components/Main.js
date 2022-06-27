@@ -4,6 +4,7 @@ import InputElement from './InputElement';
 import Pagination from './Pagination';
 import Issues from './Issues';
 import Logo from '../images/Searching_Logo.png';
+import ReactGA from 'react-ga4';
 
 export default function Main() {
   const githubContext = useContext(GithubContext);
@@ -70,6 +71,11 @@ export default function Main() {
       githubContext.resultsPerPage,
       formInput
     );
+
+    ReactGA.event({
+      category: 'event',
+      action: 'next button clicked',
+    });
   };
   const handlePrevButton = () => {
     scrollTop();
@@ -78,6 +84,11 @@ export default function Main() {
       githubContext.resultsPerPage,
       formInput
     );
+
+    ReactGA.event({
+      category: 'event',
+      action: 'prev button clicked',
+    });
   };
   const onIssueAssignedChange = (e) => {
     console.log('target', e.target.value);
@@ -90,27 +101,52 @@ export default function Main() {
   const onExpand = (e) => {
     e.preventDefault();
     setExpanded(true);
+
+    ReactGA.event({
+      category: 'event',
+      action: 'expand',
+    });
   };
 
   const onCollapse = (e) => {
     e.preventDefault();
     setExpanded(false);
+
+    ReactGA.event({
+      category: 'event',
+      action: 'collapse',
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     scrollTop();
     githubContext.search(1, 25, formInput);
+
+    ReactGA.event({
+      category: 'event',
+      action: 'search submit',
+    });
   };
 
   const handleSaveSearch = () => {
     setSavedSearches(formInput);
+
+    ReactGA.event({
+      category: 'event',
+      action: 'save search',
+    });
   };
 
   const handleLoadSearch = () => {
     if (savedSearches) {
       setFormInput(savedSearches);
     }
+
+    ReactGA.event({
+      category: 'event',
+      action: 'load search',
+    });
   };
 
   useEffect(() => {
