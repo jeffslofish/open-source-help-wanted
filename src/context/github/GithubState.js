@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING } from '../types';
+import { useLocation } from 'react-router-dom';
 
 const GithubState = (props) => {
   const initialState = {
@@ -16,6 +17,9 @@ const GithubState = (props) => {
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
   const setLoading = () => dispatch({ type: SET_LOADING });
+
+  const queryParamSearch = useLocation().search;
+  const oauthCode = new URLSearchParams(queryParamSearch).get('code');
 
   const search = (page, resultsPerPage, formInput) => {
     const {
@@ -109,7 +113,7 @@ const GithubState = (props) => {
       resultsPerPage;
 
     let myRequest = new Request(
-      '/.netlify/functions/getissues?q=' + searchQuery
+      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}`
     );
 
     fetch(myRequest)
