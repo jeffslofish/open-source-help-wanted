@@ -2,7 +2,7 @@ import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
-import { SEARCH_ISSUES, SET_LOADING } from '../types';
+import { SEARCH_ISSUES, SET_LOADING, LOADING_ERROR } from '../types';
 import { useLocation } from 'react-router-dom';
 
 const GithubState = (props) => {
@@ -12,6 +12,8 @@ const GithubState = (props) => {
     resultsPerPage: 25,
     page: 1,
     loading: false,
+    accessToken: null,
+    errorMessage: '',
   };
 
   const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -21,7 +23,7 @@ const GithubState = (props) => {
   const queryParamSearch = useLocation().search;
   const oauthCode = new URLSearchParams(queryParamSearch).get('code');
 
-  const search = (page, resultsPerPage, formInput) => {
+  const search = async (page, resultsPerPage, formInput) => {
     const {
       labels,
       keywords,
@@ -33,7 +35,7 @@ const GithubState = (props) => {
       inBody,
       inComments,
       issueOrPullRequest,
-      state,
+      state2,
       user,
       org,
       repo,
@@ -74,9 +76,9 @@ const GithubState = (props) => {
     }
 
     let stateQuery = ' ';
-    if (state === 'open') {
+    if (state2 === 'open') {
       stateQuery = ' is:open ';
-    } else if (state === 'closed') {
+    } else if (state2 === 'closed') {
       stateQuery = ' is:closed ';
     }
 
@@ -112,28 +114,37 @@ const GithubState = (props) => {
       '&per_page=' +
       resultsPerPage;
 
+    console.log('state: ', state);
     let myRequest = new Request(
-      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}`
+      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${state.accessToken}`
     );
 
-    fetch(myRequest)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        dispatch({
-          type: SEARCH_ISSUES,
-          payload: {
-            issues: data.items,
-            totalCount: Number.parseInt(data.total_count, 10),
-            page: page,
-          },
-        });
-      })
-      .catch(function (err) {
-        // eslint-disable-next-line
-        console.error(err); //TODO: proper error handling
+    const response = await fetch(myRequest);
+
+    if (response.ok) {
+      const data = await response.json();
+
+      dispatch({
+        type: SEARCH_ISSUES,
+        payload: {
+          issues: data.items,
+          totalCount: Number.parseInt(data.total_count, 10),
+          page: page,
+          accessToken: data.accessToken,
+        },
       });
+    } else {
+      console.log('ERROR: ');
+      const data = await response.json();
+      console.log(data.message);
+
+      dispatch({
+        type: LOADING_ERROR,
+        payload: {
+          message: data.message,
+        },
+      });
+    }
   };
 
   return (
@@ -144,6 +155,8 @@ const GithubState = (props) => {
         resultsPerPage: state.resultsPerPage,
         page: state.page,
         loading: state.loading,
+        accessToken: state.accessToken,
+        errorMessage: state.errorMessage,
         search,
       }}
     >

@@ -3,8 +3,8 @@ import GithubContext from '../context/github/GithubContext';
 import InputElement from './InputElement';
 import Pagination from './Pagination';
 import Issues from './Issues';
-import Logo from '../images/Searching_Logo.png';
 import ReactGA from 'react-ga4';
+import Header from './Header';
 
 export default function Main() {
   const githubContext = useContext(GithubContext);
@@ -156,12 +156,7 @@ export default function Main() {
 
   return (
     <div className='App'>
-      <div className='App-header'>
-        <a href='/'>
-          <img src={Logo} className='main-logo' alt='Open Source Help Wanted' />
-          <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
-        </a>
-      </div>
+      <Header />
       <div className='App-container'>
         <div className='search-container'>
           <form onSubmit={handleSubmit}>
@@ -416,6 +411,9 @@ export default function Main() {
         </div>
         <div className='results-container'>
           {githubContext.loading && <div className='loading' />}
+          {githubContext.errorMessage.length > 0 && (
+            <div className='error'>ERROR: {githubContext.errorMessage}</div>
+          )}
           <Pagination
             currentPage={githubContext.page}
             totalCount={githubContext.totalCount}

@@ -1,15 +1,17 @@
 import React from 'react';
+import Header from './Header';
 
 function HomePage() {
   const authorize = () => {
-    window.location.href =
-      'https://github.com/login/oauth/authorize?client_id=ac994e1064925b354294&type=user_agent&redirect_uri=https://opensourcehelpwanted.com/oauth_redirect';
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&type=user_agent&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
   };
 
   return (
     <>
-      <p>Welcome to Open Source Help Wanted</p>
-      <button onClick={authorize}>Authorize Your Account</button>
+      <Header />
+      <button className='authorizeButton' onClick={authorize}>
+        Authorize Your Account
+      </button>
     </>
   );
 }

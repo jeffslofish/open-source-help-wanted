@@ -1,5 +1,6 @@
 export const SEARCH_ISSUES = 'SEARCH_ISSUES';
 export const SET_LOADING = 'SET_LOADING';
+export const LOADING_ERROR = 'LOADING_ERROR';
 export const NEXT_PAGE = 'NEXT_PAGE';
 export const PREV_PAGE = 'PREV_PAGE';
 export const SORT_CREATED_CHANGE = 'SORT_CREATED_CHANGE';

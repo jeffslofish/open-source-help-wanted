@@ -380,6 +380,28 @@ footer a {
   z-index: 10;
 }
 
+.error {
+  background: var(--bg-light);
+  display: block;
+  font-size: 20px;
+  height: 8em;
+  left: 50%;
+  margin-left: -4em;
+  margin-top: -4em;
+  position: absolute;
+  top: 50%;
+  width: 8em;
+  z-index: 20;
+}
+
+.authorizeButton {
+  text-align: center;
+  margin: auto;
+  display: block;
+  margin-top: 50px;
+  padding: 10px;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(-360deg);
@@ -441,5 +463,5 @@ footer a {
   .loading {
     position: fixed;
     top: 30%;
-  }
+  } 
 }
