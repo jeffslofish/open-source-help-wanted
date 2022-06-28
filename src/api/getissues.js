@@ -2,7 +2,6 @@ const axios = require('axios');
 
 exports.handler = function (event, _context, callback) {
   let params = new URLSearchParams(event.queryStringParameters);
-  const query = `q=${params.get('q')}`;
   const page = params.get('page');
   const sort = params.get('sort');
   const order = params.get('order');
@@ -39,11 +38,6 @@ exports.handler = function (event, _context, callback) {
         if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          //console.log('not 200');
-          //console.log(error.response.data);
-          //console.log(error.response.status);
-          //console.log(error.response.headers);
-
           if (error.response.data.message) {
             callback(null, {
               statusCode: error.response.status,
@@ -61,7 +55,6 @@ exports.handler = function (event, _context, callback) {
           console.log('unkown error');
           console.log('Error', error.message);
         }
-        //console.log(error.config);
       });
   }
 
@@ -94,17 +87,4 @@ exports.handler = function (event, _context, callback) {
         console.log(err);
       });
   }
-
-  //
-
-  // https: if (oauthCode) {
-  //   fetch(`https://gitstar.herokuapp.com/authenticate/${code}`)
-  //     .then((response) => response.json())
-  //     .then(({ token }) => {
-  //       this.setState({
-  //         token,
-  //         status: STATUS.FINISHED_LOADING,
-  //       });
-  //     });
-  // }
 };
