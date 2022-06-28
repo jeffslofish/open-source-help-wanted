@@ -121,7 +121,7 @@ export default function Main() {
   const handleSubmit = (e) => {
     e.preventDefault();
     scrollTop();
-    githubContext.search(1, 25, formInput);
+    githubContext.search(1, 100, formInput);
 
     ReactGA.event({
       category: 'event',
@@ -150,7 +150,7 @@ export default function Main() {
   };
 
   useEffect(() => {
-    githubContext.search(1, 25, formInput);
+    githubContext.search(1, 100, formInput);
     // eslint-disable-next-line
   }, []);
 

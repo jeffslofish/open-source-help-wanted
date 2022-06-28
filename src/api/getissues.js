@@ -3,8 +3,15 @@ const axios = require('axios');
 exports.handler = function (event, _context, callback) {
   let params = new URLSearchParams(event.queryStringParameters);
   const query = `q=${params.get('q')}`;
+  const page = params.get('page');
+  const sort = params.get('sort');
+  const order = params.get('order');
+  const perPage = params.get('per_page');
   const oauthCode = params.get('oauthCode');
   const accessToken = params.get('accessToken');
+  const masterQuery = `q=${params.get(
+    'q'
+  )}&page=${page}&sort=${sort}&order=${order}&per_page=${perPage}`;
 
   function getIssues(query, accessToken, callback) {
     const configHeader = {
@@ -60,7 +67,7 @@ exports.handler = function (event, _context, callback) {
 
   if (accessToken !== 'null') {
     console.log('access token not null');
-    getIssues(query, accessToken, callback);
+    getIssues(masterQuery, accessToken, callback);
   } else {
     console.log('access token is null');
     axios({
@@ -81,7 +88,7 @@ exports.handler = function (event, _context, callback) {
 
         console.log('access token inside: ', accessToken);
 
-        getIssues(query, accessToken, callback);
+        getIssues(masterQuery, accessToken, callback);
       })
       .catch((err) => {
         console.log(err);

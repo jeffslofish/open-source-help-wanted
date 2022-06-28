@@ -9,14 +9,14 @@ const GithubState = (props) => {
   const initialState = {
     issues: [],
     totalCount: 0,
-    resultsPerPage: 25,
+    resultsPerPage: 100,
     page: 1,
     loading: false,
     accessToken: null,
     errorMessage: '',
   };
 
-  const [state, dispatch] = useReducer(GithubReducer, initialState);
+  const [contextState, dispatch] = useReducer(GithubReducer, initialState);
 
   const setLoading = () => dispatch({ type: SET_LOADING });
 
@@ -35,7 +35,7 @@ const GithubState = (props) => {
       inBody,
       inComments,
       issueOrPullRequest,
-      state2,
+      state,
       user,
       org,
       repo,
@@ -55,13 +55,13 @@ const GithubState = (props) => {
     }
 
     const authorQuery = author.length
-      ? 'author:' + encodeURIComponent(author)
+      ? `author:${encodeURIComponent(author)} `
       : '';
-    const userQuery = user.length ? 'user:' + encodeURIComponent(user) : '';
-    const orgQuery = org.length ? 'org:' + encodeURIComponent(org) : '';
-    const repoQuery = repo.length ? 'repo:' + encodeURIComponent(repo) : '';
+    const userQuery = user.length ? `user:${encodeURIComponent(user)} ` : '';
+    const orgQuery = org.length ? `org:${encodeURIComponent(org)} ` : '';
+    const repoQuery = repo.length ? `repo:${encodeURIComponent(repo)} ` : '';
     const assigneeQuery = assignee.length
-      ? 'assignee:' + encodeURIComponent(assignee)
+      ? `assignee:${encodeURIComponent(assignee)} `
       : '';
 
     const inTitleQuery = inTitle ? ' in:title ' : '';
@@ -76,9 +76,9 @@ const GithubState = (props) => {
     }
 
     let stateQuery = ' ';
-    if (state2 === 'open') {
+    if (state === 'open') {
       stateQuery = ' is:open ';
-    } else if (state2 === 'closed') {
+    } else if (state === 'closed') {
       stateQuery = ' is:closed ';
     }
 
@@ -114,9 +114,8 @@ const GithubState = (props) => {
       '&per_page=' +
       resultsPerPage;
 
-    console.log('state: ', state);
     let myRequest = new Request(
-      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${state.accessToken}`
+      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${contextState.accessToken}`
     );
 
     const response = await fetch(myRequest);
@@ -150,13 +149,13 @@ const GithubState = (props) => {
   return (
     <GithubContext.Provider
       value={{
-        issues: state.issues,
-        totalCount: state.totalCount,
-        resultsPerPage: state.resultsPerPage,
-        page: state.page,
-        loading: state.loading,
-        accessToken: state.accessToken,
-        errorMessage: state.errorMessage,
+        issues: contextState.issues,
+        totalCount: contextState.totalCount,
+        resultsPerPage: contextState.resultsPerPage,
+        page: contextState.page,
+        loading: contextState.loading,
+        accessToken: contextState.accessToken,
+        errorMessage: contextState.errorMessage,
         search,
       }}
     >
