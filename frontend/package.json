@@ -32,7 +32,7 @@
   },
   "scripts": {
     "start": "cp .env ../backend && run-p start:**",
-    "build": "run-p build:**",
+    "build": "cd ../backend && npm install && cd ../frontend && run-p build:**",
     "start:app": "react-scripts start",
     "build:app": "react-scripts build",
     "test:app": "react-scripts test --env=jsdom",
