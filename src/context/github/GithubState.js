@@ -135,12 +135,12 @@ const GithubState = (props) => {
     } else {
       console.log('ERROR: ');
       const data = await response.json();
-      console.log(data.message);
+      console.log(data);
 
       dispatch({
         type: LOADING_ERROR,
         payload: {
-          message: data.message,
+          message: data,
         },
       });
     }
