@@ -10,7 +10,7 @@ See live app running here: https://www.opensourcehelpwanted.com/.
 
 1. Clone this repo
 1. Copy .env.sample to .env
-1. Create a GitHub OAuth App by going to Settings/Developor settings in GitHub and clicking "New OAuth App"
+1. Create a GitHub OAuth App by going to Settings/Developer settings in GitHub and clicking "New OAuth App"
 1. Enter any Application name, http://localhost:3000 for Homepage URL, and http://localhost:3000/oauth_redirect for Authorization callback URL
 1. Click "Register Application"
 1. Click "Generate a new client secret" and copy that value into .env where it says "your-client-secret-here"
