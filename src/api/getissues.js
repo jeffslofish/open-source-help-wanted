@@ -35,15 +35,13 @@ exports.handler = async function (event, _context) {
     config
   );
 
-  if (res.status !== 200) {
-    return {
-      statusCode: res.status,
-      body: JSON.stringify(res.data.message),
-    };
-  } else {
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ ...res.data, accessToken }),
-    };
-  }
+  const body =
+    res.status === 200
+      ? JSON.stringify({ ...res.data, accessToken })
+      : JSON.stringify(res.data.message);
+
+  return {
+    statusCode: res.status,
+    body,
+  };
 };

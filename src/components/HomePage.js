@@ -3,7 +3,12 @@ import Header from './Header';
 
 function HomePage() {
   const authorize = () => {
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${process.env.REACT_APP_CLIENT_ID}&type=user_agent&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
+    const params = new URLSearchParams();
+    params.set('type', 'user_agent');
+    params.set('client_id', process.env.REACT_APP_CLIENT_ID);
+    params.set('redirect_url', process.env.REACT_APP_REDIRECT_URI);
+
+    window.location.href = `https://github.com/login/oauth/authorize?${params}`;
   };
 
   return (
