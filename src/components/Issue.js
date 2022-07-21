@@ -4,16 +4,7 @@ import Assignee from './Assignee';
 import Labels from './Labels';
 import Moment from 'react-moment';
 import PropTypes from 'prop-types';
-import ReactMde from 'react-mde';
-import * as Showdown from 'showdown';
-import 'react-mde/lib/styles/css/react-mde-all.css';
-
-const converter = new Showdown.Converter({
-  tables: true,
-  simplifiedAutoLink: true,
-  strikethrough: true,
-  tasklists: true,
-});
+import ReactMarkdown from 'react-markdown';
 
 const Issue = ({
   issue: {
@@ -171,15 +162,7 @@ const Issue = ({
 
       {issueOpen.open && (
         <div className='issue-body'>
-          {body && (
-            <ReactMde
-              value={body}
-              selectedTab={'preview'}
-              generateMarkdownPreview={(markdown) =>
-                Promise.resolve(converter.makeHtml(markdown))
-              }
-            />
-          )}
+          {body && <ReactMarkdown>{body}</ReactMarkdown>}
         </div>
       )}
     </div>
