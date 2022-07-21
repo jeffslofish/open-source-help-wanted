@@ -329,22 +329,11 @@ select:hover {
 
 .issue-body {
   overflow-wrap: break-word;
+  padding: 10px;
 }
 
 .issue-body img {
   max-width: 100%;
-}
-
-.issue-body .mde-header {
-  display: none;
-}
-
-.issue-body .react-mde {
-  border: none;
-}
-
-.issue-body .mde-preview {
-  min-height: 0px !important;
 }
 
 footer {
