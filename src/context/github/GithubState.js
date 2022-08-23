@@ -4,6 +4,7 @@ import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING, LOADING_ERROR } from '../types';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const GithubState = (props) => {
   const initialState = {
@@ -136,7 +137,7 @@ const GithubState = (props) => {
       console.log('ERROR: ');
       const data = await response.json();
       console.log(data);
-
+      typeof data === 'string' && toast.error(data);
       dispatch({
         type: LOADING_ERROR,
         payload: {

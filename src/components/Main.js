@@ -5,6 +5,8 @@ import Pagination from './Pagination';
 import Issues from './Issues';
 import ReactGA from 'react-ga4';
 import Header from './Header';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Main() {
   const githubContext = useContext(GithubContext);
@@ -411,7 +413,7 @@ export default function Main() {
         </div>
         <div className='results-container'>
           {githubContext.loading && <div className='loading' />}
-          {githubContext.errorMessage.length > 0 && (
+          {false && githubContext.errorMessage.length > 0 && ( // fix for issue 51 https://github.com/jeffslofish/open-source-help-wanted/issues/51
             <div className='error'>ERROR: {githubContext.errorMessage}</div>
           )}
           <Pagination
@@ -443,6 +445,17 @@ export default function Main() {
           </p>
         </footer>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
