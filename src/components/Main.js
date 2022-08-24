@@ -413,9 +413,6 @@ export default function Main() {
         </div>
         <div className='results-container'>
           {githubContext.loading && <div className='loading' />}
-          {false && githubContext.errorMessage.length > 0 && ( // fix for issue 51 https://github.com/jeffslofish/open-source-help-wanted/issues/51
-            <div className='error'>ERROR: {githubContext.errorMessage}</div>
-          )}
           <Pagination
             currentPage={githubContext.page}
             totalCount={githubContext.totalCount}
