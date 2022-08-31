@@ -9,7 +9,7 @@
     "chromatism": "^3.0.0",
     "dotenv": "^16.0.1",
     "moment": "^2.29.4",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.35",
     "netlify-lambda": "^2.0.15",
     "npm-run-all": "^4.1.5",
     "react": "^18.2.0",
