@@ -35,8 +35,8 @@ const Issue = ({
 
   // Checks for known sources of fake issues
   const repoName = getRepoNameFromIssueUrl(html_url);
-  // eslint-disable-next-line
-  const [issueFake, setIssueFake] = useState(() => {
+
+  const isFakeIssue = () => {
     // pddemo/demo creates a new fake issue every minute
     if (repoName === 'pddemo/demo') {
       return true;
@@ -47,9 +47,9 @@ const Issue = ({
       return true;
     }
     return false;
-  });
+  };
 
-  if (issueFake === true && filterFake === true) {
+  if (isFakeIssue === true && filterFake === true) {
     // filterFake is an option in advanced search
     //console.log("Excluded " + repoName + " - " + title + " - for being a test, tutorial or fake issue");
     return null;
