@@ -39,7 +39,7 @@
     "eject:app": "react-scripts eject",
     "start:lambda": "netlify-lambda serve src/api",
     "build:lambda": "netlify-lambda build src/api",
-    "lint": "eslint 'src/**/*.js'",
+    "lint": "eslint src",
     "format-check": "prettier 'src/**/*.{js,css,json}' --check",
     "format": "prettier 'src/**/*.{js,css,json}' --write"
   },
