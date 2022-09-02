@@ -3,8 +3,35 @@ import Avatar from './Avatar';
 import Assignee from './Assignee';
 import Labels from './Labels';
 import Moment from 'react-moment';
-import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
+
+type Props = {
+  issue: {
+    id: number;
+    html_url: string;
+    user: {
+      avatar_url: string;
+      html_url: string;
+    };
+    title: string;
+    assignee: {
+      html_url: string;
+      avatar_url: string;
+    };
+    created_at: string;
+    updated_at: string;
+    labels: [
+      {
+        color: string;
+        name: string;
+      }
+    ];
+    body: string;
+    draft: boolean;
+    state: string;
+  };
+  filter: boolean;
+};
 
 const Issue = ({
   issue: {
@@ -20,7 +47,7 @@ const Issue = ({
     state,
   },
   filter: filterFake,
-}) => {
+}: Props) => {
   const [issueOpen, setIssueOpen] = useState({ open: false, text: 'more...' });
   function openIssue() {
     if (issueOpen.open === false) {
@@ -169,9 +196,9 @@ const Issue = ({
   );
 };
 
-function getRepoUrlFromIssueUrl(html_url) {
-  let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
-  let matches = html_url.match(pattern);
+function getRepoUrlFromIssueUrl(html_url: string) {
+  const pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
+  const matches = html_url.match(pattern);
   let repoUrl = '';
   if (matches && matches.length > 0) {
     repoUrl = matches[0];
@@ -179,42 +206,14 @@ function getRepoUrlFromIssueUrl(html_url) {
   return repoUrl;
 }
 
-function getRepoNameFromIssueUrl(html_url) {
-  let pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
-  let matches = html_url.match(pattern);
+function getRepoNameFromIssueUrl(html_url: string) {
+  const pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
+  const matches = html_url.match(pattern);
   let repoName = '';
   if (matches && matches.length > 2) {
     repoName = matches[1] + '/' + matches[2];
   }
   return repoName;
 }
-
-Issue.propTypes = {
-  issue: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    html_url: PropTypes.string.isRequired,
-    user: PropTypes.shape({
-      avatar_url: PropTypes.string.isRequired,
-      html_url: PropTypes.string.isRequired,
-    }).isRequired,
-    title: PropTypes.string.isRequired,
-    assignee: PropTypes.shape({
-      html_url: PropTypes.string.isRequired,
-      avatar_url: PropTypes.string.isRequired,
-    }),
-    created_at: PropTypes.string.isRequired,
-    updated_at: PropTypes.string.isRequired,
-    labels: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
-    body: PropTypes.string,
-    draft: PropTypes.bool,
-    state: PropTypes.string.isRequired,
-  }).isRequired,
-  filter: PropTypes.bool.isRequired,
-};
 
 export default Issue;

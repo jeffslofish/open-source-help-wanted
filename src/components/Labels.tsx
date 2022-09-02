@@ -1,7 +1,15 @@
 import * as chromatism from 'chromatism';
-import PropTypes from 'prop-types';
 
-const Labels = ({ labels }) => {
+type Props = {
+  labels: [
+    {
+      color: string;
+      name: string;
+    }
+  ];
+};
+
+const Labels = ({ labels }: Props) => {
   return (
     <div className='issue-labels'>
       {labels.map((label, i) => {
@@ -17,15 +25,6 @@ const Labels = ({ labels }) => {
       })}
     </div>
   );
-};
-
-Labels.propTypes = {
-  labels: PropTypes.arrayOf(
-    PropTypes.shape({
-      color: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
 };
 
 export default Labels;

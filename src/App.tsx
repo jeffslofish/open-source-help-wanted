@@ -13,7 +13,6 @@ const App = () => {
     <Router>
       <Routes>
         <Route
-          exact
           path='/'
           element={
             <>
