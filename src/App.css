@@ -38,6 +38,10 @@ font-family: 'Noto Sans', sans-serif; */
   border-radius: 20px;
 }
 
+body {
+  background-color: var(--bg-dark);
+}
+
 h1,
 h2,
 a,
@@ -46,14 +50,14 @@ h5 {
 }
 
 h1,
-h2{
+h2 {
   color: var(--text-light);
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
-h5{
+h5 {
   color: black;
   margin: 0;
   padding: 0;
@@ -439,7 +443,7 @@ footer a {
   h2 {
     font-size: 12px;
   }
-  .App-header a{
+  .App-header a {
     padding: 0 10px;
   }
   footer {
