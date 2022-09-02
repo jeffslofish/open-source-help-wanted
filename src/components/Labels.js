@@ -1,4 +1,3 @@
-import React from 'react';
 import * as chromatism from 'chromatism';
 import PropTypes from 'prop-types';
 

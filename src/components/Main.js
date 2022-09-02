@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import GithubContext from '../context/github/GithubContext';
 import InputElement from './InputElement';
 import Pagination from './Pagination';

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 const Assignee = ({ user: { html_url, avatar_url } }) => {

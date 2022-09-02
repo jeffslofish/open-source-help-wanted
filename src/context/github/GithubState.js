@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
