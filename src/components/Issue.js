@@ -49,7 +49,7 @@ const Issue = ({
     return false;
   };
 
-  if (isFakeIssue === true && filterFake === true) {
+  if (isFakeIssue() === true && filterFake === true) {
     // filterFake is an option in advanced search
     //console.log("Excluded " + repoName + " - " + title + " - for being a test, tutorial or fake issue");
     return null;
