@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@octokit/rest": "^19.0.3",
+    "@types/aws-lambda": "^8.10.102",
     "@types/jest": "^29.0.0",
     "@types/node": "^18.7.14",
     "@types/react": "^18.0.18",
@@ -42,7 +43,7 @@
     "build:app": "react-scripts build",
     "test:app": "react-scripts test --env=jsdom",
     "eject:app": "react-scripts eject",
-    "start:lambda": "netlify-lambda serve src/api",
+    "start:lambda": "npm run build:lambda && netlify-lambda serve src/api",
     "build:lambda": "netlify-lambda build src/api",
     "lint": "eslint src",
     "format-check": "prettier 'src/**/*.{js,css,json}' --check",
