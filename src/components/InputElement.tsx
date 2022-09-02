@@ -1,7 +1,15 @@
-import PropTypes from 'prop-types';
+import { ChangeEvent } from 'react';
 
-const InputElement = ({ label, placeholder, text, setText, name }) => {
-  const onChange = (e) => setText(e);
+type Props = {
+  label: string;
+  placeholder: string;
+  text: string;
+  setText: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+};
+
+const InputElement = ({ label, placeholder, text, setText, name }: Props) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => setText(e);
 
   return (
     <div className='input-component'>
@@ -19,14 +27,6 @@ const InputElement = ({ label, placeholder, text, setText, name }) => {
       />
     </div>
   );
-};
-
-InputElement.propTypes = {
-  label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  setText: PropTypes.func.isRequired,
-  name: PropTypes.string,
 };
 
 export default InputElement;

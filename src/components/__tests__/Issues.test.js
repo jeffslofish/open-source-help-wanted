@@ -5,8 +5,6 @@ beforeAll(() => {
   Date.now = jest.fn(() => 1487076708000);
 });
 
-afterAll(() => {});
-
 describe('Issue', () => {
   it('renders correctly', () => {
     const tree = renderer
