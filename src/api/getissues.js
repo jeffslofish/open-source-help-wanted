@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv'; // see https://github.com/motdotla/dotenv#how-
 dotenv.config();
 import axios from 'axios';
 
-export async function handler(event, _context) {
+export async function handler(event) {
   const params = new URLSearchParams(event.queryStringParameters);
   const oauthCode = params.get('oauthCode');
   let accessToken = params.get('accessToken');
@@ -24,7 +24,7 @@ export async function handler(event, _context) {
   }
   const config = {
     headers: { Authorization: 'bearer ' + accessToken },
-    validateStatus: function (status) {
+    validateStatus: function () {
       return true;
     },
   };
