@@ -52,8 +52,8 @@ export default function Main() {
   function scrollTop() {
     const element = document.querySelector('.results-container');
     const headerHeight = document.querySelector('.App-header').scrollHeight;
-    const searchHeight = document.querySelector('.search-container')
-      .scrollHeight;
+    const searchHeight =
+      document.querySelector('.search-container').scrollHeight;
     element.scroll({
       top: 0,
       left: 0,
@@ -443,7 +443,7 @@ export default function Main() {
         </footer>
       </div>
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
