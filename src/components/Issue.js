@@ -191,7 +191,7 @@ function getRepoNameFromIssueUrl(html_url) {
 
 Issue.propTypes = {
   issue: PropTypes.shape({
-    id: PropTypes.isRequired,
+    id: PropTypes.number.isRequired,
     html_url: PropTypes.string.isRequired,
     user: PropTypes.shape({
       avatar_url: PropTypes.string.isRequired,
