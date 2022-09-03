@@ -31,6 +31,7 @@ type Props = {
     state: string;
   };
   filter: boolean;
+  upTime: boolean;
 };
 
 const Issue = ({
@@ -47,6 +48,7 @@ const Issue = ({
     state,
   },
   filter: filterFake,
+  upTime
 }: Props) => {
   const [issueOpen, setIssueOpen] = useState({ open: false, text: 'more...' });
   function openIssue() {
@@ -79,6 +81,18 @@ const Issue = ({
   if (isFakeIssue() === true && filterFake === true) {
     // filterFake is an option in advanced search
     //console.log("Excluded " + repoName + " - " + title + " - for being a test, tutorial or fake issue");
+    return null;
+  }
+
+  const isupTimeRepo = () => {
+    // uptime status issues that are automatically generated
+    if (title.endsWith("is down")) {
+      return true;
+    }
+    return false;
+  };
+
+  if(upTime && isupTimeRepo()) {
     return null;
   }
   return (

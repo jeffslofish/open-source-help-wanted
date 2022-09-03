@@ -16,4 +16,5 @@ export interface FormInput {
   assignee: string;
   issueAssigned: '' | '+no:assignee';
   filterFake: true;
+  upTime: true;
 }
