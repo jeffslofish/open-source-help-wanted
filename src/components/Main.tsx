@@ -39,9 +39,14 @@ export default function Main() {
     filterFake: true,
   });
 
-  const [savedSearches, setSavedSearches] = useState(
-    JSON.parse(localStorage.getItem('oshw-saved-searches') || '')
-  );
+  const [savedSearches, setSavedSearches] = useState(() => {
+    const savedSearches = localStorage.getItem('oshw-saved-searches');
+    if (savedSearches) {
+      return JSON.parse(savedSearches);
+    }
+
+    return '';
+  });
 
   useEffect(() => {
     localStorage.setItem('oshw-saved-searches', JSON.stringify(savedSearches));
