@@ -92,7 +92,7 @@ const Issue = ({
     return false;
   };
 
-  if(isupTimeRepo() == true && upTime) {
+  if(upTime && isupTimeRepo()) {
     return null;
   }
   return (
