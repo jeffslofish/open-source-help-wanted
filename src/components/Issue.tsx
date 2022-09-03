@@ -86,7 +86,7 @@ const Issue = ({
 
   const isupTimeRepo = () => {
     // uptime status issues that are automatically generated
-    if (repoName.includes('upptime') || repoName.includes('uptime')) {
+    if (title.endsWith("is down")) {
       return true;
     }
     return false;
