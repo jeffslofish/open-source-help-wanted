@@ -4,13 +4,14 @@ import Issue from './Issue';
 type Props = {
   issues: IIssue[];
   filter: boolean;
+  upTime: boolean;
 };
 
-const Issues = ({ issues, filter }: Props) => {
+const Issues = ({ issues, filter, upTime }: Props) => {
   return (
     <>
       {issues.map((issue) => (
-        <Issue key={issue.id} issue={issue} filter={filter} />
+        <Issue key={issue.id} issue={issue} filter={filter} upTime={upTime} />
       ))}
     </>
   );

@@ -37,6 +37,7 @@ export default function Main() {
     assignee: '',
     issueAssigned: '+no:assignee',
     filterFake: true,
+    upTime: true
   });
 
   const [savedSearches, setSavedSearches] = useState(() => {
@@ -399,6 +400,18 @@ export default function Main() {
                       Exclude known fake issues
                     </label>
                   </fieldset>
+
+                  <fieldset className='input-component'>
+                    <label>
+                      <input
+                        type='checkbox'
+                        checked={formInput.upTime}
+                        name='upTime'
+                        onChange={handleSetFormCheckbox}
+                      />
+                      Exclude status issues
+                    </label>
+                  </fieldset>
                 </div>
               )}
 
@@ -437,6 +450,7 @@ export default function Main() {
             <Issues
               issues={githubContext.issues}
               filter={formInput.filterFake}
+              upTime={formInput.upTime}
             />
           </div>
           <Pagination
