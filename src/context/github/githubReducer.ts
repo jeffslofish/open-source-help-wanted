@@ -13,25 +13,26 @@ type State = {
 
 type Action =
   | {
-      type: 'SEARCH_ISSUES';
-      payload: {
-        issues: IIssue[];
-        totalCount: number;
-        page: number;
-        accessToken: string | null;
-      };
-    }
+    type: 'SEARCH_ISSUES';
+    payload: {
+      issues: IIssue[];
+      totalCount: number;
+      page: number;
+      accessToken: string | null;
+    };
+  }
   | { type: 'SET_LOADING' }
   | {
-      type: 'LOADING_ERROR';
-      payload: {
-        message: string;
-      };
+    type: 'LOADING_ERROR';
+    payload: {
+      message: string;
     };
+  };
 
 export default (state: State, action: Action): State => {
   switch (action.type) {
-    case SEARCH_ISSUES:
+    case SEARCH_ISSUES: {
+      localStorage.setItem('accessToken', action.payload.accessToken || "");
       return {
         ...state,
         issues: action.payload.issues,
@@ -40,7 +41,8 @@ export default (state: State, action: Action): State => {
         accessToken: action.payload.accessToken,
         loading: false,
         errorMessage: '',
-      };
+      }
+    }
     case SET_LOADING:
       return {
         ...state,

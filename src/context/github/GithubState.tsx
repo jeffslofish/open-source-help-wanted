@@ -121,7 +121,7 @@ const GithubState: FunctionComponent<Props> = (props) => {
       resultsPerPage;
 
     const myRequest = new Request(
-      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${contextState.accessToken}`
+      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${contextState.accessToken || localStorage.getItem("accessToken")}`
     );
 
     const response = await fetch(myRequest);
