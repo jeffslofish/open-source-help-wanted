@@ -128,7 +128,7 @@ const GithubState: FunctionComponent<Props> = (props) => {
 
     if (response.ok) {
       const data = await response.json();
-
+      typeof oauthCode === 'string' && localStorage.setItem('oauthCode', `${oauthCode || ''}`);
       dispatch({
         type: SEARCH_ISSUES,
         payload: {
@@ -143,6 +143,7 @@ const GithubState: FunctionComponent<Props> = (props) => {
       const data = await response.json();
       console.log(data);
       typeof data === 'string' && toast.error(data);
+      localStorage.deleteItem('oauthCode')
       dispatch({
         type: LOADING_ERROR,
         payload: {
