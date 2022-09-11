@@ -7,9 +7,11 @@ font-family: 'Noto Sans', sans-serif; */
   --bg-darken: rgba(0, 0, 0, 0.4);
   --bg-light: rgb(250, 250, 250);
   --bg-mid: rgb(68, 132, 182);
+  --bg-mid-darker: rgb(42, 93, 133);
   --bg-neutral: rgb(238, 238, 238);
   --border-radius: 5px;
-  --header-footer-height: 85px;
+  --header-footer-height: 50px;
+  --header-footer-height-mobile: 85px;
   --text-light: rgb(224, 224, 224);
 }
 
@@ -22,15 +24,41 @@ font-family: 'Noto Sans', sans-serif; */
   outline: 2px solid var(--bg-mid);
 }
 
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-light);
+  border-radius: 20px;
+}
+
+body {
+  background-color: var(--bg-dark);
+}
+
 h1,
 h2,
-a {
+a,
+h5 {
   font-family: 'Bitter', serif;
 }
 
 h1,
 h2 {
   color: var(--text-light);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h5 {
+  color: black;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -89,7 +117,7 @@ button:active {
     'search results'
     'footer results';
   grid-template-columns: minmax(250px, 30%) auto;
-  grid-template-rows: 4fr 0.5fr;
+  grid-template-rows: 4fr 0fr;
   height: calc(100vh - var(--header-footer-height));
   margin: auto;
   max-width: 1200px;
@@ -101,22 +129,24 @@ button:active {
 .App-header {
   align-items: center;
   background-color: var(--bg-mid);
-  border-bottom: 3px solid var(--bg-light);
+  border-bottom: 3px solid var(--bg-mid-darker);
   box-sizing: border-box;
   color: var(--text-light);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
   height: var(--header-footer-height);
-  padding: 5px 10px 10px 10px;
+  padding: 10px;
 }
 
 .App-header a {
   text-decoration: none;
+  padding: 0 5em;
 }
 
 .main-logo {
-  height: calc(var(--header-footer-height) * 0.6);
+  height: calc(var(--header-footer-height) * 0.5);
   max-width: 100% !important;
 }
 
@@ -143,6 +173,7 @@ button:active {
   display: block;
   font-size: 12px;
   font-weight: 700;
+  margin: 5px 0;
 }
 
 .input-element {
@@ -151,7 +182,7 @@ button:active {
   border: 1px solid var(--bg-mid);
   box-sizing: border-box;
   color: var(--text-light);
-  padding: 2px;
+  padding: 5px;
   width: 100%;
 }
 
@@ -195,6 +226,7 @@ select {
   background-repeat: no-repeat;
   background-size: 10px auto;
   color: var(--text-light);
+  margin: 5px 0;
 }
 
 select:hover {
@@ -205,6 +237,8 @@ select:hover {
   background-color: var(--bg-darken);
   border: none;
   width: 100%;
+  padding: 5px 0;
+  margin: 5px 0;
 }
 
 .expandButton:hover {
@@ -260,7 +294,8 @@ select:hover {
 .octicon {
   display: inline-block;
   fill: currentColor;
-  vertical-align: text-top;
+  vertical-align: baseline;
+  margin-right: 5px;
 }
 
 .open.octicon {
@@ -304,7 +339,7 @@ select:hover {
   font-weight: 600;
   line-height: 11px;
   margin: 2px 2px;
-  padding: 3px;
+  padding: 4px;
 }
 
 .issue-times {
@@ -324,7 +359,8 @@ select:hover {
 }
 
 .moreButton:hover {
-  border-color: var(--bg-dark);
+  background-color: var(--bg-mid-darker);
+  border-color: var(--bg-mid-darker);
 }
 
 .issue-body {
@@ -338,7 +374,7 @@ select:hover {
 
 footer {
   background-color: var(--bg-mid);
-  border-top: 3px solid var(--bg-light);
+  border-top: 3px solid var(--bg-mid-darker);
   display: grid;
   grid-area: footer;
   height: var(--header-footer-height);
@@ -407,11 +443,22 @@ footer a {
   h2 {
     font-size: 12px;
   }
+  .App-header a {
+    padding: 0 10px;
+  }
+  footer {
+    height: var(--header-footer-height-mobile);
+  }
 }
 
 @media screen and (max-width: 640px) {
   h1 {
     font-size: 20px;
+  }
+
+  .App-header {
+    height: var(--header-footer-height-mobile);
+    justify-content: center;
   }
 
   .App-container {
@@ -421,7 +468,7 @@ footer a {
       'results'
       'footer';
     grid-template-columns: auto;
-    grid-template-rows: auto auto var(--header-footer-height);
+    grid-template-rows: auto auto var(--header-footer-height-mobile);
     height: initial;
   }
 

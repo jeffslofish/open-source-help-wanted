@@ -1,12 +1,9 @@
-import React from 'react';
 import renderer from 'react-test-renderer';
 import Issue from '../Issue';
 
 beforeAll(() => {
   Date.now = jest.fn(() => 1487076708000);
 });
-
-afterAll(() => {});
 
 describe('Issue', () => {
   it('renders correctly with draft:false and filter:false', () => {

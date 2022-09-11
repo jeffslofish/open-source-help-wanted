@@ -1,5 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+type Props = {
+  currentPage: number;
+  totalCount: number;
+  resultsPerPage: number;
+  prevlickHandler: () => void;
+  nextClickHandler: () => void;
+};
 
 const Pagination = ({
   totalCount,
@@ -7,7 +12,7 @@ const Pagination = ({
   prevlickHandler,
   nextClickHandler,
   currentPage,
-}) => {
+}: Props) => {
   const totalPages =
     totalCount === 0 ? 0 : Math.floor(totalCount / resultsPerPage) + 1;
 
@@ -36,14 +41,6 @@ const Pagination = ({
       )}
     </div>
   );
-};
-
-Pagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  totalCount: PropTypes.number.isRequired,
-  resultsPerPage: PropTypes.number.isRequired,
-  prevlickHandler: PropTypes.func.isRequired,
-  nextClickHandler: PropTypes.func.isRequired,
 };
 
 export default Pagination;

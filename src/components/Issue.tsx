@@ -1,10 +1,38 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Avatar from './Avatar';
 import Assignee from './Assignee';
 import Labels from './Labels';
 import Moment from 'react-moment';
-import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
+
+type Props = {
+  issue: {
+    id: number;
+    html_url: string;
+    user: {
+      avatar_url: string;
+      html_url: string;
+    };
+    title: string;
+    assignee: {
+      html_url: string;
+      avatar_url: string;
+    };
+    created_at: string;
+    updated_at: string;
+    labels: [
+      {
+        color: string;
+        name: string;
+      }
+    ];
+    body: string;
+    draft: boolean;
+    state: string;
+  };
+  filter: boolean;
+  upTime: boolean;
+};
 
 const Issue = ({
   issue: {
@@ -20,7 +48,8 @@ const Issue = ({
     state,
   },
   filter: filterFake,
-}) => {
+  upTime
+}: Props) => {
   const [issueOpen, setIssueOpen] = useState({ open: false, text: 'more...' });
   function openIssue() {
     if (issueOpen.open === false) {
@@ -35,8 +64,8 @@ const Issue = ({
 
   // Checks for known sources of fake issues
   const repoName = getRepoNameFromIssueUrl(html_url);
-  // eslint-disable-next-line
-  const [issueFake, setIssueFake] = useState(() => {
+
+  const isFakeIssue = () => {
     // pddemo/demo creates a new fake issue every minute
     if (repoName === 'pddemo/demo') {
       return true;
@@ -47,11 +76,23 @@ const Issue = ({
       return true;
     }
     return false;
-  });
+  };
 
-  if (issueFake === true && filterFake === true) {
+  if (isFakeIssue() === true && filterFake === true) {
     // filterFake is an option in advanced search
     //console.log("Excluded " + repoName + " - " + title + " - for being a test, tutorial or fake issue");
+    return null;
+  }
+
+  const isupTimeRepo = () => {
+    // uptime status issues that are automatically generated
+    if (title.endsWith("is down")) {
+      return true;
+    }
+    return false;
+  };
+
+  if(upTime && isupTimeRepo()) {
     return null;
   }
   return (
@@ -169,9 +210,9 @@ const Issue = ({
   );
 };
 
-function getRepoUrlFromIssueUrl(html_url) {
-  let pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
-  let matches = html_url.match(pattern);
+function getRepoUrlFromIssueUrl(html_url: string) {
+  const pattern = /^https:\/\/github.com\/[^/]+\/[^/]+\//;
+  const matches = html_url.match(pattern);
   let repoUrl = '';
   if (matches && matches.length > 0) {
     repoUrl = matches[0];
@@ -179,42 +220,14 @@ function getRepoUrlFromIssueUrl(html_url) {
   return repoUrl;
 }
 
-function getRepoNameFromIssueUrl(html_url) {
-  let pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
-  let matches = html_url.match(pattern);
+function getRepoNameFromIssueUrl(html_url: string) {
+  const pattern = /https:\/\/github.com\/([^/]+)\/([^/]+)\//;
+  const matches = html_url.match(pattern);
   let repoName = '';
   if (matches && matches.length > 2) {
     repoName = matches[1] + '/' + matches[2];
   }
   return repoName;
 }
-
-Issue.propTypes = {
-  issue: PropTypes.shape({
-    id: PropTypes.isRequired,
-    html_url: PropTypes.string.isRequired,
-    user: PropTypes.shape({
-      avatar_url: PropTypes.string.isRequired,
-      html_url: PropTypes.string.isRequired,
-    }).isRequired,
-    title: PropTypes.string.isRequired,
-    assignee: PropTypes.shape({
-      html_url: PropTypes.string.isRequired,
-      avatar_url: PropTypes.string.isRequired,
-    }),
-    created_at: PropTypes.string.isRequired,
-    updated_at: PropTypes.string.isRequired,
-    labels: PropTypes.arrayOf(
-      PropTypes.shape({
-        color: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
-    body: PropTypes.string,
-    draft: PropTypes.bool,
-    state: PropTypes.string.isRequired,
-  }).isRequired,
-  filter: PropTypes.bool.isRequired,
-};
 
 export default Issue;

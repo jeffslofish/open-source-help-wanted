@@ -1,12 +1,16 @@
-import React, { useReducer } from 'react';
-import PropTypes from 'prop-types';
+import { FunctionComponent, ReactNode, useReducer } from 'react';
 import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING, LOADING_ERROR } from '../types';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { FormInput } from '../../@types/FormInput';
 
-const GithubState = (props) => {
+type Props = {
+  children: ReactNode;
+};
+
+const GithubState: FunctionComponent<Props> = (props) => {
   const initialState = {
     issues: [],
     totalCount: 0,
@@ -24,13 +28,17 @@ const GithubState = (props) => {
   const queryParamSearch = useLocation().search;
   const oauthCode = new URLSearchParams(queryParamSearch).get('code');
 
-  const search = async (page, resultsPerPage, formInput) => {
+  const search = async (
+    page: number,
+    resultsPerPage: number,
+    formInput: FormInput
+  ) => {
     const {
       labels,
       keywords,
       language,
       sortType,
-      sortDesc,
+      sortOrder,
       issueAssigned,
       inTitle,
       inBody,
@@ -45,9 +53,9 @@ const GithubState = (props) => {
     } = formInput;
     setLoading();
 
-    let labelQuery = formatSearchTerms(labels, 'label:');
-    let keywordQuery = formatSearchTerms(keywords, '');
-    let languageQuery =
+    const labelQuery = formatSearchTerms(labels, 'label:');
+    const keywordQuery = formatSearchTerms(keywords, '');
+    const languageQuery =
       language.length > 0 ? '+language:' + encodeURIComponent(language) : '';
 
     let maybePlus = '+';
@@ -86,10 +94,7 @@ const GithubState = (props) => {
     // Prevent issues that were somehow created or updated "in the future" to show up in results: only show past issues
     const today = new Date().toISOString().slice(0, 10);
     const pastIssueQuery = ` created:<=${today} updated:<=${today} `;
-
-    let sortOrder = JSON.parse(sortDesc) ? 'desc' : 'asc';
-    let issueAssignedState = JSON.parse(issueAssigned) ? '' : '+no:assignee';
-    let searchQuery =
+    const searchQuery =
       keywordQuery +
       pastIssueQuery +
       inTitleQuery +
@@ -105,7 +110,7 @@ const GithubState = (props) => {
       labelQuery +
       languageQuery +
       stateQuery +
-      issueAssignedState +
+      issueAssigned +
       '&page=' +
       page +
       '&sort=' +
@@ -115,8 +120,8 @@ const GithubState = (props) => {
       '&per_page=' +
       resultsPerPage;
 
-    let myRequest = new Request(
-      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${contextState.accessToken}`
+    const myRequest = new Request(
+      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${contextState.accessToken || localStorage.getItem("accessToken")}`
     );
 
     const response = await fetch(myRequest);
@@ -165,13 +170,13 @@ const GithubState = (props) => {
   );
 };
 
-function formatSearchTerms(searchTerms, label) {
+function formatSearchTerms(searchTerms: string, label: string) {
   let query = '';
 
   if (searchTerms.length > 0) {
-    let terms = searchTerms.split(',');
+    const terms = searchTerms.split(',');
 
-    for (let term of terms) {
+    for (const term of terms) {
       query += label + '"' + encodeURIComponent(term.trim()) + '"+';
     }
     if (query.length > 0) {
@@ -180,9 +185,5 @@ function formatSearchTerms(searchTerms, label) {
   }
   return query;
 }
-
-GithubState.propTypes = {
-  children: PropTypes.object,
-};
 
 export default GithubState;

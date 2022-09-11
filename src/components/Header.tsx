@@ -1,4 +1,3 @@
-import React from 'react';
 import Logo from '../images/Searching_Logo.png';
 
 function Header() {
@@ -6,7 +5,9 @@ function Header() {
     <div className='App-header'>
       <a href='/'>
         <img src={Logo} className='main-logo' alt='Open Source Help Wanted' />
-        <h2>Find issues you can work on in GitHub. Be a contributor!</h2>
+      </a>
+      <a href='/'>
+        <h5>Find issues you can work on in GitHub. Be a contributor!</h5>
       </a>
     </div>
   );

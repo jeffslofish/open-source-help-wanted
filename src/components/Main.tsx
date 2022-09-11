@@ -7,18 +7,24 @@ import ReactGA from 'react-ga4';
 import Header from './Header';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FormInput } from '../@types/FormInput';
 
 export default function Main() {
   const githubContext = useContext(GithubContext);
 
+  if (!githubContext) {
+    console.error('Error: githubContext is falsy');
+    return <></>;
+  }
+
   const [expanded, setExpanded] = useState(false);
 
-  const [formInput, setFormInput] = useState({
+  const [formInput, setFormInput] = useState<FormInput>({
     labels: '',
     keywords: '',
     language: '',
     sortType: 'created',
-    sortDesc: true,
+    sortOrder: 'desc',
     inTitle: true,
     inBody: true,
     inComments: true,
@@ -29,31 +35,46 @@ export default function Main() {
     org: '',
     repo: '',
     assignee: '',
-    issueAssigned: 'false',
+    issueAssigned: '+no:assignee',
     filterFake: true,
+    upTime: true
   });
 
-  const [savedSearches, setSavedSearches] = useState(
-    JSON.parse(localStorage.getItem('oshw-saved-searches'))
-  );
+  const [savedSearches, setSavedSearches] = useState(() => {
+    const savedSearches = localStorage.getItem('oshw-saved-searches');
+    if (savedSearches) {
+      return JSON.parse(savedSearches);
+    }
+
+    return '';
+  });
 
   useEffect(() => {
     localStorage.setItem('oshw-saved-searches', JSON.stringify(savedSearches));
   }, [savedSearches]);
 
-  const handleSetFormInput = (e) => {
+  const handleSetFormInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormInput({ ...formInput, [e.target.name]: e.target.value });
   };
 
-  const handleSetFormCheckbox = (e) => {
+  const handleSetFormCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormInput({ ...formInput, [e.target.name]: e.target.checked });
+  };
+
+  const handleSetSelectInput = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormInput({ ...formInput, [e.target.name]: e.target.value });
   };
 
   function scrollTop() {
     const element = document.querySelector('.results-container');
-    const headerHeight = document.querySelector('.App-header').scrollHeight;
-    const searchHeight = document.querySelector('.search-container')
-      .scrollHeight;
+    const headerHeight = document.querySelector('.App-header')?.scrollHeight;
+    const searchHeight =
+      document.querySelector('.search-container')?.scrollHeight;
+
+    if (!element || !headerHeight || !searchHeight) {
+      return;
+    }
+
     element.scroll({
       top: 0,
       left: 0,
@@ -92,15 +113,8 @@ export default function Main() {
       action: 'prev button clicked',
     });
   };
-  const onIssueAssignedChange = (e) => {
-    console.log('target', e.target.value);
-    if (e.target.value === 'false') {
-      setFormInput({ ...formInput, assignee: '' });
-    }
-    setFormInput({ ...formInput, [e.target.name]: e.target.value });
-  };
 
-  const onExpand = (e) => {
+  const onExpand = (e: React.MouseEvent) => {
     e.preventDefault();
     setExpanded(true);
 
@@ -110,7 +124,7 @@ export default function Main() {
     });
   };
 
-  const onCollapse = (e) => {
+  const onCollapse = (e: React.MouseEvent) => {
     e.preventDefault();
     setExpanded(false);
 
@@ -120,7 +134,7 @@ export default function Main() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     scrollTop();
     githubContext.search(1, 100, formInput);
@@ -249,7 +263,7 @@ export default function Main() {
                       setText={(e) => {
                         setFormInput({
                           ...formInput,
-                          issueAssigned: 'true',
+                          issueAssigned: '',
                           assignee: e.target.value,
                         });
                       }}
@@ -296,7 +310,7 @@ export default function Main() {
                       className='input-element'
                       value={formInput.issueOrPullRequest}
                       name='issueOrPullRequest'
-                      onChange={handleSetFormInput}
+                      onChange={handleSetSelectInput}
                     >
                       <option value={'issue'}>Is Issue</option>
                       <option value={'pr'}>Is Pull Request</option>
@@ -306,7 +320,7 @@ export default function Main() {
                       className='input-element'
                       value={formInput.state}
                       name='state'
-                      onChange={handleSetFormInput}
+                      onChange={handleSetSelectInput}
                     >
                       <option value={'open'}>Is Open</option>
                       <option value={'closed'}>Is Closed</option>
@@ -316,10 +330,10 @@ export default function Main() {
                       className='input-element'
                       value={formInput.issueAssigned}
                       name='issueAssigned'
-                      onChange={onIssueAssignedChange}
+                      onChange={handleSetSelectInput}
                     >
-                      <option value={false}>Not Assigned</option>
-                      <option value={true}>Possibly Assigned</option>
+                      <option value='+no:assignee'>Not Assigned</option>
+                      <option value=''>Possibly Assigned</option>
                     </select>
                   </fieldset>
 
@@ -331,7 +345,7 @@ export default function Main() {
                       className='input-element'
                       value={formInput.sortType}
                       name='sortType'
-                      onChange={handleSetFormInput}
+                      onChange={handleSetSelectInput}
                     >
                       <option value={'created'}>Sort by created time</option>
                       <option value={'updated'}>Sort by updated time</option>
@@ -366,12 +380,12 @@ export default function Main() {
 
                     <select
                       className='input-element'
-                      value={formInput.sortDesc}
-                      name='sortDesc'
-                      onChange={handleSetFormInput}
+                      value={formInput.sortOrder}
+                      name='sortOrder'
+                      onChange={handleSetSelectInput}
                     >
-                      <option value={true}>Sort Descending</option>
-                      <option value={false}>Sort Ascending</option>
+                      <option value='desc'>Sort Descending</option>
+                      <option value='asc'>Sort Ascending</option>
                     </select>
                   </fieldset>
 
@@ -384,6 +398,18 @@ export default function Main() {
                         onChange={handleSetFormCheckbox}
                       />
                       Exclude known fake issues
+                    </label>
+                  </fieldset>
+
+                  <fieldset className='input-component'>
+                    <label>
+                      <input
+                        type='checkbox'
+                        checked={formInput.upTime}
+                        name='upTime'
+                        onChange={handleSetFormCheckbox}
+                      />
+                      Exclude status issues
                     </label>
                   </fieldset>
                 </div>
@@ -424,6 +450,7 @@ export default function Main() {
             <Issues
               issues={githubContext.issues}
               filter={formInput.filterFake}
+              upTime={formInput.upTime}
             />
           </div>
           <Pagination
@@ -443,7 +470,7 @@ export default function Main() {
         </footer>
       </div>
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
