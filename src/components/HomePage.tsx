@@ -1,6 +1,6 @@
 import Header from './Header';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import GithubState from '../context/github/GithubState';
+import Main from './Main';
 
 function HomePage() {
   const authorize = () => {
@@ -11,23 +11,23 @@ function HomePage() {
 
     window.location.href = `https://github.com/login/oauth/authorize?${params}`;
   };
-  const navigate = useNavigate()
-  useEffect(() => {
-    const oauthCode = typeof (localStorage?.getItem) === 'function' ? localStorage.getItem('oauthCode') : false
-    if (typeof oauthCode === 'string' && oauthCode.length > 0) {
-      const params = new URLSearchParams();
-      params.set('code', `${oauthCode}`);
-      navigate(`/oauth_redirect?${params}`)
-    }
-  }, []);
+
+  const oauthCode = localStorage.getItem('oauthCode');
+  if (!oauthCode) {
+    return (
+      <>
+        <Header />
+        <button className='authorizeButton' onClick={authorize}>
+          Authorize Your Account
+        </button>
+      </>
+    );
+  }
 
   return (
-    <>
-      <Header />
-      <button className='authorizeButton' onClick={authorize}>
-        Authorize Your Account
-      </button>
-    </>
+    <GithubState>
+      <Main />
+    </GithubState>
   );
 }
 

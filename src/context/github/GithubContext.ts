@@ -8,7 +8,6 @@ export interface IGithubContext {
   resultsPerPage: number;
   page: number;
   loading: boolean;
-  accessToken: string | null;
   errorMessage: string;
   search: (
     page: number,

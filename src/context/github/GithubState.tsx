@@ -2,7 +2,6 @@ import { FunctionComponent, ReactNode, useReducer } from 'react';
 import GithubContext from './GithubContext';
 import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING, LOADING_ERROR } from '../types';
-import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FormInput } from '../../@types/FormInput';
 
@@ -17,16 +16,12 @@ const GithubState: FunctionComponent<Props> = (props) => {
     resultsPerPage: 100,
     page: 1,
     loading: false,
-    accessToken: null,
     errorMessage: '',
   };
 
   const [contextState, dispatch] = useReducer(GithubReducer, initialState);
 
   const setLoading = () => dispatch({ type: SET_LOADING });
-
-  const queryParamSearch = useLocation().search;
-  const oauthCode = new URLSearchParams(queryParamSearch).get('code');
 
   const search = async (
     page: number,
@@ -121,21 +116,21 @@ const GithubState: FunctionComponent<Props> = (props) => {
       resultsPerPage;
 
     const myRequest = new Request(
-      `/.netlify/functions/getissues?q=${searchQuery}&oauthCode=${oauthCode}&accessToken=${contextState.accessToken || localStorage.getItem("accessToken")}`
+      `/.netlify/functions/getissues?q=${searchQuery}&accessToken=${localStorage.getItem(
+        'accessToken'
+      )}`
     );
 
     const response = await fetch(myRequest);
 
     if (response.ok) {
       const data = await response.json();
-      typeof oauthCode === 'string' && localStorage.setItem('oauthCode', `${oauthCode || ''}`);
       dispatch({
         type: SEARCH_ISSUES,
         payload: {
           issues: data.items,
           totalCount: Number.parseInt(data.total_count, 10),
           page: page,
-          accessToken: data.accessToken,
         },
       });
     } else {
@@ -143,7 +138,7 @@ const GithubState: FunctionComponent<Props> = (props) => {
       const data = await response.json();
       console.log(data);
       typeof data === 'string' && toast.error(data);
-      localStorage.deleteItem('oauthCode')
+
       dispatch({
         type: LOADING_ERROR,
         payload: {
@@ -161,7 +156,6 @@ const GithubState: FunctionComponent<Props> = (props) => {
         resultsPerPage: contextState.resultsPerPage,
         page: contextState.page,
         loading: contextState.loading,
-        accessToken: contextState.accessToken,
         errorMessage: contextState.errorMessage,
         search,
       }}
