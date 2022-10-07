@@ -15,6 +15,6 @@ export interface FormInput {
   repo: string;
   assignee: string;
   issueAssigned: '' | '+no:assignee';
-  filterFake: true;
-  upTime: true;
+  filterFake: boolean;
+  upTime: boolean;
 }
