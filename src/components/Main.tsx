@@ -37,7 +37,7 @@ export default function Main() {
     assignee: '',
     issueAssigned: '+no:assignee',
     filterFake: true,
-    upTime: true
+    upTime: true,
   });
 
   const [savedSearches, setSavedSearches] = useState(() => {
