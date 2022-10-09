@@ -27,9 +27,9 @@ export default function Main() {
   const language = decodeURIComponent(searchQuery.get('language') ?? '');
   const sortType = decodeURIComponent(searchQuery.get('sortType') ?? 'created');
   const sortOrder =
-    decodeURIComponent(searchQuery.get('sortOrder') ?? 'asc') === 'asc'
-      ? 'asc'
-      : 'desc';
+    decodeURIComponent(searchQuery.get('sortOrder') ?? 'desc') === 'desc'
+      ? 'desc'
+      : 'asc';
   const inTitle =
     decodeURIComponent(searchQuery.get('inTitle') ?? 'true') === 'true'
       ? true
