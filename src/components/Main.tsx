@@ -25,7 +25,7 @@ export default function Main() {
   const labels = decodeURIComponent(searchQuery.get('labels') ?? '');
   const keywords = decodeURIComponent(searchQuery.get('keywords') ?? '');
   const language = decodeURIComponent(searchQuery.get('language') ?? '');
-  const sortType = decodeURIComponent(searchQuery.get('sortType') ?? '');
+  const sortType = decodeURIComponent(searchQuery.get('sortType') ?? 'created');
   const sortOrder =
     decodeURIComponent(searchQuery.get('sortOrder') ?? 'asc') === 'asc'
       ? 'asc'
@@ -43,9 +43,9 @@ export default function Main() {
       ? true
       : false;
   const issueOrPullRequest = decodeURIComponent(
-    searchQuery.get('issueOrPullRequest') ?? ''
+    searchQuery.get('issueOrPullRequest') ?? 'issue'
   );
-  const state = decodeURIComponent(searchQuery.get('state') ?? '');
+  const state = decodeURIComponent(searchQuery.get('state') ?? 'open');
   const author = decodeURIComponent(searchQuery.get('author') ?? '');
   const user = decodeURIComponent(searchQuery.get('user') ?? '');
   const org = decodeURIComponent(searchQuery.get('org') ?? '');
