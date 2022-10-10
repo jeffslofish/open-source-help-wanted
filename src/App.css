@@ -265,13 +265,15 @@ select:hover {
   color: var(--text-light);
 }
 
-.issue {
+.issue,
+.repo {
   background-color: var(--bg-neutral);
   border-radius: var(--border-radius);
   margin: 10px;
 }
 
-.issue-header {
+.issue-header,
+.repo-header {
   background-color: var(--bg-light);
   border-radius: var(--border-radius);
   display: grid;
@@ -280,11 +282,13 @@ select:hover {
   padding: 10px;
 }
 
-.issue-avatar img {
+.issue-avatar img,
+.repo-avatar img {
   border-radius: var(--border-radius);
 }
 
-.issue-header .main {
+.issue-header .main,
+.repo-header .main {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

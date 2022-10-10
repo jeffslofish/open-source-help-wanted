@@ -4,6 +4,7 @@ import GithubReducer from './githubReducer';
 import { SEARCH_ISSUES, SET_LOADING, LOADING_ERROR } from '../types';
 import { toast } from 'react-toastify';
 import { FormInput } from '../../@types/FormInput';
+import formatSearchTerms from '../../helpers/formatSearchTerms';
 
 type Props = {
   children: ReactNode;
@@ -164,21 +165,5 @@ const GithubState: FunctionComponent<Props> = (props) => {
     </GithubContext.Provider>
   );
 };
-
-function formatSearchTerms(searchTerms: string, label: string) {
-  let query = '';
-
-  if (searchTerms.length > 0) {
-    const terms = searchTerms.split(',');
-
-    for (const term of terms) {
-      query += label + '"' + encodeURIComponent(term.trim()) + '"+';
-    }
-    if (query.length > 0) {
-      query = query.slice(0, -1);
-    }
-  }
-  return query;
-}
 
 export default GithubState;
