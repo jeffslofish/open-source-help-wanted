@@ -3,8 +3,6 @@ import ReactGA from 'react-ga4';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import OAuthRedirectHandler from './components/OAuthRedirectHandler';
-import ReposMain from './components/ReposMain';
-import GithubReposState from './context/githubRepos/GithubReposState';
 import ReposHomePage from './components/ReposHomePage';
 
 ReactGA.initialize('G-JFGEYWXQSJ');
