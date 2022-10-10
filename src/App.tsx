@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import OAuthRedirectHandler from './components/OAuthRedirectHandler';
 import ReposMain from './components/ReposMain';
 import GithubReposState from './context/githubRepos/GithubReposState';
+import ReposHomePage from './components/ReposHomePage';
 
 ReactGA.initialize('G-JFGEYWXQSJ');
 ReactGA.send('pageview');
@@ -14,14 +15,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path='/' element={<HomePage />}></Route>
-        <Route
-          path='/repos'
-          element={
-            <GithubReposState>
-              <ReposMain />
-            </GithubReposState>
-          }
-        ></Route>
+        <Route path='/repos' element={<ReposHomePage />}></Route>
         <Route
           path='/oauth_redirect'
           element={<OAuthRedirectHandler />}
