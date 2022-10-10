@@ -3,6 +3,8 @@ import GithubReposContext from './GithubReposContext';
 import GithubReposReducer from './githubReposReducer';
 import { SEARCH_REPOS, SET_LOADING, LOADING_ERROR } from '../types';
 import { toast } from 'react-toastify';
+import { RepoFormInput } from '../../@types/RepoFormInput';
+import formatSearchTerms from '../../helpers/formatSearchTerms';
 
 type Props = {
   children: ReactNode;
@@ -22,11 +24,32 @@ const GithubState: FunctionComponent<Props> = (props) => {
 
   const setLoading = () => dispatch({ type: SET_LOADING });
 
-  const search = async (page: number) => {
+  const search = async (
+    page: number,
+    resultsPerPage: number,
+    formInput: RepoFormInput
+  ) => {
+    const { keywords, sortOrder, sortType, topics } = formInput;
+
     setLoading();
 
+    const topicsQuery = formatSearchTerms(topics, 'topic:');
+    const keywordQuery = formatSearchTerms(keywords, '');
+
+    const searchQuery =
+      keywordQuery +
+      topicsQuery +
+      '&page=' +
+      page +
+      '&sort=' +
+      sortType +
+      '&order=' +
+      sortOrder +
+      '&per_page=' +
+      resultsPerPage;
+
     const myRequest = new Request(
-      `/.netlify/functions/getRepos?accessToken=${localStorage.getItem(
+      `/.netlify/functions/getRepos?q=${searchQuery}&accessToken=${localStorage.getItem(
         'accessToken'
       )}`
     );

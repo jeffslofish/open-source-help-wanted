@@ -6,8 +6,11 @@ function Header() {
       <a href='/'>
         <img src={Logo} className='main-logo' alt='Open Source Help Wanted' />
       </a>
+      <a href='/repos'>
+        <h5>Search Repositories</h5>
+      </a>
       <a href='/'>
-        <h5>Find issues you can work on in GitHub. Be a contributor!</h5>
+        <h5>Search Issues</h5>
       </a>
     </div>
   );
