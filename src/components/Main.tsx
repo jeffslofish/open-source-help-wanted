@@ -19,25 +19,71 @@ export default function Main() {
 
   const [expanded, setExpanded] = useState(false);
 
+  // const decoded = decodeURI(location.search);
+  // const searchQuery = new URLSearchParams(decoded);
+  const searchQuery = new URLSearchParams(location.search);
+  const labels = decodeURIComponent(searchQuery.get('labels') ?? '');
+  const keywords = decodeURIComponent(searchQuery.get('keywords') ?? '');
+  const language = decodeURIComponent(searchQuery.get('language') ?? '');
+  const sortType = decodeURIComponent(searchQuery.get('sortType') ?? 'created');
+  const sortOrder =
+    decodeURIComponent(searchQuery.get('sortOrder') ?? 'desc') === 'desc'
+      ? 'desc'
+      : 'asc';
+  const inTitle =
+    decodeURIComponent(searchQuery.get('inTitle') ?? 'true') === 'true'
+      ? true
+      : false;
+  const inBody =
+    decodeURIComponent(searchQuery.get('inBody') ?? 'true') === 'true'
+      ? true
+      : false;
+  const inComments =
+    decodeURIComponent(searchQuery.get('inComments') ?? 'true') === 'true'
+      ? true
+      : false;
+  const issueOrPullRequest = decodeURIComponent(
+    searchQuery.get('issueOrPullRequest') ?? 'issue'
+  );
+  const state = decodeURIComponent(searchQuery.get('state') ?? 'open');
+  const author = decodeURIComponent(searchQuery.get('author') ?? '');
+  const user = decodeURIComponent(searchQuery.get('user') ?? '');
+  const org = decodeURIComponent(searchQuery.get('org') ?? '');
+  const repo = decodeURIComponent(searchQuery.get('repo') ?? '');
+  const assignee = decodeURIComponent(searchQuery.get('assignee') ?? '');
+  const issueAssigned =
+    decodeURIComponent(searchQuery.get('issueAssigned') ?? '+no:assignee') ===
+    '+no:assignee'
+      ? '+no:assignee'
+      : '';
+  const filterFake =
+    decodeURIComponent(searchQuery.get('filterFake') ?? 'true') === 'true'
+      ? true
+      : false;
+  const upTime =
+    decodeURIComponent(searchQuery.get('upTime') ?? 'true') === 'true'
+      ? true
+      : false;
+
   const [formInput, setFormInput] = useState<FormInput>({
-    labels: '',
-    keywords: '',
-    language: '',
-    sortType: 'created',
-    sortOrder: 'desc',
-    inTitle: true,
-    inBody: true,
-    inComments: true,
-    issueOrPullRequest: 'issue',
-    state: 'open',
-    author: '',
-    user: '',
-    org: '',
-    repo: '',
-    assignee: '',
-    issueAssigned: '+no:assignee',
-    filterFake: true,
-    upTime: true,
+    labels: labels ?? '',
+    keywords: keywords ?? '',
+    language: language ?? '',
+    sortType: sortType ?? 'created',
+    sortOrder: sortOrder ?? 'desc',
+    inTitle: inTitle ?? true,
+    inBody: inBody ?? true,
+    inComments: inComments ?? true,
+    issueOrPullRequest: issueOrPullRequest ?? 'issue',
+    state: state ?? 'open',
+    author: author ?? '',
+    user: user ?? '',
+    org: org ?? '',
+    repo: repo ?? '',
+    assignee: assignee ?? '',
+    issueAssigned: issueAssigned ?? '+no:assignee',
+    filterFake: filterFake ?? true,
+    upTime: upTime ?? true,
   });
 
   const [savedSearches, setSavedSearches] = useState(() => {
@@ -169,6 +215,40 @@ export default function Main() {
     githubContext.search(1, 100, formInput);
     // eslint-disable-next-line
   }, []);
+
+  history.replaceState(
+    null,
+    '',
+    `?labels=${encodeURIComponent(
+      formInput.labels
+    )}&keywords=${encodeURIComponent(
+      formInput.keywords
+    )}&language=${encodeURIComponent(
+      formInput.language
+    )}&sortType=${encodeURIComponent(
+      formInput.sortType
+    )}&sortOrder=${encodeURIComponent(
+      formInput.sortOrder
+    )}&inTitle=${encodeURIComponent(
+      formInput.inTitle
+    )}&inBody=${encodeURIComponent(
+      formInput.inBody
+    )}&inComments=${encodeURIComponent(
+      formInput.inComments
+    )}&issueOrPullRequest=${encodeURIComponent(
+      formInput.issueOrPullRequest
+    )}&state=${encodeURIComponent(formInput.state)}&author=${encodeURIComponent(
+      formInput.author
+    )}&user=${encodeURIComponent(formInput.user)}&org=${encodeURIComponent(
+      formInput.org
+    )}&repo=${encodeURIComponent(formInput.repo)}&assignee=${
+      formInput.assignee
+    }&issueAssigned=${encodeURIComponent(
+      formInput.issueAssigned
+    )}&filterFake=${encodeURIComponent(
+      formInput.filterFake
+    )}&upTime=${encodeURIComponent(formInput.upTime)}`
+  );
 
   return (
     <div className='App'>
