@@ -1,10 +1,12 @@
 # Open Source Help Wanted
 
-Find issues to work on with the labels and keywords you specify.
+Find open source repositories and issues to work on.
 
 See live app running here: https://www.opensourcehelpwanted.com/.
 
-![Screenshot](screenshot.png)
+![Screenshot](issues.png)
+
+![Screenshot](repos.png)
 
 ## To get started
 
