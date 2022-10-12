@@ -4,8 +4,10 @@ Find open source repositories and issues to work on.
 
 See live app running here: https://www.opensourcehelpwanted.com/.
 
+## Issues search
 ![Screenshot](issues.png)
 
+## Repositoris search
 ![Screenshot](repos.png)
 
 ## To get started
