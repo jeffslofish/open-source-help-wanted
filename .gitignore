@@ -5,7 +5,6 @@ Thumbs.db
 /build
 *.log
 .idea
-.vscode
 /server/config.js
 node_modules
 /config.js
