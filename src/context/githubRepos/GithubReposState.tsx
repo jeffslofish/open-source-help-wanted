@@ -49,7 +49,7 @@ const GithubState: FunctionComponent<Props> = (props) => {
       resultsPerPage;
 
     const myRequest = new Request(
-      `/.netlify/functions/getRepos?q=${searchQuery}&accessToken=${localStorage.getItem(
+      `/.netlify/functions/searchGitHub?resource=repositories&q=${searchQuery}&accessToken=${localStorage.getItem(
         'accessToken'
       )}`
     );
