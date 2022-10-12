@@ -13,30 +13,23 @@ const App = () => {
   return (
     <Router>
     <Helmet>
-
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta property="og:type" content="website" />
-          <meta name="twitter:site" content="@teladochealth" />
-
-
-          <title>Open Source Help Wanted</title>
-          <meta name="og:title" content="Open Source Help Wanted" />
-          <meta name="twitter:title" content="Open Source Help Wanted" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Open Source Help Wanted" />
+        <meta name="twitter:title" content="Open Source Help Wanted" />
 
 
-          <meta name="description" content="Search GitHub for open source issues to work on" />
-          <meta name="og:description" content="Search GitHub for open source issues to work on" />
-          <meta name="twitter:description" content="Search GitHub for open source issues to work on" />
+        <meta name="description" content="Search GitHub for open source issues to work on" />
+        <meta name="og:description" content="Search GitHub for open source issues to work on" />
+        <meta name="twitter:description" content="Search GitHub for open source issues to work on" />
 
-          <meta name="url" content="https://www.opensourcehelpwanted.com/" />
-          <meta name="og:url" content="https://www.opensourcehelpwanted.com/" />
-          <meta name="twitter:url" content="https://www.opensourcehelpwanted.com/" />
+        <meta name="url" content="https://www.opensourcehelpwanted.com/" />
+        <meta name="og:url" content="https://www.opensourcehelpwanted.com/" />
+        <meta name="twitter:url" content="https://www.opensourcehelpwanted.com/" />
 
-          <meta name="keywords" content="open source projects, github, open source issues" />
+        <meta name="keywords" content="open source projects, github, open source issues" />
 
-          <link rel="canonical" href="https://www.opensourcehelpwanted.com/" />
+        <link rel="canonical" href="https://www.opensourcehelpwanted.com/" />
 
-          <link rel="icon" href="/assets/icons/favicon.ico" type="image/x-icon" />
 
       </Helmet>
       <Routes>
